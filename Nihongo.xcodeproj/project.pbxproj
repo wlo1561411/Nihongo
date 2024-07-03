@@ -25,6 +25,8 @@
 		B696F7092C35567500E9B706 /* NihongoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B696F7082C35567500E9B706 /* NihongoTests.swift */; };
 		B696F7132C35567500E9B706 /* NihongoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B696F7122C35567500E9B706 /* NihongoUITests.swift */; };
 		B696F7152C35567500E9B706 /* NihongoUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B696F7142C35567500E9B706 /* NihongoUITestsLaunchTests.swift */; };
+		B6EB36812C365B18007340B8 /* Beginner1Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6EB36802C365636007340B8 /* Beginner1Theme.swift */; };
+		B6EB36832C366A7A007340B8 /* Beginner2Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6EB36822C366A7A007340B8 /* Beginner2Theme.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +68,8 @@
 		B696F70E2C35567500E9B706 /* NihongoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NihongoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B696F7122C35567500E9B706 /* NihongoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NihongoUITests.swift; sourceTree = "<group>"; };
 		B696F7142C35567500E9B706 /* NihongoUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NihongoUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		B6EB36802C365636007340B8 /* Beginner1Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Beginner1Theme.swift; sourceTree = "<group>"; };
+		B6EB36822C366A7A007340B8 /* Beginner2Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Beginner2Theme.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,8 +128,8 @@
 			isa = PBXGroup;
 			children = (
 				B66ADF272C355B010084D566 /* Theme.swift */,
-				B66ADF292C355BA10084D566 /* HiraganaTheme.swift */,
-				B66ADF2C2C3560C80084D566 /* KatakanaTheme.swift */,
+				B6EB367F2C36562C007340B8 /* Beginner */,
+				B6EB367E2C36561F007340B8 /* Common */,
 			);
 			path = Theme;
 			sourceTree = "<group>";
@@ -199,6 +203,24 @@
 				B696F7142C35567500E9B706 /* NihongoUITestsLaunchTests.swift */,
 			);
 			path = NihongoUITests;
+			sourceTree = "<group>";
+		};
+		B6EB367E2C36561F007340B8 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				B66ADF292C355BA10084D566 /* HiraganaTheme.swift */,
+				B66ADF2C2C3560C80084D566 /* KatakanaTheme.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		B6EB367F2C36562C007340B8 /* Beginner */ = {
+			isa = PBXGroup;
+			children = (
+				B6EB36822C366A7A007340B8 /* Beginner2Theme.swift */,
+				B6EB36802C365636007340B8 /* Beginner1Theme.swift */,
+			);
+			path = Beginner;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -345,8 +367,10 @@
 				B66ADF322C3565AD0084D566 /* SelectorViewController+ViewModel.swift in Sources */,
 				B696F6F42C35567400E9B706 /* SceneDelegate.swift in Sources */,
 				B66ADF342C3568DD0084D566 /* OptionView.swift in Sources */,
+				B6EB36812C365B18007340B8 /* Beginner1Theme.swift in Sources */,
 				B66ADF1C2C35589D0084D566 /* MainViewController+ViewModel.swift in Sources */,
 				B66ADF2D2C3560C80084D566 /* KatakanaTheme.swift in Sources */,
+				B6EB36832C366A7A007340B8 /* Beginner2Theme.swift in Sources */,
 				B66ADF282C355B010084D566 /* Theme.swift in Sources */,
 				B66ADF302C35652B0084D566 /* SelectorViewController.swift in Sources */,
 			);
