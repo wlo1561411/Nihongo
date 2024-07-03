@@ -1,0 +1,55 @@
+import Foundation
+
+struct HiraganaTheme: Theme {
+    let title = "平假名"
+    let voiceRate: Float = 0.2
+
+    var allItems: ItemMap = [
+        "あ": Item(value: "あ", description: "a"),
+        "い": Item(value: "い", description: "i"),
+        "う": Item(value: "う", description: "u"),
+        "え": Item(value: "え", description: "e"),
+        "お": Item(value: "お", description: "o"),
+        "か": Item(value: "か", description: "ka"),
+        "き": Item(value: "き", description: "ki"),
+        "く": Item(value: "く", description: "ku"),
+        "け": Item(value: "け", description: "ke"),
+        "こ": Item(value: "こ", description: "ko"),
+        "さ": Item(value: "さ", description: "sa"),
+        "し": Item(value: "し", description: "shi"),
+        "す": Item(value: "す", description: "su"),
+        "せ": Item(value: "せ", description: "se"),
+        "そ": Item(value: "そ", description: "so"),
+        "た": Item(value: "た", description: "ta"),
+        "ち": Item(value: "ち", description: "chi"),
+        "つ": Item(value: "つ", description: "tsu"),
+        "て": Item(value: "て", description: "te"),
+        "と": Item(value: "と", description: "to"),
+        "な": Item(value: "な", description: "na"),
+        "に": Item(value: "に", description: "ni"),
+        "ぬ": Item(value: "ぬ", description: "nu"),
+        "ね": Item(value: "ね", description: "ne"),
+        "の": Item(value: "の", description: "no"),
+        "は": Item(value: "は", description: "ha"),
+        "ひ": Item(value: "ひ", description: "hi"),
+        "ふ": Item(value: "ふ", description: "fu"),
+        "へ": Item(value: "へ", description: "he"),
+        "ほ": Item(value: "ほ", description: "ho"),
+        "ま": Item(value: "ま", description: "ma"),
+        "み": Item(value: "み", description: "mi"),
+        "む": Item(value: "む", description: "mu"),
+        "め": Item(value: "め", description: "me"),
+        "も": Item(value: "も", description: "mo"),
+        "や": Item(value: "や", description: "ya"),
+        "ゆ": Item(value: "ゆ", description: "yu"),
+        "よ": Item(value: "よ", description: "yo"),
+        "ら": Item(value: "ら", description: "ra"),
+        "り": Item(value: "り", description: "ri"),
+        "る": Item(value: "る", description: "ru"),
+        "れ": Item(value: "れ", description: "re"),
+        "ろ": Item(value: "ろ", description: "ro"),
+        "わ": Item(value: "わ", description: "wa"),
+        "を": Item(value: "を", description: "wo"),
+        "ん": Item(value: "ん", description: "n")
+    ]
+}
