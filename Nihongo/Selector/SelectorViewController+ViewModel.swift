@@ -7,7 +7,7 @@ extension SelectorViewController {
         private let synthesizer = AVSpeechSynthesizer()
         private let theme: Theme
 
-        private var items: ItemMap
+        private var items: [any ItemProtocol]
         private var currentItem: ItemProtocol?
 
         @SealPublished
@@ -20,7 +20,7 @@ extension SelectorViewController {
             self.theme = theme
             self.items = theme.shuffled()
 
-            currentItem = items.values.first
+            currentItem = items.first
         }
     }
 }
@@ -36,17 +36,25 @@ extension SelectorViewController.ViewModel {
         var options = [currentItem?.description ?? ""]
         options.append(
             contentsOf: theme
-                .allItems
-                .keys
-                .prefix(3)
+                .shuffled(count: 3)
                 .map {
-                    theme.allItems[$0]?.description ?? ""
+                    $0.description
                 })
         return options.shuffled()
     }
 
     func read() {
-        guard let text = currentItem?.value else { return }
+        guard
+            var text = currentItem?.value
+        else { return }
+
+        let split = text.split(separator: "\n")
+
+        if split.count != 1, let last = split.last {
+            text = "\(last)"
+        }
+
+        text = text.replacingOccurrences(of: "〜", with: "")
 
         let utterance = AVSpeechUtterance(string: text)
         utterance.voice = AVSpeechSynthesisVoice(identifier: "com.apple.voice.compact.ja-JP.Kyoko")
@@ -58,11 +66,12 @@ extension SelectorViewController.ViewModel {
     func checkAnswer(_ description: String?) {
         guard
             let currentItem,
+            let index = items.firstIndex(where: { currentItem.value == $0.value }),
             currentItem.description == description
         else { return }
 
-        items.removeValue(forKey: currentItem.value)
-        self.currentItem = items.values.first
+        items.remove(at: index)
+        self.currentItem = items.first
 
         if items.isEmpty {
             _backToRoot.send(())

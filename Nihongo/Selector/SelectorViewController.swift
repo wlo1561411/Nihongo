@@ -41,6 +41,9 @@ extension SelectorViewController {
     private func setupUI() {
         $valueLabel
             .textAlignment(.center)
+            .numberOfLines(2)
+            .adjustsFontSizeToFitWidth(true)
+            .minimumScaleFactor(0.5)
             .font(.systemFont(ofSize: 40, weight: .bold))
             .textColor(.white)
             .round(8)
@@ -49,8 +52,8 @@ extension SelectorViewController {
             .add(to: view)
             .makeConstraints { make in
                 make.top.equalTo(view.snp.topMargin).offset(20)
-                make.centerX.equalToSuperview()
-                make.size.equalTo(200)
+                make.leading.trailing.equalToSuperview().inset(20)
+                make.height.equalTo(200)
             }
 
         valueLabel.appendHighlightGesture(
