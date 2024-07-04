@@ -32,7 +32,7 @@ struct Beginner2Theme: Theme {
         Item(value: "かさ\n傘", description: "傘"),
         Item(value: "ほん\n本", description: "書"),
         Item(value: "てちょう\n手帳", description: "筆記本"),
-        Item(value: "めがね\n眼鏡", description: "眼就"),
+        Item(value: "めがね\n眼鏡", description: "眼鏡"),
         Item(value: "パスポート", description: "護照"),
         Item(value: "けいさんき\n計算機", description: "計算機"),
         Item(value: "ようふく\n洋服", description: "洋裝"),

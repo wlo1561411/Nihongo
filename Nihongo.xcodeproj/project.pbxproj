@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B60C871F2C37E7D600C7760A /* Beginner3Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = B60C871E2C37E7D600C7760A /* Beginner3Theme.swift */; };
 		B66ADF1C2C35589D0084D566 /* MainViewController+ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B66ADF1B2C35589D0084D566 /* MainViewController+ViewModel.swift */; };
 		B66ADF1F2C3559150084D566 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = B66ADF1E2C3559150084D566 /* Item.swift */; };
 		B66ADF232C3559650084D566 /* FinnM0reSPM in Frameworks */ = {isa = PBXBuildFile; productRef = B66ADF222C3559650084D566 /* FinnM0reSPM */; };
@@ -47,6 +48,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B60C871E2C37E7D600C7760A /* Beginner3Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Beginner3Theme.swift; sourceTree = "<group>"; };
 		B66ADF1B2C35589D0084D566 /* MainViewController+ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainViewController+ViewModel.swift"; sourceTree = "<group>"; };
 		B66ADF1E2C3559150084D566 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		B66ADF252C355AD10084D566 /* MainRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainRepository.swift; sourceTree = "<group>"; };
@@ -217,6 +219,7 @@
 		B6EB367F2C36562C007340B8 /* Beginner */ = {
 			isa = PBXGroup;
 			children = (
+				B60C871E2C37E7D600C7760A /* Beginner3Theme.swift */,
 				B6EB36822C366A7A007340B8 /* Beginner2Theme.swift */,
 				B6EB36802C365636007340B8 /* Beginner1Theme.swift */,
 			);
@@ -361,6 +364,7 @@
 			files = (
 				B66ADF262C355AD10084D566 /* MainRepository.swift in Sources */,
 				B696F6F62C35567400E9B706 /* MainViewController.swift in Sources */,
+				B60C871F2C37E7D600C7760A /* Beginner3Theme.swift in Sources */,
 				B696F6F22C35567400E9B706 /* AppDelegate.swift in Sources */,
 				B66ADF1F2C3559150084D566 /* Item.swift in Sources */,
 				B66ADF2A2C355BA20084D566 /* HiraganaTheme.swift in Sources */,
