@@ -6,5 +6,6 @@ struct MainRepository {
         KatakanaTheme(),
         Beginner1Theme(),
         Beginner2Theme(),
+        Beginner3Theme(),
     ]
 }
