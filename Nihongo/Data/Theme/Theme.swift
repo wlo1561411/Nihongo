@@ -1,15 +1,28 @@
 import Foundation
 
 protocol Theme {
-    var title: String { get }
-    var allItems: [any ItemProtocol] { get }
-    var voiceRate: Float { get }
+    typealias Section = (title: String, items: [ItemProtocol])
 
-    func shuffled(count: Int) -> [any ItemProtocol]
+    var title: String { get }
+    var items: [ItemProtocol] { get }
+    var voicePlaybackRate: Float { get }
+    var numberOfRowsInGrid: Int { get }
+
+    func shuffled(count: Int) -> [ItemProtocol]
+
+    func sectionsForGrid() -> [Section]
 }
 
 extension Theme {
-    func shuffled(count: Int = 15) -> [any ItemProtocol] {
-        Array(allItems.shuffled().prefix(count))
+    var voicePlaybackRate: Float {
+        0.2
+    }
+
+    var numberOfRowsInGrid: Int {
+        1
+    }
+
+    func shuffled(count: Int = 15) -> [ItemProtocol] {
+        Array(items.shuffled().prefix(count))
     }
 }

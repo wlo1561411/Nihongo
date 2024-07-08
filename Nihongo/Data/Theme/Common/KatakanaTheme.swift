@@ -1,10 +1,12 @@
 import Foundation
 
-struct KatakanaTheme: Theme {
+struct KatakanaTheme:
+    Theme,
+    JapaneseSyllabaryTheme
+{
     let title = "片假名"
-    let voiceRate: Float = 0.2
 
-    var allItems: [any ItemProtocol] = [
+    let normalItems: [ItemProtocol] = [
         Item(value: "ア", description: "a"),
         Item(value: "イ", description: "i"),
         Item(value: "ウ", description: "u"),
@@ -51,8 +53,9 @@ struct KatakanaTheme: Theme {
         Item(value: "ワ", description: "wa"),
         Item(value: "ヲ", description: "wo"),
         Item(value: "ン", description: "n"),
+    ]
 
-        // 濁音
+    var voicedItem: [ItemProtocol] = [
         Item(value: "ガ", description: "ga"),
         Item(value: "ギ", description: "gi"),
         Item(value: "グ", description: "gu"),
@@ -73,8 +76,9 @@ struct KatakanaTheme: Theme {
         Item(value: "ブ", description: "bu"),
         Item(value: "ベ", description: "be"),
         Item(value: "ボ", description: "bo"),
+    ]
 
-        // 半濁音
+    let semiVoicedItem: [ItemProtocol] = [
         Item(value: "パ", description: "pa"),
         Item(value: "ピ", description: "pi"),
         Item(value: "プ", description: "pu"),

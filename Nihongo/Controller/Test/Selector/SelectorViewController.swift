@@ -2,7 +2,10 @@ import Combine
 import FinnM0reSPM
 import UIKit
 
-class SelectorViewController: UIViewController, HasCancellable {
+class SelectorViewController:
+    UIViewController,
+    HasCancellable
+{
     @Stylish
     private var valueLabel = UILabel()
 
@@ -18,7 +21,7 @@ class SelectorViewController: UIViewController, HasCancellable {
         super.init(nibName: nil, bundle: nil)
     }
     
-    required init?(coder: NSCoder) {
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -31,7 +34,7 @@ class SelectorViewController: UIViewController, HasCancellable {
         observeOptions()
         observeNavigation()
 
-        viewModel.fetch()
+        viewModel.fetchNextQuestion()
     }
 }
 
@@ -39,6 +42,8 @@ class SelectorViewController: UIViewController, HasCancellable {
 
 extension SelectorViewController {
     private func setupUI() {
+        title = viewModel.theme.title
+
         $valueLabel
             .textAlignment(.center)
             .numberOfLines(2)
@@ -58,7 +63,7 @@ extension SelectorViewController {
 
         valueLabel.appendHighlightGesture(
             onClick: { [weak self] in
-                self?.viewModel.read()
+                self?.viewModel.speak()
             })
 
         $optionView

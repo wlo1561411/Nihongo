@@ -1,10 +1,12 @@
 import Foundation
 
-struct Beginner1Theme: Theme {
+struct Beginner1Theme:
+    Theme,
+    LessonTheme
+{
     let title = "初級 第一課"
-    let voiceRate: Float = 0.2
 
-    var allItems: [any ItemProtocol] = [
+    let vocabularyItems: [ItemProtocol] = [
         Item(value: "わたし\n私", description: "我"),
         Item(value: "あなた", description: "你"),
         Item(value: "あのひと\nあの人", description: "那個人"),
@@ -32,11 +34,17 @@ struct Beginner1Theme: Theme {
         Item(value: "メールアドレス", description: "電子郵件"),
         Item(value: "コンピューター", description: "電腦"),
         Item(value: "だいがく\n大学", description: "大學"),
-        Item(value: "おはよう", description: "早"),
+    ]
+
+    let greetingPhrasesItem: [ItemProtocol] = [
+        Item(value: "おはよう", description: "早安"),
         Item(value: "はじめまして\n初めまして", description: "初次見面 您好"),
         Item(value: "どうぞよろしく", description: "請多關照"),
         Item(value: "こちらこそよろしく", description: "彼此彼此"),
         Item(value: "おいくつですか", description: "您幾歲"),
+    ]
+
+    let sentencePatternsItem: [ItemProtocol] = [
         Item(value: "お国はどちらてすか", description: "是哪一國人？"),
         Item(value: "〜からきました\nから来ました", description: "來自～"),
         Item(value: "〜をおしえてください\nを教えてください", description: "請告訴我～"),
