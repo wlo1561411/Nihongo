@@ -1,7 +1,7 @@
 import FinnM0reSPM
 import UIKit
 
-class MainViewController: UIViewController {
+class LessonViewController: UIViewController {
     @Stylish
     private var tableView = UITableView()
 
@@ -15,9 +15,9 @@ class MainViewController: UIViewController {
 
 // MARK: - UI
 
-extension MainViewController {
+extension LessonViewController {
     private func setupUI() {
-        title = UIApplication.shared.appName
+        navigationController?.title = "Lesson"
 
         $tableView
             .closeIndicator()
@@ -34,7 +34,7 @@ extension MainViewController {
 
 // MARK: - UITableViewDataSource
 
-extension MainViewController: UITableViewDataSource {
+extension LessonViewController: UITableViewDataSource {
     func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
         viewModel.repository.themes.count
     }
@@ -52,10 +52,10 @@ extension MainViewController: UITableViewDataSource {
 
 // MARK: - UITableViewDataSource
 
-extension MainViewController: UITableViewDelegate {
+extension LessonViewController: UITableViewDelegate {
     func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
         navigationController?.pushViewController(
-            SelectorViewController(viewModel: .init(
+            GridViewController(viewModel: .init(
                 theme: viewModel.repository.themes[indexPath.row])),
             animated: true)
     }

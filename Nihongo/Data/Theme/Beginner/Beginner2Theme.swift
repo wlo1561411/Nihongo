@@ -1,10 +1,12 @@
 import Foundation
 
-struct Beginner2Theme: Theme {
+struct Beginner2Theme: 
+    Theme,
+    LessonTheme
+{
     let title = "初級 第二課"
-    let voiceRate: Float = 0.2
 
-    var allItems: [any ItemProtocol] = [
+    let vocabularyItems: [ItemProtocol] = [
         Item(value: "おおきい\n大きい", description: "大的"),
         Item(value: "これ", description: "這～ 靠近我"),
         Item(value: "それ", description: "那～ 靠近你"),
@@ -56,10 +58,16 @@ struct Beginner2Theme: Theme {
         Item(value: "〜かい\n〜階", description: "～樓"),
         Item(value: "～えん\n〜円", description: "～日圓"),
         Item(value: "なん\n何", description: "什麼"),
+    ]
+
+    let greetingPhrasesItem: [ItemProtocol] = [
         Item(value: "ありがとうございました", description: "謝謝"),
         Item(value: "すみません", description: "對不起"),
         Item(value: "そうですね", description: "對啊"),
         Item(value: "いらっしゃいませ", description: "歡迎光臨"),
+    ]
+
+    let sentencePatternsItem: [ItemProtocol] = [
         Item(value: "はいってみましょう\n入ってみましょう", description: "進去看看吧"),
         Item(value: "〜でございます", description: "在～"),
         Item(value: "きれいですね", description: "真漂亮啊"),

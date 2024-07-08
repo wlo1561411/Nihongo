@@ -1,10 +1,12 @@
 import Foundation
 
-struct HiraganaTheme: Theme {
+struct HiraganaTheme:
+    Theme,
+    JapaneseSyllabaryTheme
+{
     let title = "平假名"
-    let voiceRate: Float = 0.2
 
-    var allItems: [any ItemProtocol] = [
+    let normalItems: [ItemProtocol] = [
         Item(value: "あ", description: "a"),
         Item(value: "い", description: "i"),
         Item(value: "う", description: "u"),
@@ -51,8 +53,9 @@ struct HiraganaTheme: Theme {
         Item(value: "わ", description: "wa"),
         Item(value: "を", description: "wo"),
         Item(value: "ん", description: "n"),
+    ]
 
-        // 濁音
+    let voicedItem: [ItemProtocol] = [
         Item(value: "が", description: "ga"),
         Item(value: "ぎ", description: "gi"),
         Item(value: "ぐ", description: "gu"),
@@ -73,8 +76,9 @@ struct HiraganaTheme: Theme {
         Item(value: "ぶ", description: "bu"),
         Item(value: "べ", description: "be"),
         Item(value: "ぼ", description: "bo"),
+    ]
 
-        // 半濁音
+    let semiVoicedItem: [ItemProtocol] = [
         Item(value: "ぱ", description: "pa"),
         Item(value: "ぴ", description: "pi"),
         Item(value: "ぷ", description: "pu"),

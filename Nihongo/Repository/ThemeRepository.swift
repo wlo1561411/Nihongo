@@ -1,11 +1,12 @@
 import Foundation
 
-struct MainRepository {
+struct ThemeRepository {
     let themes: [Theme] = [
         HiraganaTheme(),
         KatakanaTheme(),
         Beginner1Theme(),
         Beginner2Theme(),
         Beginner3Theme(),
+        Beginner4Theme(),
     ]
 }
