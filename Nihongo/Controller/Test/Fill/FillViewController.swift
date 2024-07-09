@@ -14,6 +14,8 @@ class FillViewController:
     @Stylish
     private var inputField = UITextField()
 
+    private let messagePopoverView = MessagePopoverView()
+
     let viewModel: ViewModel
 
     var cancellable: Set<AnyCancellable> = []
@@ -80,7 +82,24 @@ extension FillViewController {
                 make.height.equalTo(200)
             }
 
-        valueLabel.appendHighlightGesture(
+        messagePopoverView.popoverBackgroundColor = .systemGray5
+
+        valueLabel.addHighlightGesture(
+            onHighlight: { [weak self] in
+                guard let self else { return }
+                if $0 {
+                    messagePopoverView.pop(
+                        [viewModel.currentItem?.inputText ?? ""],
+                        at: .init(
+                            x: valueLabel.center.x,
+                            y: valueLabel.frame(in: view)?.midY ?? 0),
+                        to: valueLabel,
+                        onItemSelected: nil,
+                        onDismiss: nil)
+                } else {
+                    messagePopoverView.dismiss()
+                }
+            },
             onClick: { [weak self] in
                 self?.viewModel.speak()
             })

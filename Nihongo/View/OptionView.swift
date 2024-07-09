@@ -69,7 +69,7 @@ extension OptionView {
             .borderWidth(2)
             .unwrap()
 
-        button.appendHighlightGesture(
+        button.addHighlightGesture(
             onHighlight: { [weak button] in
                 button?.sr
                     .titleColor($0 ? .darkGray : .white)

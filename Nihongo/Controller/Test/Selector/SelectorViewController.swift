@@ -61,7 +61,7 @@ extension SelectorViewController {
                 make.height.equalTo(200)
             }
 
-        valueLabel.appendHighlightGesture(
+        valueLabel.addHighlightGesture(
             onClick: { [weak self] in
                 self?.viewModel.speak()
             })
