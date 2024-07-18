@@ -8,5 +8,6 @@ struct ThemeRepository {
         Beginner2Theme(),
         Beginner3Theme(),
         Beginner4Theme(),
+        Beginner5Theme(),
     ]
 }

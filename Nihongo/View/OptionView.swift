@@ -80,7 +80,7 @@ extension OptionView {
 
                 button.isEnabled = !button.isEnabled
                 button.sr.borderColor(.darkGray)
-                _selected.send(button.title(for: .normal))
+                selected = button.title(for: .normal)
             })
 
         return button

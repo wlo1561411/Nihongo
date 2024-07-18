@@ -18,7 +18,6 @@ extension GridViewController {
                     make.top.bottom.equalToSuperview()
                     make.leading.trailing.equalToSuperview().inset(10)
                 }
-
         }
         
         required init?(coder: NSCoder) {

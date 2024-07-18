@@ -13,6 +13,7 @@
 		B614843B2C3923CB000439CB /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B61484392C3923CB000439CB /* TestViewController.swift */; };
 		B614843F2C39245F000439CB /* LessonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B614843D2C3923D8000439CB /* LessonViewController.swift */; };
 		B61484402C392461000439CB /* LessonViewController+ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B614843E2C3923D8000439CB /* LessonViewController+ViewModel.swift */; };
+		B62D4A3B2C400541003AE431 /* Beginner5Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62D4A3A2C400540003AE431 /* Beginner5Theme.swift */; };
 		B66ADF1F2C3559150084D566 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = B66ADF1E2C3559150084D566 /* Item.swift */; };
 		B66ADF232C3559650084D566 /* FinnM0reSPM in Frameworks */ = {isa = PBXBuildFile; productRef = B66ADF222C3559650084D566 /* FinnM0reSPM */; };
 		B66ADF262C355AD10084D566 /* ThemeRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B66ADF252C355AD10084D566 /* ThemeRepository.swift */; };
@@ -70,6 +71,7 @@
 		B61484392C3923CB000439CB /* TestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
 		B614843D2C3923D8000439CB /* LessonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LessonViewController.swift; sourceTree = "<group>"; };
 		B614843E2C3923D8000439CB /* LessonViewController+ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LessonViewController+ViewModel.swift"; sourceTree = "<group>"; };
+		B62D4A3A2C400540003AE431 /* Beginner5Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Beginner5Theme.swift; sourceTree = "<group>"; };
 		B66ADF1E2C3559150084D566 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		B66ADF252C355AD10084D566 /* ThemeRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeRepository.swift; sourceTree = "<group>"; };
 		B66ADF272C355B010084D566 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
@@ -338,6 +340,7 @@
 		B6EB367F2C36562C007340B8 /* Beginner */ = {
 			isa = PBXGroup;
 			children = (
+				B62D4A3A2C400540003AE431 /* Beginner5Theme.swift */,
 				B682A1C82C3BAA8900875240 /* Beginner4Theme.swift */,
 				B60C871E2C37E7D600C7760A /* Beginner3Theme.swift */,
 				B6EB36822C366A7A007340B8 /* Beginner2Theme.swift */,
@@ -482,6 +485,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B62D4A3B2C400541003AE431 /* Beginner5Theme.swift in Sources */,
 				B6BD058D2C3A65E50031285E /* GridViewController.swift in Sources */,
 				B66ADF262C355AD10084D566 /* ThemeRepository.swift in Sources */,
 				B60C871F2C37E7D600C7760A /* Beginner3Theme.swift in Sources */,
