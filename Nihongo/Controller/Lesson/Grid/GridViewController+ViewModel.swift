@@ -36,7 +36,7 @@ extension GridViewController.ViewModel {
 
     func speak(indexPath: IndexPath) {
         speakJapanese(
-            getItem(indexPath: indexPath).speakText,
+            getItem(indexPath: indexPath).inputText,
             rate: theme.voicePlaybackRate)
     }
 }

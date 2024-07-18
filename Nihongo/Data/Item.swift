@@ -6,22 +6,14 @@ protocol ItemProtocol {
 }
 
 extension ItemProtocol {
-    var speakText: String {
-        var text = value
-
-        let split = text.split(separator: "\n")
-
-        if split.count != 1, let last = split.last {
-            text = "\(last)"
-        }
-
-        return text.replacingOccurrences(of: "〜", with: "")
+    var displayText: String {
+        value.replacingOccurrences(of: "　", with: "\n")
     }
 
     var inputText: String {
         var text = value
 
-        let split = text.split(separator: "\n")
+        let split = text.split(separator: "　")
 
         if split.count != 1, let first = split.first {
             text = "\(first)"

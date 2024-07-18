@@ -33,12 +33,12 @@ extension FillViewController {
 
 extension FillViewController.ViewModel {
     func fetchNextQuestion() {
-        _option.send(currentItem?.description)
+        option = currentItem?.description
     }
     
     func speak() {
         speakJapanese(
-            currentItem?.speakText,
+            currentItem?.inputText,
             rate: theme.voicePlaybackRate)
     }
 
@@ -52,10 +52,10 @@ extension FillViewController.ViewModel {
 
     func updateToNextQuestion() {
         prepareForNextQuestion()
-        _clearInput.send(())
+        clearInput = ()
     }
 
     func endTest() {
-        _backToRoot.send(())
+        backToRoot = ()
     }
 }

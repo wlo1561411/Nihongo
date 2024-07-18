@@ -30,7 +30,7 @@ extension SelectorViewController {
 
 extension SelectorViewController.ViewModel {
     func fetchNextQuestion() {
-        _options.send((self.currentItem?.value, getOptions()))
+        options = (currentItem?.displayText, getOptions())
     }
 
     private func getOptions() -> [String] {
@@ -46,7 +46,7 @@ extension SelectorViewController.ViewModel {
 
     func speak() {
         speakJapanese(
-            currentItem?.speakText,
+            currentItem?.inputText,
             rate: theme.voicePlaybackRate)
     }
 
@@ -59,6 +59,6 @@ extension SelectorViewController.ViewModel {
     }
 
     func endTest() {
-        _backToRoot.send(())
+        backToRoot = ()
     }
 }
