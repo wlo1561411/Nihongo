@@ -1,5 +1,6 @@
 import FinnM0reSPM
 import UIKit
+import Combine
 
 extension SelectorViewController {
     class ViewModel:
@@ -11,10 +12,10 @@ extension SelectorViewController {
         var items: [ItemProtocol]
         var currentItem: ItemProtocol?
 
-        @SealPublished
+        @Published
         var options: (String?, [String]) = (nil, [])
 
-        @SealPublished
+        @Published
         var backToRoot: Void?
 
         init(theme: Theme) {

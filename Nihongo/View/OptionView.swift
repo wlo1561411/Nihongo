@@ -18,7 +18,7 @@ class OptionView: UIView, HasCancellable {
         }
     }
 
-    @SealPublished
+    @Published
     var selected: String?
 
     var cancellable: Set<AnyCancellable> = []

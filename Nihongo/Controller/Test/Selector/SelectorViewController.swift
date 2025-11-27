@@ -82,10 +82,11 @@ extension SelectorViewController {
     private func observeOptions() {
         viewModel
             .$options
-            .publisher()
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] in
                 self?.valueLabel.text = $0.0
                 self?.optionView.titles = $0.1
+                self?.viewModel.speak()
             }
             .store(in: &cancellable)
     }
@@ -93,7 +94,6 @@ extension SelectorViewController {
     private func observeSelection() {
         optionView
             .$selected
-            .publisher()
             .sink(receiveValue: { [weak self] in
                 self?.viewModel.checkAnswer($0)
             })
@@ -103,7 +103,7 @@ extension SelectorViewController {
     private func observeNavigation() {
         viewModel
             .$backToRoot
-            .publisher()
+            .receive(on: DispatchQueue.main)
             .sink(receiveValue: { [weak self] _ in
                 self?.navigationController?.popToRootViewController(animated: true)
             })

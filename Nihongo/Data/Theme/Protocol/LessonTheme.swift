@@ -22,8 +22,14 @@ extension LessonTheme {
         var section = [Section]()
 
         section.append(("單字", vocabularyItems))
-        section.append(("招呼用語", greetingPhrasesItem))
-        section.append(("表現文型", sentencePatternsItem))
+
+        if !greetingPhrasesItem.isEmpty {
+            section.append(("招呼用語", greetingPhrasesItem))
+        }
+
+        if !sentencePatternsItem.isEmpty {
+            section.append(("表現文型", sentencePatternsItem))
+        }
 
         return section
     }

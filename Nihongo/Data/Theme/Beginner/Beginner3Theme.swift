@@ -1,9 +1,8 @@
 import Foundation
 
-struct Beginner3Theme: 
+struct Beginner3Theme:
     Theme,
-    LessonTheme
-{
+    LessonTheme {
     let title = "初級 第三課"
 
     let vocabularyItems: [ItemProtocol] = [

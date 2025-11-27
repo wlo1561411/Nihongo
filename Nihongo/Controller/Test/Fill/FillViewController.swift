@@ -131,15 +131,16 @@ extension FillViewController {
     private func observeOption() {
         viewModel
             .$option
-            .publisher()
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] in
                 self?.valueLabel.text = $0
+                self?.viewModel.speak()
             }
             .store(in: &cancellable)
 
         viewModel
             .$clearInput
-            .publisher()
+            .receive(on: DispatchQueue.main)
             .sink(receiveValue: { [weak self] _ in
                 self?.inputField.text = ""
             })
@@ -149,7 +150,7 @@ extension FillViewController {
     private func observeNavigation() {
         viewModel
             .$backToRoot
-            .publisher()
+            .receive(on: DispatchQueue.main)
             .sink(receiveValue: { [weak self] _ in
                 self?.navigationController?.popToRootViewController(animated: true)
             })

@@ -23,6 +23,7 @@
 		B66ADF302C35652B0084D566 /* SelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B66ADF2F2C35652B0084D566 /* SelectorViewController.swift */; };
 		B66ADF322C3565AD0084D566 /* SelectorViewController+ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B66ADF312C3565AD0084D566 /* SelectorViewController+ViewModel.swift */; };
 		B66ADF342C3568DD0084D566 /* OptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B66ADF332C3568DD0084D566 /* OptionView.swift */; };
+		B67B40122ED845BA009B26EF /* Beginner6Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = B67B40112ED845BA009B26EF /* Beginner6Theme.swift */; };
 		B682A1C92C3BAA8900875240 /* Beginner4Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = B682A1C82C3BAA8900875240 /* Beginner4Theme.swift */; };
 		B682A1CC2C3BBBFC00875240 /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B682A1CB2C3BBBFB00875240 /* UIViewController+Extensions.swift */; };
 		B682A1CE2C3BBD8100875240 /* QuestionHandleable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B682A1CD2C3BBD8100875240 /* QuestionHandleable.swift */; };
@@ -80,6 +81,7 @@
 		B66ADF2F2C35652B0084D566 /* SelectorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectorViewController.swift; sourceTree = "<group>"; };
 		B66ADF312C3565AD0084D566 /* SelectorViewController+ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SelectorViewController+ViewModel.swift"; sourceTree = "<group>"; };
 		B66ADF332C3568DD0084D566 /* OptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionView.swift; sourceTree = "<group>"; };
+		B67B40112ED845BA009B26EF /* Beginner6Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Beginner6Theme.swift; sourceTree = "<group>"; };
 		B682A1C82C3BAA8900875240 /* Beginner4Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Beginner4Theme.swift; sourceTree = "<group>"; };
 		B682A1CB2C3BBBFB00875240 /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
 		B682A1CD2C3BBD8100875240 /* QuestionHandleable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionHandleable.swift; sourceTree = "<group>"; };
@@ -340,6 +342,7 @@
 		B6EB367F2C36562C007340B8 /* Beginner */ = {
 			isa = PBXGroup;
 			children = (
+				B67B40112ED845BA009B26EF /* Beginner6Theme.swift */,
 				B62D4A3A2C400540003AE431 /* Beginner5Theme.swift */,
 				B682A1C82C3BAA8900875240 /* Beginner4Theme.swift */,
 				B60C871E2C37E7D600C7760A /* Beginner3Theme.swift */,
@@ -501,6 +504,7 @@
 				B6BD059C2C3A924D0031285E /* VoicePlayable.swift in Sources */,
 				B696F6F42C35567400E9B706 /* SceneDelegate.swift in Sources */,
 				B61484402C392461000439CB /* LessonViewController+ViewModel.swift in Sources */,
+				B67B40122ED845BA009B26EF /* Beginner6Theme.swift in Sources */,
 				B66ADF342C3568DD0084D566 /* OptionView.swift in Sources */,
 				B61484282C392077000439CB /* MainTabBarController.swift in Sources */,
 				B614843A2C3923CB000439CB /* TestViewController+ViewModel.swift in Sources */,

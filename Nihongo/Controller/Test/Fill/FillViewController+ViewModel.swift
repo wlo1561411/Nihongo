@@ -11,13 +11,13 @@ extension FillViewController {
         var items: [ItemProtocol]
         var currentItem: ItemProtocol?
 
-        @SealPublished
+        @Published
         var option: String?
 
-        @SealPublished
+        @Published
         var clearInput: Void?
 
-        @SealPublished
+        @Published
         var backToRoot: Void?
 
         init(theme: Theme) {

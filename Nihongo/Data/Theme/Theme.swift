@@ -1,5 +1,6 @@
 import Foundation
 
+/// class
 protocol Theme {
     typealias Section = (title: String, items: [ItemProtocol])
 
