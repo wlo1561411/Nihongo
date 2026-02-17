@@ -1,12 +1,11 @@
+import Combine
 import FinnM0reSPM
 import UIKit
-import Combine
 
 extension SelectorViewController {
     class ViewModel:
         VoicePlayable,
-        QuestionHandleable
-    {
+        QuestionHandleable {
         private(set) var theme: Theme
 
         var items: [ItemProtocol]
@@ -22,7 +21,7 @@ extension SelectorViewController {
             self.theme = theme
             self.items = theme.shuffled()
 
-            currentItem = items.first
+            self.currentItem = items.first
         }
     }
 }
@@ -54,7 +53,9 @@ extension SelectorViewController.ViewModel {
     func checkAnswer(_ input: String?) {
         guard
             currentItem?.description == input
-        else { return }
+        else {
+            return
+        }
 
         prepareForNextQuestion()
     }

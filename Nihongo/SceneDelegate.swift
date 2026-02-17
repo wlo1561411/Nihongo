@@ -1,18 +1,55 @@
+import AVFoundation
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
 
     func scene(_ scene: UIScene, willConnectTo _: UISceneSession, options _: UIScene.ConnectionOptions) {
-        guard let windowScene = (scene as? UIWindowScene) else { return }
+        guard let windowScene = (scene as? UIWindowScene) else {
+            return
+        }
+
+        setupTabBarAppearance()
+
+        setupNavigationBarAppearance()
+
+        try? AVAudioSession.sharedInstance().setCategory(.playback, options: [.mixWithOthers])
 
         let window = UIWindow(windowScene: windowScene)
-        
+        window.overrideUserInterfaceStyle = UserDefaults.isDarkModeEnabled ? .dark : .light
+
         let rootViewController = MainTabBarController()
-        window.rootViewController = UINavigationController(rootViewController: rootViewController)
+        window.rootViewController = rootViewController
 
         self.window = window
         window.makeKeyAndVisible()
+    }
+
+    fileprivate func setupNavigationBarAppearance() {
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = .backgroundPrimary
+        appearance.shadowColor = .clear
+        appearance.titleTextAttributes = [
+            .font: UIFont.systemFont(ofSize: 20, weight: .semibold),
+            .foregroundColor: UIColor.textPrimary
+        ]
+
+        UINavigationBar.appearance().standardAppearance = appearance
+        UINavigationBar.appearance().scrollEdgeAppearance = appearance
+        UINavigationBar.appearance().compactAppearance = appearance
+        UINavigationBar.appearance().tintColor = UIColor.textPrimary
+    }
+
+    fileprivate func setupTabBarAppearance() {
+        UITabBar.appearance().tintColor = .textPrimary
+        UITabBar.appearance().unselectedItemTintColor = .textMuted
+
+        let tabBarAppearance = UITabBarAppearance()
+        tabBarAppearance.configureWithOpaqueBackground()
+        tabBarAppearance.backgroundColor = .backgroundElevated
+        UITabBar.appearance().standardAppearance = tabBarAppearance
+        UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
     }
 
     func sceneDidDisconnect(_: UIScene) {

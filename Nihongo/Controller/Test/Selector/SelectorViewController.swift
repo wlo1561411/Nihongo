@@ -7,6 +7,9 @@ class SelectorViewController:
     HasCancellable
 {
     @Stylish
+    private var valueView = UIView()
+
+    @Stylish
     private var valueLabel = UILabel()
 
     @Stylish
@@ -14,7 +17,7 @@ class SelectorViewController:
 
     let viewModel: ViewModel
 
-    var cancellable: Set<AnyCancellable> = []
+    var cancellables: Set<AnyCancellable> = []
 
     init(viewModel: ViewModel) {
         self.viewModel = viewModel
@@ -24,7 +27,7 @@ class SelectorViewController:
     required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -43,35 +46,41 @@ class SelectorViewController:
 extension SelectorViewController {
     private func setupUI() {
         title = viewModel.theme.title
+        view.backgroundColor = .backgroundPrimary
+
+        $valueView
+            .round(Design.Radius.m)
+            .backgroundColor(.backgroundSecondary)
+            .add(to: view)
+            .makeConstraints { make in
+                make.top.equalTo(view.snp.topMargin).offset(Design.Spacing.xl)
+                make.leading.trailing.equalToSuperview().inset(Design.Spacing.xl)
+                make.height.equalTo(view.snp.height).dividedBy(4)
+            }
+
+        valueView.addHighlightGesture(
+            onClick: { [weak self] in
+                self?.viewModel.speak()
+            })
 
         $valueLabel
             .textAlignment(.center)
             .numberOfLines(2)
             .adjustsFontSizeToFitWidth(true)
             .minimumScaleFactor(0.5)
-            .font(.systemFont(ofSize: 40, weight: .bold))
-            .textColor(.white)
-            .round(8)
-            .borderColor(.white)
-            .borderWidth(2)
-            .add(to: view)
+            .font(.systemFont(ofSize: 36, weight: .bold))
+            .textColor(.textPrimary)
+            .add(to: valueView)
             .makeConstraints { make in
-                make.top.equalTo(view.snp.topMargin).offset(20)
-                make.leading.trailing.equalToSuperview().inset(20)
-                make.height.equalTo(200)
+                make.edges.equalToSuperview().inset(Design.Spacing.xl)
             }
-
-        valueLabel.addHighlightGesture(
-            onClick: { [weak self] in
-                self?.viewModel.speak()
-            })
 
         $optionView
             .add(to: view)
             .makeConstraints { make in
-                make.top.equalTo(valueLabel.snp.bottom).offset(50)
-                make.leading.trailing.equalToSuperview().inset(20)
-                make.bottom.equalTo(view.snp.bottomMargin).inset(20)
+                make.top.greaterThanOrEqualTo(valueLabel.snp.bottom).offset(Design.Spacing.xxxl)
+                make.leading.trailing.equalToSuperview().inset(Design.Spacing.xl)
+                make.bottom.equalTo(view.snp.bottomMargin).inset(Design.Spacing.xl)
             }
     }
 }
@@ -82,31 +91,39 @@ extension SelectorViewController {
     private func observeOptions() {
         viewModel
             .$options
+            .dropFirst()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in
                 self?.valueLabel.text = $0.0
                 self?.optionView.titles = $0.1
-                self?.viewModel.speak()
+
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    if UserDefaults.isAutoSpeak {
+                        self?.viewModel.speak()
+                    }
+                }
             }
-            .store(in: &cancellable)
+            .store(in: &cancellables)
     }
 
     private func observeSelection() {
         optionView
             .$selected
+            .dropFirst()
             .sink(receiveValue: { [weak self] in
                 self?.viewModel.checkAnswer($0)
             })
-            .store(in: &cancellable)
+            .store(in: &cancellables)
     }
 
     private func observeNavigation() {
         viewModel
             .$backToRoot
+            .dropFirst()
             .receive(on: DispatchQueue.main)
             .sink(receiveValue: { [weak self] _ in
                 self?.navigationController?.popToRootViewController(animated: true)
             })
-            .store(in: &cancellable)
+            .store(in: &cancellables)
     }
 }

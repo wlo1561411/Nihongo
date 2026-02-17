@@ -1,36 +1,22 @@
 import Foundation
 
+struct LessonItem: ItemProtocol {
+    let value: String
+    var hanValue: String = ""
+    let description: String
+}
+
 protocol LessonTheme: Theme {
     /// 單字
     var vocabularyItems: [ItemProtocol] { get }
     /// 招呼用語
-    var greetingPhrasesItem: [ItemProtocol] { get }
+    var greetingPhrasesItems: [ItemProtocol] { get }
     /// 表現文型
-    var sentencePatternsItem: [ItemProtocol] { get }
+    var sentencePatternsItems: [ItemProtocol] { get }
 }
 
 extension LessonTheme {
     var items: [ItemProtocol] {
-        vocabularyItems + greetingPhrasesItem + sentencePatternsItem
-    }
-
-    var numberOfRowsInGrid: Int {
-        1
-    }
-
-    func sectionsForGrid() -> [Section] {
-        var section = [Section]()
-
-        section.append(("單字", vocabularyItems))
-
-        if !greetingPhrasesItem.isEmpty {
-            section.append(("招呼用語", greetingPhrasesItem))
-        }
-
-        if !sentencePatternsItem.isEmpty {
-            section.append(("表現文型", sentencePatternsItem))
-        }
-
-        return section
+        vocabularyItems + greetingPhrasesItems + sentencePatternsItems
     }
 }

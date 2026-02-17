@@ -2,7 +2,6 @@ import UIKit
 
 extension UIViewController {
     func presentActionSheet(
-        on viewController: UIViewController,
         title: String? = nil,
         message: String? = nil,
         actions: [(String, UIAlertAction.Style, ((UIAlertAction) -> Void)?)])
@@ -21,12 +20,12 @@ extension UIViewController {
         }
 
         let cancelAction = UIAlertAction(
-            title: "Cancel",
+            title: "取消",
             style: .cancel, 
             handler: nil)
         actionSheet.addAction(cancelAction)
 
-        viewController.present(
+        present(
             actionSheet,
             animated: true,
             completion: nil)

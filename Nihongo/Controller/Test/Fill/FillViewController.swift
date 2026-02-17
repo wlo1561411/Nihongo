@@ -5,9 +5,11 @@ import UIKit
 class FillViewController:
     UIViewController,
     HasCancellable,
-    KeyboardMovement,
-    SwipeSkippable
+    KeyboardMovement
 {
+    @Stylish
+    private var valueView = UIView()
+
     @Stylish
     private var valueLabel = UILabel()
 
@@ -18,7 +20,7 @@ class FillViewController:
 
     let viewModel: ViewModel
 
-    var cancellable: Set<AnyCancellable> = []
+    var cancellables: Set<AnyCancellable> = []
 
     init(viewModel: ViewModel) {
         self.viewModel = viewModel
@@ -49,14 +51,14 @@ class FillViewController:
 extension FillViewController {
     private func setupUI() {
         title = viewModel.theme.title
-        view.backgroundColor = .black
+        view.backgroundColor = .backgroundPrimary
 
         UIStackView(
             arrangedSubviews: [
-                valueLabel,
+                valueView,
                 inputField
             ],
-            spacing: 20,
+            spacing: Design.Spacing.xl,
             axis: .vertical,
             distribution: .equalSpacing,
             alignment: .center)
@@ -64,35 +66,32 @@ extension FillViewController {
             .add(to: view)
             .makeConstraints { make in
                 make.centerY.equalToSuperview()
-                make.leading.trailing.equalToSuperview().inset(20)
+                make.leading.trailing.equalToSuperview().inset(Design.Spacing.xl)
             }
 
-        $valueLabel
-            .textAlignment(.center)
-            .numberOfLines(2)
-            .adjustsFontSizeToFitWidth(true)
-            .minimumScaleFactor(0.5)
-            .font(.systemFont(ofSize: 40, weight: .bold))
-            .textColor(.white)
-            .round(8)
-            .borderColor(.white)
-            .borderWidth(2)
+        $valueView
+            .round(Design.Radius.m)
+            .backgroundColor(.backgroundSecondary)
             .makeConstraints { make in
                 make.leading.trailing.equalToSuperview()
-                make.height.equalTo(200)
+                make.height.equalTo(view.snp.height).dividedBy(5).priority(999)
+                make.height.greaterThanOrEqualTo(150)
             }
 
-        messagePopoverView.popoverBackgroundColor = .systemGray5
+        messagePopoverView.popoverBackgroundColor = .black
+        messagePopoverView.messageTextColor = .yellow
 
-        valueLabel.addHighlightGesture(
+        valueView.addHighlightGesture(
             onHighlight: { [weak self] in
-                guard let self else { return }
+                guard let self else {
+                    return
+                }
                 if $0 {
+                    let frame = valueLabel.convert(valueLabel.bounds, to: nil)
+                    let popPoint = CGPoint(x: frame.minX, y: frame.minY)
                     messagePopoverView.pop(
                         [viewModel.currentItem?.inputText ?? ""],
-                        at: .init(
-                            x: valueLabel.center.x,
-                            y: valueLabel.frame(in: view)?.midY ?? 0),
+                        at: popPoint,
                         to: valueLabel,
                         onItemSelected: nil,
                         onDismiss: nil)
@@ -104,19 +103,38 @@ extension FillViewController {
                 self?.viewModel.speak()
             })
 
+        $valueLabel
+            .textAlignment(.center)
+            .numberOfLines(2)
+            .adjustsFontSizeToFitWidth(true)
+            .minimumScaleFactor(0.5)
+            .font(.systemFont(ofSize: 36, weight: .bold))
+            .textColor(.textPrimary)
+            .add(to: valueView)
+            .makeConstraints { make in
+                make.edges.equalToSuperview().inset(Design.Spacing.xl)
+            }
+
         $inputField
             .borderStyle(.none)
             .font(.systemFont(ofSize: 18, weight: .regular))
             .textAlignment(.center)
-            .backgroundColor(.black)
-            .round(8)
-            .borderColor(.darkGray)
+            .textColor(.textPrimary)
+            .tintColor(.textPrimary)
+            .round(Design.Radius.xl)
+            .borderColor(.backgroundHighlight)
             .borderWidth(2)
             .delegate(self)
             .makeConstraints { make in
                 make.leading.trailing.equalToSuperview()
-                make.height.equalTo(50)
+                make.height.equalTo(48)
             }
+    }
+
+    private func setupSwipeSkipAction(_ selector: Selector) {
+        let swipeLeft = UISwipeGestureRecognizer(target: self, action: selector)
+        swipeLeft.direction = .left
+        view.addGestureRecognizer(swipeLeft)
     }
 
     @objc
@@ -131,30 +149,40 @@ extension FillViewController {
     private func observeOption() {
         viewModel
             .$option
+            .dropFirst()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in
                 self?.valueLabel.text = $0
-                self?.viewModel.speak()
+
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    if UserDefaults.isAutoSpeak {
+                        self?.viewModel.speak()
+                    }
+
+                    self?.inputField.becomeFirstResponder()
+                }
             }
-            .store(in: &cancellable)
+            .store(in: &cancellables)
 
         viewModel
             .$clearInput
+            .dropFirst()
             .receive(on: DispatchQueue.main)
             .sink(receiveValue: { [weak self] _ in
                 self?.inputField.text = ""
             })
-            .store(in: &cancellable)
+            .store(in: &cancellables)
     }
 
     private func observeNavigation() {
         viewModel
             .$backToRoot
+            .dropFirst()
             .receive(on: DispatchQueue.main)
             .sink(receiveValue: { [weak self] _ in
                 self?.navigationController?.popToRootViewController(animated: true)
             })
-            .store(in: &cancellable)
+            .store(in: &cancellables)
     }
 }
 

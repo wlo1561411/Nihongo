@@ -1,7 +1,7 @@
 import FinnM0reSPM
 import UIKit
 
-class TestViewController: ThemesViewController {
+class VocabularyEntryController: ThemesViewController {
     init() {
         super.init(viewModel: ViewModel())
     }

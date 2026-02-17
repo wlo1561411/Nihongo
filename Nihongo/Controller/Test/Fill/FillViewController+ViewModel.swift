@@ -4,8 +4,7 @@ import UIKit
 extension FillViewController {
     class ViewModel:
         VoicePlayable,
-        QuestionHandleable
-    {
+        QuestionHandleable {
         private(set) var theme: Theme
 
         var items: [ItemProtocol]
@@ -24,7 +23,7 @@ extension FillViewController {
             self.theme = theme
             self.items = theme.shuffled()
 
-            currentItem = items.first
+            self.currentItem = items.first
         }
     }
 }
@@ -35,17 +34,23 @@ extension FillViewController.ViewModel {
     func fetchNextQuestion() {
         option = currentItem?.description
     }
-    
+
     func speak() {
+        guard UserDefaults.isAutoSpeak
+        else {
+            return
+        }
+
         speakJapanese(
             currentItem?.inputText,
             rate: theme.voicePlaybackRate)
     }
 
     func checkAnswer(_ input: String?) {
-        guard
-            currentItem?.inputText == input
-        else { return }
+        guard currentItem?.inputText == input
+        else {
+            return
+        }
 
         updateToNextQuestion()
     }

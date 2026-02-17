@@ -22,8 +22,3 @@ extension ItemProtocol {
         return text.replacingOccurrences(of: "〜", with: "")
     }
 }
-
-struct Item: ItemProtocol {
-    let value: String
-    let description: String
-}

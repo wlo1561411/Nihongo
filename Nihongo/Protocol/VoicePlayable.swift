@@ -10,7 +10,9 @@ extension VoicePlayable {
         guard
             let text,
             !text.isEmpty
-        else { return }
+        else {
+            return
+        }
 
         let utterance = AVSpeechUtterance(string: text)
         utterance.voice = AVSpeechSynthesisVoice(identifier: "com.apple.voice.compact.ja-JP.Kyoko")

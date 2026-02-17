@@ -5,7 +5,7 @@ import UIKit
 class OptionView: UIView, HasCancellable {
     @Stylish
     private var stackView = UIStackView(
-        spacing: 20,
+        spacing: Design.Spacing.l,
         axis: .vertical,
         distribution: .fillEqually,
         alignment: .fill)
@@ -21,7 +21,7 @@ class OptionView: UIView, HasCancellable {
     @Published
     var selected: String?
 
-    var cancellable: Set<AnyCancellable> = []
+    var cancellables: Set<AnyCancellable> = []
 
     init() {
         super.init(frame: .zero)
@@ -39,9 +39,20 @@ extension OptionView {
     private func setupUI() {
         buttons = (0..<4).map(buildButton(tag:))
 
+        buttons.chunked(into: 2)
+            .forEach {
+                let row = UIStackView(arrangedSubviews: $0)
+                row.spacing = stackView.spacing
+                row.distribution = .fillEqually
+                row.alignment = .fill
+                stackView.addArrangedSubview(row)
+                row.snp.makeConstraints { make in
+                    make.width.equalTo(row.snp.height).priority(.high)
+                }
+            }
+
         $stackView
             .add(to: self)
-            .addArranged(buttons)
             .makeConstraints { make in
                 make.edges.equalToSuperview()
             }
@@ -51,7 +62,7 @@ extension OptionView {
         for button in buttons {
             button.sr
                 .isEnabled(true)
-                .borderColor(.white)
+                .borderColor(.textMuted)
                 .title(titles[safe: button.tag])
                 .unwrap()
         }
@@ -60,26 +71,30 @@ extension OptionView {
     private func buildButton(tag: Int) -> UIButton {
         let button = UIButton().sr
             .tag(tag)
-            .titleColor(.white, state: .normal)
-            .titleColor(.darkGray, state: .disabled)
-            .backgroundColor(.black)
-            .font(.systemFont(ofSize: 20))
-            .round(8)
-            .borderColor(.white)
-            .borderWidth(2)
+            .titleColor(.textPrimary, state: .normal)
+            .titleColor(.textDisabled, state: .disabled)
+            .backgroundColor(.backgroundSecondary)
+            .font(.systemFont(ofSize: 18, weight: .semibold))
+            .round(Design.Radius.xl)
             .unwrap()
+
+        button.snp.makeConstraints { make in
+            make.height.equalTo(button.snp.width).priority(.high)
+        }
 
         button.addHighlightGesture(
             onHighlight: { [weak button] in
                 button?.sr
-                    .titleColor($0 ? .darkGray : .white)
-                    .borderColor($0 ? .darkGray : .white)
+                    .backgroundColor($0 ? .backgroundHighlight : .backgroundSecondary)
+                    .titleColor(.textPrimary)
+                    .borderColor($0 ? .textPrimary : .textMuted)
             },
             onClick: { [weak self, weak button] in
-                guard let self, let button else { return }
+                guard let self, let button else {
+                    return
+                }
 
                 button.isEnabled = !button.isEnabled
-                button.sr.borderColor(.darkGray)
                 selected = button.title(for: .normal)
             })
 
