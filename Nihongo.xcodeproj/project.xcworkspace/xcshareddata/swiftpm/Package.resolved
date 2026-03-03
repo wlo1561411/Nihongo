@@ -1,22 +1,22 @@
 {
-  "originHash" : "ef6abcb05835b8a53dd843e542182e57b4decc9582c10dc6d0a7e0c2677a8e42",
+  "originHash" : "25f76b17ee6f55751e3b2c27541562b9976ff52e71313dd24e76bb681dab0cb2",
   "pins" : [
     {
-      "identity" : "combineext",
+      "identity" : "fmfoundation",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/CombineCommunity/CombineExt.git",
+      "location" : "https://github.com/wlo1561411/FMFoundation.git",
       "state" : {
-        "revision" : "d7b896fa9ca8b47fa7bcde6b43ef9b70bf8c1f56",
-        "version" : "1.8.1"
+        "branch" : "main",
+        "revision" : "d862ce96c26cb0ca46552c304fd5913b3795f2f3"
       }
     },
     {
-      "identity" : "finnm0respm",
+      "identity" : "fmuikit",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/wlo1561411/FinnM0reSPM",
+      "location" : "https://github.com/wlo1561411/FMUIKit.git",
       "state" : {
-        "branch" : "Combine",
-        "revision" : "b241c26a25c7f63d030bcdc270469deec361a018"
+        "branch" : "main",
+        "revision" : "b44902bc6501e721e7e7cbdac68207fcf0d7e4ff"
       }
     },
     {

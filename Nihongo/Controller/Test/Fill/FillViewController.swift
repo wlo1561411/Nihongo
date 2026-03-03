@@ -1,10 +1,9 @@
 import Combine
-import FinnM0reSPM
+import FMUIKit
 import UIKit
 
 class FillViewController:
     UIViewController,
-    HasCancellable,
     KeyboardMovement
 {
     @Stylish
@@ -36,7 +35,7 @@ class FillViewController:
 
         setupUI()
 
-        handleKeyboardInteraction()
+        observeKeyboardInteraction(cancellables: &cancellables)
         setupSwipeSkipAction(#selector(handleSwipeLeft))
 
         observeOption()

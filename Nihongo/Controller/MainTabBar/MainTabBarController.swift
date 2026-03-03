@@ -1,8 +1,7 @@
 import Combine
-import FinnM0reSPM
 import UIKit
 
-final class MainTabBarController: UITabBarController, HasCancellable, UITabBarControllerDelegate {
+final class MainTabBarController: UITabBarController, UITabBarControllerDelegate {
     private lazy var controllers: [UIViewController] = [
         makeTestViewController(),
         makeLessonViewController(),

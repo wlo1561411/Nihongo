@@ -1,11 +1,8 @@
 import Combine
-import FinnM0reSPM
+import FMUIKit
 import UIKit
 
-class SelectorViewController:
-    UIViewController,
-    HasCancellable
-{
+class SelectorViewController: UIViewController {
     @Stylish
     private var valueView = UIView()
 

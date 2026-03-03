@@ -1,8 +1,8 @@
 import Combine
-import FinnM0reSPM
+import FMUIKit
 import UIKit
 
-class OptionView: UIView, HasCancellable {
+class OptionView: UIView {
     @Stylish
     private var stackView = UIStackView(
         spacing: Design.Spacing.l,

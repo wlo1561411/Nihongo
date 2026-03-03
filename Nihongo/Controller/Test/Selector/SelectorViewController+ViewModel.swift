@@ -1,5 +1,5 @@
 import Combine
-import FinnM0reSPM
+import FMUIKit
 import UIKit
 
 extension SelectorViewController {

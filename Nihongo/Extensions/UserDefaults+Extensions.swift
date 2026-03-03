@@ -1,4 +1,4 @@
-import FinnM0reSPM
+import FMFoundation
 import Foundation
 
 extension UserDefaults {

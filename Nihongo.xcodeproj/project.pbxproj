@@ -7,10 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B66ADF232C3559650084D566 /* FinnM0reSPM in Frameworks */ = {isa = PBXBuildFile; productRef = B66ADF222C3559650084D566 /* FinnM0reSPM */; };
-		B696F7092C35567500E9B706 /* NihongoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B696F7082C35567500E9B706 /* NihongoTests.swift */; };
-		B696F7132C35567500E9B706 /* NihongoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B696F7122C35567500E9B706 /* NihongoUITests.swift */; };
-		B696F7152C35567500E9B706 /* NihongoUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B696F7142C35567500E9B706 /* NihongoUITestsLaunchTests.swift */; };
+		B6D3811F2F56CF8D009202DD /* FMFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = B6D3811E2F56CF8D009202DD /* FMFoundation */; };
+		B6D381222F56CFA0009202DD /* FMUIKit in Frameworks */ = {isa = PBXBuildFile; productRef = B6D381212F56CFA0009202DD /* FMUIKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -33,10 +31,7 @@
 /* Begin PBXFileReference section */
 		B696F6EE2C35567400E9B706 /* Nihongo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Nihongo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B696F7042C35567500E9B706 /* NihongoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NihongoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		B696F7082C35567500E9B706 /* NihongoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NihongoTests.swift; sourceTree = "<group>"; };
 		B696F70E2C35567500E9B706 /* NihongoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NihongoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		B696F7122C35567500E9B706 /* NihongoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NihongoUITests.swift; sourceTree = "<group>"; };
-		B696F7142C35567500E9B706 /* NihongoUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NihongoUITestsLaunchTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -50,6 +45,8 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		B606AD1A2F56A57000192C29 /* NihongoTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = NihongoTests; sourceTree = "<group>"; };
+		B606AD1E2F56A57300192C29 /* NihongoUITests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = NihongoUITests; sourceTree = "<group>"; };
 		B63437182ED84D6100FC63B0 /* Nihongo */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (B634373D2ED84D6100FC63B0 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Nihongo; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
@@ -58,7 +55,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B66ADF232C3559650084D566 /* FinnM0reSPM in Frameworks */,
+				B6D381222F56CFA0009202DD /* FMUIKit in Frameworks */,
+				B6D3811F2F56CF8D009202DD /* FMFoundation in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,8 +81,8 @@
 			isa = PBXGroup;
 			children = (
 				B63437182ED84D6100FC63B0 /* Nihongo */,
-				B696F7072C35567500E9B706 /* NihongoTests */,
-				B696F7112C35567500E9B706 /* NihongoUITests */,
+				B606AD1A2F56A57000192C29 /* NihongoTests */,
+				B606AD1E2F56A57300192C29 /* NihongoUITests */,
 				B696F6EF2C35567400E9B706 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -97,23 +95,6 @@
 				B696F70E2C35567500E9B706 /* NihongoUITests.xctest */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		B696F7072C35567500E9B706 /* NihongoTests */ = {
-			isa = PBXGroup;
-			children = (
-				B696F7082C35567500E9B706 /* NihongoTests.swift */,
-			);
-			path = NihongoTests;
-			sourceTree = "<group>";
-		};
-		B696F7112C35567500E9B706 /* NihongoUITests */ = {
-			isa = PBXGroup;
-			children = (
-				B696F7122C35567500E9B706 /* NihongoUITests.swift */,
-				B696F7142C35567500E9B706 /* NihongoUITestsLaunchTests.swift */,
-			);
-			path = NihongoUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -136,7 +117,8 @@
 			);
 			name = Nihongo;
 			packageProductDependencies = (
-				B66ADF222C3559650084D566 /* FinnM0reSPM */,
+				B6D3811E2F56CF8D009202DD /* FMFoundation */,
+				B6D381212F56CFA0009202DD /* FMUIKit */,
 			);
 			productName = Nihongo;
 			productReference = B696F6EE2C35567400E9B706 /* Nihongo.app */;
@@ -155,6 +137,9 @@
 			dependencies = (
 				B696F7062C35567500E9B706 /* PBXTargetDependency */,
 			);
+			fileSystemSynchronizedGroups = (
+				B606AD1A2F56A57000192C29 /* NihongoTests */,
+			);
 			name = NihongoTests;
 			productName = NihongoTests;
 			productReference = B696F7042C35567500E9B706 /* NihongoTests.xctest */;
@@ -172,6 +157,9 @@
 			);
 			dependencies = (
 				B696F7102C35567500E9B706 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				B606AD1E2F56A57300192C29 /* NihongoUITests */,
 			);
 			name = NihongoUITests;
 			productName = NihongoUITests;
@@ -211,7 +199,8 @@
 			);
 			mainGroup = B696F6E52C35567400E9B706;
 			packageReferences = (
-				B66ADF212C3559650084D566 /* XCRemoteSwiftPackageReference "FinnM0reSPM" */,
+				B6D3811D2F56CF8D009202DD /* XCRemoteSwiftPackageReference "FMFoundation" */,
+				B6D381202F56CFA0009202DD /* XCRemoteSwiftPackageReference "FMUIKit" */,
 			);
 			productRefGroup = B696F6EF2C35567400E9B706 /* Products */;
 			projectDirPath = "";
@@ -260,7 +249,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B696F7092C35567500E9B706 /* NihongoTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -268,8 +256,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B696F7132C35567500E9B706 /* NihongoUITests.swift in Sources */,
-				B696F7152C35567500E9B706 /* NihongoUITestsLaunchTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -578,21 +564,34 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		B66ADF212C3559650084D566 /* XCRemoteSwiftPackageReference "FinnM0reSPM" */ = {
+		B6D3811D2F56CF8D009202DD /* XCRemoteSwiftPackageReference "FMFoundation" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/wlo1561411/FinnM0reSPM";
+			repositoryURL = "https://github.com/wlo1561411/FMFoundation.git";
 			requirement = {
-				branch = Combine;
+				branch = main;
+				kind = branch;
+			};
+		};
+		B6D381202F56CFA0009202DD /* XCRemoteSwiftPackageReference "FMUIKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/wlo1561411/FMUIKit.git";
+			requirement = {
+				branch = main;
 				kind = branch;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		B66ADF222C3559650084D566 /* FinnM0reSPM */ = {
+		B6D3811E2F56CF8D009202DD /* FMFoundation */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = B66ADF212C3559650084D566 /* XCRemoteSwiftPackageReference "FinnM0reSPM" */;
-			productName = FinnM0reSPM;
+			package = B6D3811D2F56CF8D009202DD /* XCRemoteSwiftPackageReference "FMFoundation" */;
+			productName = FMFoundation;
+		};
+		B6D381212F56CFA0009202DD /* FMUIKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B6D381202F56CFA0009202DD /* XCRemoteSwiftPackageReference "FMUIKit" */;
+			productName = FMUIKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
