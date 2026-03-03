@@ -1,0 +1,15 @@
+{
+  "originHash" : "f8e8fb7e0abceb1c4372040c010d7a1e55ea647329183b9a56824d92ce53a9ed",
+  "pins" : [
+    {
+      "identity" : "fmfoundation",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/wlo1561411/FMFoundation.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "2ce932e07678e3a94a0efef873b8eb01bcb5b6b2"
+      }
+    }
+  ],
+  "version" : 3
+}
