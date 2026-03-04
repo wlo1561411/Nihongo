@@ -6,10 +6,19 @@ struct NihongoApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self)
     private var appDelegate
 
+    /// 管理 app 的全域狀態（含 onboarding 流程）。
+    @StateObject
+    private var appState = AppState()
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            if appState.isFirstLaunch {
+                OnboardingView()
+            } else {
+                MainTabView()
+            }
         }
+        .environmentObject(appState)
     }
 }
 

@@ -27,6 +27,11 @@ extension Color {
         dark: .init(hex: "000000").withAlphaComponent(0.08)
     )
 
+    static let borderPrimary = Color.dynamic(
+        light: .init(hex: "E2E8F0"),
+        dark: .init(hex: "E2E8F0")
+    )
+
     static let accentBluePrimary = Color.dynamic(
         light: .init(hex: "3B2BEE"),
         dark: .init(hex: "3B2BEE")

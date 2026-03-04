@@ -3,6 +3,10 @@ import SwiftUI
 /// 顯示 onboarding 主視覺版面的 SwiftUI 畫面。
 /// - Note: 此畫面僅負責呈現 UI，不包含任何 business logic。
 struct OnboardingView: View {
+    /// 由上層注入的全域狀態，用於完成 onboarding 後切換到主畫面。
+    @EnvironmentObject
+    private var appState: AppState
+
     /// 底部列顯示的功能項目。
     /// - Important: 清單請保持精簡，避免在小螢幕上擁擠。
     private let featureItems: [FeatureItem] = [
@@ -83,8 +87,7 @@ struct OnboardingView: View {
     /// 主要 CTA 按鈕。
     private var startButton: some View {
         Button {
-            // TODO: 串接導覽動作。
-            print("tapped")
+            appState.isFirstLaunch = false
         } label: {
             Text("Start Learning")
                 .font(.system(size: 17, weight: .bold, design: .rounded))
@@ -161,4 +164,5 @@ private struct FeatureCardView: View {
 
 #Preview {
     OnboardingView()
+        .environmentObject(AppState())
 }
