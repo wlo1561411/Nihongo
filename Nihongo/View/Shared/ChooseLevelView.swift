@@ -69,8 +69,9 @@ struct ChooseLevelView: View {
                             let isHighlighted = level.id == selectedLevelID
                             LevelCardView(
                                 model: level,
-                                isHighlighted: isHighlighted,
-                                onSelect: { handleLevelAction(level) }
+                                isSelected: isHighlighted,
+                                onSelect: { handleLevelCardAction(level) },
+                                onConfirm: { handleLevelButtonAction(level) }
                             )
                         }
                     }
@@ -102,11 +103,17 @@ struct ChooseLevelView: View {
         }
     }
 
+    /// 處理等級卡片點擊。
+    /// - Parameter level: 使用者選取的等級。
+    private func handleLevelCardAction(_ level: LevelCardModel) {
+        selectedLevelID = level.id
+    }
+
     /// 處理等級按鈕點擊。
     /// - Important: 目前先導到示意頁，後續可替換為真正的學習流程。
     /// - Parameter level: 使用者選取的等級。
-    private func handleLevelAction(_ level: LevelCardModel) {
-        selectedLevelID = level.id
+    private func handleLevelButtonAction(_ level: LevelCardModel) {
+        handleLevelCardAction(level)
         router.push(.levelDetail(levelId: level.id))
     }
 }

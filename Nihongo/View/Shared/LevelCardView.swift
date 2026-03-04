@@ -19,11 +19,13 @@ struct LevelCardView: View {
     /// 卡片資料模型。
     let model: LevelCardModel
     /// 是否為目前選中狀態。
-    let isHighlighted: Bool
+    let isSelected: Bool
     /// 卡片圓角。
     var cornerRadius: CGFloat = 16
     /// 點擊卡片時的回呼。
     let onSelect: () -> Void
+    /// 點擊按鈕時的回呼。
+    let onConfirm: () -> Void
 
     /// 徽章大小。
     @ScaledMetric
@@ -31,66 +33,60 @@ struct LevelCardView: View {
 
     /// 主要內容視圖。
     var body: some View {
-        HStack(spacing: 16) {
-            VStack(alignment: .leading, spacing: 6) {
-                if isHighlighted {
-                    Text("LEVEL")
-                        .font(.system(size: 11, weight: .semibold))
-                        .foregroundStyle(Color.accentBluePrimary)
-                        .padding(.horizontal, 10)
-                        .padding(.vertical, 4)
-                        .background(Color.accentBlueSecondary, in: Capsule())
-                }
-
-                Text(model.title)
-                    .font(.system(size: 17, weight: .semibold))
-                    .foregroundStyle(Color.textPrimary)
-
-                Text(model.subtitle)
-                    .font(.system(size: 13, weight: .regular))
-                    .foregroundStyle(Color.textSecondary)
-
-                Spacer(minLength: 12)
-
-                Text(model.actionTitle)
-                    .font(.system(size: 13, weight: .semibold))
-                    .foregroundStyle(isHighlighted ? Color.pureWhite : Color.textSecondary)
-                    .padding(.horizontal, 14)
-                    .padding(.vertical, 8)
-                    .background(
-                        isHighlighted
-                        ? Color.accentBluePrimary
-                        : Color.backgroundPrimary,
-                        in: Capsule()
-                    )
-                    .overlay(
-                        Capsule()
-                            .stroke(
-                                isHighlighted ? Color.accentBluePrimary : Color.clear,
-                                lineWidth: 1
-                            )
-                    )
-            }
-
-            Spacer()
-        }
-        .padding(16)
-        .background(content: {
+        Button(action: onSelect) {
             ZStack(alignment: .bottomTrailing) {
-                Color.pureWhite
+                HStack(spacing: 16) {
+                    VStack(alignment: .leading, spacing: 6) {
+                        if isSelected {
+                            Text("LEVEL")
+                                .font(.system(size: 11, weight: .semibold))
+                                .foregroundStyle(Color.accentBluePrimary)
+                                .padding(.horizontal, 10)
+                                .padding(.vertical, 4)
+                                .background(Color.accentBlueSecondary, in: Capsule())
+                        }
+
+                        Text(model.title)
+                            .font(.system(size: 17, weight: .semibold))
+                            .foregroundStyle(Color.textPrimary)
+
+                        Text(model.subtitle)
+                            .font(.system(size: 13, weight: .regular))
+                            .foregroundStyle(Color.textSecondary)
+
+                        Spacer(minLength: 12)
+
+                        Button(action: onConfirm) {
+                            Text(model.actionTitle)
+                                .font(.system(size: 13, weight: .semibold))
+                                .foregroundStyle(isSelected ? Color.pureWhite : Color.textSecondary)
+                                .padding(.horizontal, 14)
+                                .padding(.vertical, 8)
+                                .background(
+                                    isSelected
+                                        ? Color.accentBluePrimary
+                                        : Color.backgroundPrimary,
+                                    in: Capsule()
+                                )
+                                .overlay(
+                                    Capsule()
+                                        .stroke(
+                                            isSelected ? Color.accentBluePrimary : Color.clear,
+                                            lineWidth: 1
+                                        )
+                                )
+                        }
+                    }
+
+                    Spacer()
+                }
 
                 badgeView
                     .padding(.trailing, -4)
                     .padding(.bottom, 12)
             }
-        })
-        .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
-        .overlay(
-            RoundedRectangle(cornerRadius: cornerRadius)
-                .stroke(isHighlighted ? Color.accentBluePrimary : Color.borderPrimary, lineWidth: 1)
-        )
-        .shadow(color: Color.shadowPrimary, radius: 8, x: 0, y: 4)
-        .onTapGesture(perform: onSelect)
+        }
+        .buttonStyle(LevelCardPressStyle(cornerRadius: cornerRadius, isSelected: isSelected))
         .accessibilityElement(children: .combine)
     }
 
@@ -98,17 +94,51 @@ struct LevelCardView: View {
     private var badgeView: some View {
         ZStack {
             Circle()
-                .fill(isHighlighted ? Color.accentBlueSecondary.opacity(0.4) : Color.backgroundPrimary.opacity(0.4))
+                .fill(isSelected ? Color.accentBlueSecondary.opacity(0.4) : Color.backgroundPrimary.opacity(0.4))
 
             Text(model.badgeText)
                 .font(.system(size: 30, weight: .black))
                 .foregroundStyle(
-                    isHighlighted
+                    isSelected
                         ? Color.accentBluePrimary.opacity(0.4)
                         : Color.textThirdly.opacity(0.4)
                 )
         }
         .frame(width: badgeSize, height: badgeSize)
+    }
+}
+
+/// 卡片按壓時的視覺回饋樣式。
+private struct LevelCardPressStyle: ButtonStyle {
+    /// 卡片圓角。
+    let cornerRadius: CGFloat
+    /// 是否為目前選中狀態。
+    let isSelected: Bool
+
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .compositingGroup()
+            .scaleEffect(configuration.isPressed ? 0.98 : 1.0)
+            .padding(16)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(Color.pureWhite)
+            .overlay(
+                RoundedRectangle(cornerRadius: cornerRadius)
+                    .fill(Color.accentBluePrimary.opacity(configuration.isPressed ? 0.12 : 0.0))
+            )
+            .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
+            .overlay(
+                RoundedRectangle(cornerRadius: cornerRadius)
+                    .stroke(isSelected ? Color.accentBluePrimary : Color.borderPrimary, lineWidth: 1)
+            )
+            .shadow(
+                color: Color.shadowPrimary.opacity(configuration.isPressed ? 0.0 : 1.0),
+                radius: 8,
+                x: 0,
+                y: 4
+            )
+            .contentShape(RoundedRectangle(cornerRadius: cornerRadius))
+            .animation(.easeOut(duration: 0.12), value: configuration.isPressed)
     }
 }
 
@@ -121,7 +151,9 @@ struct LevelCardView: View {
             badgeText: "N5",
             actionTitle: "Start Quiz"
         ),
-        isHighlighted: true,
-        onSelect: { })
+        isSelected: true,
+        onSelect: { },
+        onConfirm: { }
+    )
     .fixedSize()
 }
