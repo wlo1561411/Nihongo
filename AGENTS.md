@@ -46,6 +46,7 @@
 ### Skills 的應用方式
 - 將 `AGENTS.md` 視為**基準規則（baseline rules）**。
 - Skills 提供的是**領域專屬的檢查清單／決策樹**, 作為分析與建議的**唯一權威來源（source of truth）**。
+- 執行 Skill 時, 所產生的 comment, doc 請依照需求與脈絡的規範。
 
 ### 衝突解決原則（Conflict resolution）
 - 若 Skill 的指引與既有專案限制（project constraints）衝突，**不得強制進行重構**。

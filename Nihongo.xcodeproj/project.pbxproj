@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B6D381332F56D11F009202DD /* FMFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = B6D381322F56D11F009202DD /* FMFoundation */; };
+		B633C11F2F572A1C00C411A4 /* FMFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = B633C11E2F572A1C00C411A4 /* FMFoundation */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,7 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B6D381332F56D11F009202DD /* FMFoundation in Frameworks */,
+				B633C11F2F572A1C00C411A4 /* FMFoundation in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -117,7 +117,7 @@
 			);
 			name = Nihongo;
 			packageProductDependencies = (
-				B6D381322F56D11F009202DD /* FMFoundation */,
+				B633C11E2F572A1C00C411A4 /* FMFoundation */,
 			);
 			productName = Nihongo;
 			productReference = B6F351D02F56C9730078789D /* Nihongo.app */;
@@ -202,7 +202,7 @@
 			mainGroup = B6F351C72F56C9730078789D;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				B6D381312F56D11F009202DD /* XCRemoteSwiftPackageReference "FMFoundation" */,
+				B633C11D2F572A1C00C411A4 /* XCRemoteSwiftPackageReference "FMFoundation" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = B6F351D12F56C9730078789D /* Products */;
@@ -338,10 +338,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_STRICT_CONCURRENCY = complete;
 			};
 			name = Debug;
 		};
@@ -397,10 +394,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
-				SWIFT_STRICT_CONCURRENCY = complete;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -420,7 +414,6 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -453,7 +446,6 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -597,7 +589,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		B6D381312F56D11F009202DD /* XCRemoteSwiftPackageReference "FMFoundation" */ = {
+		B633C11D2F572A1C00C411A4 /* XCRemoteSwiftPackageReference "FMFoundation" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/wlo1561411/FMFoundation.git";
 			requirement = {
@@ -608,9 +600,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		B6D381322F56D11F009202DD /* FMFoundation */ = {
+		B633C11E2F572A1C00C411A4 /* FMFoundation */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = B6D381312F56D11F009202DD /* XCRemoteSwiftPackageReference "FMFoundation" */;
+			package = B633C11D2F572A1C00C411A4 /* XCRemoteSwiftPackageReference "FMFoundation" */;
 			productName = FMFoundation;
 		};
 /* End XCSwiftPackageProductDependency section */
