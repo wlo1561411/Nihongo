@@ -13,9 +13,16 @@ final class AppState: ObservableObject {
         }
     }
 
+    /// 目前選中的分頁。
+    /// - Note: 分頁狀態僅於記憶體中維持，不做持久化。
+    @Published
+    var selectedTab: AppTab
+
     /// 建立 AppState 並載入目前的首次啟動狀態。
-    init() {
-        self.isFirstLaunch = UserDefaults.isFirstLaunch
+    init(isFirstLaunch: Bool = UserDefaults.isFirstLaunch,
+         selectedTab: AppTab = .learn) {
+        self.isFirstLaunch = isFirstLaunch
+        self.selectedTab = selectedTab
     }
 }
 

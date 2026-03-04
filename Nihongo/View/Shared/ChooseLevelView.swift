@@ -45,16 +45,25 @@ struct ChooseLevelView: View {
     @State
     private var selectedLevelID = "N5"
 
+    /// Router，用於導頁。
+    @EnvironmentObject
+    private var router: AppRouter
+
     /// 主要內容視圖。
     var body: some View {
         ZStack {
             Color.backgroundPrimary
-                .ignoresSafeArea(.all, edges: .all)
+                .ignoresSafeArea()
 
-            ScrollView {
-                VStack(spacing: 20) {
-                    header
+            VStack(spacing: 0) {
+                header
+                    .padding(.top, 10)
+                    .padding(.bottom, 16)
+                    .frame(maxWidth: .infinity)
+                    .background(Color.accentBluePrimary)
+                    .clipShape(.rect(bottomLeadingRadius: 30, bottomTrailingRadius: 30))
 
+                ScrollView {
                     VStack(spacing: 16) {
                         ForEach(levels) { level in
                             let isHighlighted = level.id == selectedLevelID
@@ -65,11 +74,17 @@ struct ChooseLevelView: View {
                             )
                         }
                     }
+                    .padding(.vertical, 24)
+                    .padding(.horizontal, 24)
                 }
-                .padding(.vertical, 24)
-                .padding(.horizontal, 24)
+                .scrollIndicators(.never)
             }
-            .scrollIndicators(.never)
+        }
+        .overlay(alignment: .top) {
+            Color.accentBluePrimary
+                .ignoresSafeArea(edges: .top)
+                // This will constrain the overlay to only go above the top safe area and not under.
+                .frame(height: 0)
         }
     }
 
@@ -78,22 +93,25 @@ struct ChooseLevelView: View {
         VStack(spacing: 8) {
             Text("Choose Your Level")
                 .font(.system(size: 28, weight: .bold))
-                .foregroundStyle(Color.textPrimary)
+                .foregroundStyle(Color.pureWhite)
 
             Text("Select a JLPT level.")
-                .font(.system(size: 14, weight: .medium))
-                .foregroundStyle(Color.textSecondary)
+                .font(.system(size: 14, weight: .regular))
+                .foregroundStyle(Color.pureWhite)
                 .multilineTextAlignment(.center)
         }
     }
 
     /// 處理等級按鈕點擊。
-    /// - Important: 目前僅示意，後續可改為導頁或觸發流程。
+    /// - Important: 目前先導到示意頁，後續可替換為真正的學習流程。
+    /// - Parameter level: 使用者選取的等級。
     private func handleLevelAction(_ level: LevelCardModel) {
         selectedLevelID = level.id
+        router.push(.levelDetail(levelId: level.id))
     }
 }
 
 #Preview {
     ChooseLevelView()
+        .environmentObject(AppRouter())
 }

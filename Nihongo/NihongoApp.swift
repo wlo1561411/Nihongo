@@ -10,6 +10,10 @@ struct NihongoApp: App {
     @StateObject
     private var appState = AppState()
 
+    /// 統一管理導覽路徑的 Router。
+    @StateObject
+    private var router = AppRouter()
+
     var body: some Scene {
         WindowGroup {
             if appState.isFirstLaunch {
@@ -19,6 +23,7 @@ struct NihongoApp: App {
             }
         }
         .environmentObject(appState)
+        .environmentObject(router)
     }
 }
 
