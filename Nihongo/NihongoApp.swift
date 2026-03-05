@@ -8,11 +8,18 @@ struct NihongoApp: App {
 
     /// 管理 app 的全域狀態（含 onboarding 流程）。
     @StateObject
-    private var appState = AppState()
+    private var appState: AppState
 
     /// 統一管理導覽路徑的 Router。
     @StateObject
-    private var router = AppRouter()
+    private var router: AppRouter
+
+    /// 建立 App 並注入全域狀態到 Router。
+    init() {
+        let appState = AppState()
+        _appState = StateObject(wrappedValue: appState)
+        _router = StateObject(wrappedValue: AppRouter(appState: appState))
+    }
 
     var body: some Scene {
         WindowGroup {

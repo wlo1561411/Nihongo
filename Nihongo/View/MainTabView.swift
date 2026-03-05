@@ -12,80 +12,114 @@ struct MainTabView: View {
 
     /// 建立主要分頁結構。
     init() {
-        setupNavigationBarAppearance()
         setupTabBarAppearance()
     }
 
     /// 主要內容視圖。
     var body: some View {
-        NavigationStack(path: $router.path) {
-            TabView(selection: $appState.selectedTab) {
+        TabView(selection: $appState.selectedTab) {
+            tabNavigationStack(tab: .learn) {
                 ChooseLevelView()
-                    .tabItem {
-                        Label("Learn", systemImage: "book")
-                    }
-                    .tag(AppTab.learn)
-
-                SettingsPlaceholderView()
-                    .tabItem {
-                        Label("Quizzes", systemImage: "questionmark.circle")
-                    }
-                    .tag(AppTab.quizzes)
-
-                SettingsPlaceholderView()
-                    .tabItem {
-                        Label("Settings", systemImage: "gearshape")
-                    }
-                    .tag(AppTab.settings)
             }
-            .navigationDestination(for: Route.self) { route in
-                switch route {
-                case .levelDetail(let levelId):
-                    LevelDetailView(levelId: levelId)
+            .tabItem {
+                tabLabel(
+                    title: "Learn",
+                    unselectName: "book",
+                    selectName: "book.fill",
+                    isSelected: appState.selectedTab == .learn
+                )
+            }
+            .tag(AppTab.learn)
+
+            tabNavigationStack(tab: .quizzes) {
+                SettingsPlaceholderView()
+            }
+            .tabItem {
+                tabLabel(
+                    title: "Quizzes",
+                    unselectName: "questionmark.circle",
+                    selectName: "questionmark.circle.fill",
+                    isSelected: appState.selectedTab == .quizzes
+                )
+            }
+            .tag(AppTab.quizzes)
+
+            tabNavigationStack(tab: .settings) {
+                SettingsPlaceholderView()
+            }
+            .tabItem {
+                tabLabel(
+                    title: "Settings",
+                    unselectName: "gearshape",
+                    selectName: "gearshape.fill",
+                    isSelected: appState.selectedTab == .settings
+                )
+            }
+            .tag(AppTab.settings)
+        }
+    }
+
+    /// 建立指定分頁的 NavigationStack，並綁定對應路由。
+    /// - Parameters:
+    ///   - tab: 目標分頁。
+    ///   - content: 分頁內容。
+    /// - Returns: 包含導覽堆疊的分頁內容。
+    private func tabNavigationStack(
+        tab: AppTab,
+        @ViewBuilder content: () -> some View
+    )
+        -> some View {
+        NavigationStack(path: router.binding(for: tab)) {
+            content()
+                .navigationDestination(for: Route.self) { route in
+                    switch route {
+                    case .levelDetail(let levelId):
+                        LevelDetailView(levelId: levelId)
+//                        ScrollHideNavBarView()
+                    }
                 }
-            }
         }
     }
 
     private func setupTabBarAppearance() {
         let appearance = UITabBarAppearance()
-        appearance.configureWithDefaultBackground()
+        appearance.configureWithOpaqueBackground()
 
-        appearance.stackedLayoutAppearance.selected.iconColor = .init(.accentBluePrimary)
-        appearance.stackedLayoutAppearance.selected.titleTextAttributes = [
-            .foregroundColor: UIColor(.accentBluePrimary)
+        let normalAttributed: [NSAttributedString.Key: Any] = [
+            .foregroundColor: UIColor(Color.textSecondary),
+            .font: UIFont.systemFont(ofSize: 10, weight: .semibold)
+        ]
+        let selectedAttributed: [NSAttributedString.Key: Any] = [
+            .foregroundColor: UIColor(Color.accentBluePrimary),
+            .font: UIFont.systemFont(ofSize: 10, weight: .bold)
         ]
 
-        appearance.stackedLayoutAppearance.normal.iconColor = .init(.textSecondary)
-        appearance.stackedLayoutAppearance.normal.titleTextAttributes = [
-            .foregroundColor: UIColor(.textSecondary)
-        ]
+        appearance.stackedLayoutAppearance.normal.titleTextAttributes = normalAttributed
+        appearance.inlineLayoutAppearance.normal.titleTextAttributes = normalAttributed
+        appearance.compactInlineLayoutAppearance.normal.titleTextAttributes = normalAttributed
+
+        appearance.stackedLayoutAppearance.selected.titleTextAttributes = selectedAttributed
+        appearance.inlineLayoutAppearance.selected.titleTextAttributes = selectedAttributed
+        appearance.compactInlineLayoutAppearance.selected.titleTextAttributes = selectedAttributed
 
         UITabBar.appearance().standardAppearance = appearance
         UITabBar.appearance().scrollEdgeAppearance = appearance
     }
 
-    /// 設定 Navigation Bar 外觀。
-    private func setupNavigationBarAppearance() {
-        let appearance = UINavigationBarAppearance()
-        appearance.configureWithOpaqueBackground()
-        appearance.shadowColor = .clear
-        appearance.shadowImage = UIImage()
-        appearance.backgroundColor = UIColor(Color.backgroundPrimary)
-        appearance.titleTextAttributes = [
-            .foregroundColor: UIColor(Color.textPrimary),
-            .font: UIFont.systemFont(ofSize: 17, weight: .semibold)
-        ]
-        appearance.largeTitleTextAttributes = [
-            .foregroundColor: UIColor(Color.textPrimary),
-            .font: UIFont.systemFont(ofSize: 32, weight: .bold)
-        ]
+    private func tabLabel(title: String, unselectName: String, selectName: String, isSelected: Bool) -> some View {
+        VStack(spacing: 4) {
+            Image(uiImage: createTabIcon(unselectName: unselectName, selectName: selectName, isSelected: isSelected))
+            Text(title)
+        }
+    }
 
-        let navigationBar = UINavigationBar.appearance()
-        navigationBar.standardAppearance = appearance
-        navigationBar.scrollEdgeAppearance = appearance
-        navigationBar.compactAppearance = appearance
-        navigationBar.tintColor = UIColor(Color.accentBluePrimary)
+    private func createTabIcon(unselectName: String, selectName: String, isSelected: Bool) -> UIImage {
+        let color = isSelected ? Color.accentBluePrimary : Color.textSecondary
+        let name = isSelected ? selectName : unselectName
+
+        return UIImage(systemName: name)?
+            // ignore TabView.tint for liquid glass
+            .withTintColor(.init(color), renderingMode: .alwaysOriginal) ?? UIImage()
     }
 }
 
@@ -123,6 +157,4 @@ private struct SettingsPlaceholderView: View {
 
 #Preview {
     MainTabView()
-        .environmentObject(AppRouter())
-        .environmentObject(AppState())
 }

@@ -56,36 +56,23 @@ struct ChooseLevelView: View {
                 .ignoresSafeArea()
 
             VStack(spacing: 0) {
-                header
-                    .padding(.top, 10)
-                    .padding(.bottom, 16)
-                    .frame(maxWidth: .infinity)
-                    .background(Color.accentBluePrimary)
-                    .clipShape(.rect(bottomLeadingRadius: 30, bottomTrailingRadius: 30))
+                Color.accentBluePrimary
+                    .frame(height: 20)
+                    .clipShape(.rect(
+                        bottomLeadingRadius: 30,
+                        bottomTrailingRadius: 30
+                    ))
 
-                ScrollView {
-                    VStack(spacing: 16) {
-                        ForEach(levels) { level in
-                            let isHighlighted = level.id == selectedLevelID
-                            LevelCardView(
-                                model: level,
-                                isSelected: isHighlighted,
-                                onSelect: { handleLevelCardAction(level) },
-                                onConfirm: { handleLevelButtonAction(level) }
-                            )
-                        }
-                    }
-                    .padding(.vertical, 24)
-                    .padding(.horizontal, 24)
-                }
-                .scrollIndicators(.never)
+                scroll
             }
         }
-        .overlay(alignment: .top) {
-            Color.accentBluePrimary
-                .ignoresSafeArea(edges: .top)
-                // This will constrain the overlay to only go above the top safe area and not under.
-                .frame(height: 0)
+        .toolbarTitleDisplayMode(.inline)
+        .toolbarBackground(Color.accentBluePrimary, for: .navigationBar)
+        .toolbarBackground(.visible, for: .navigationBar)
+        .toolbar {
+            ToolbarItem(placement: .title) {
+                header
+            }
         }
     }
 
@@ -101,24 +88,49 @@ struct ChooseLevelView: View {
                 .foregroundStyle(Color.pureWhite)
                 .multilineTextAlignment(.center)
         }
+        .padding(.top, 8)
+    }
+
+    /// 等級選擇區塊。
+    private var scroll: some View {
+        ScrollView {
+            VStack(spacing: 16) {
+                ForEach(levels) { level in
+                    let isHighlighted = level.id == selectedLevelID
+                    LevelCardView(
+                        model: level,
+                        isSelected: isHighlighted,
+                        onSelect: { handleLevelCardAction(level) },
+                        onConfirm: { handleLevelButtonAction(level) }
+                    )
+                }
+            }
+            .padding(.vertical, 24)
+            .padding(.horizontal, 24)
+        }
+        .scrollIndicators(.never)
     }
 
     /// 處理等級卡片點擊。
     /// - Parameter level: 使用者選取的等級。
     private func handleLevelCardAction(_ level: LevelCardModel) {
-        selectedLevelID = level.id
+        if selectedLevelID == level.id {
+            handleLevelButtonAction(level)
+        } else {
+            selectedLevelID = level.id
+        }
     }
 
     /// 處理等級按鈕點擊。
-    /// - Important: 目前先導到示意頁，後續可替換為真正的學習流程。
     /// - Parameter level: 使用者選取的等級。
     private func handleLevelButtonAction(_ level: LevelCardModel) {
-        handleLevelCardAction(level)
+        selectedLevelID = level.id
         router.push(.levelDetail(levelId: level.id))
     }
 }
 
 #Preview {
-    ChooseLevelView()
-        .environmentObject(AppRouter())
+    NavigationStack {
+        ChooseLevelView()
+    }
 }

@@ -26,7 +26,8 @@
 
 ### 需求與脈絡蒐集
 - **預設架構**：UIKit + MVVM + Combine。
-- **SwiftUI 判斷規則**：若檔案包含 `import SwiftUI` 且存在 `struct ... : View`（或明顯 SwiftUI API，如 `@State` / `ViewBuilder`），則以 SwiftUI 寫法與慣例為主；否則以 UIKit 為主。
+- **SwiftUI 判斷規則**：若檔案包含 `import SwiftUI` 且存在 `struct ... : View`（或明顯 SwiftUI API，如 `@State` / `ViewBuilder`），則以 SwiftUI 寫法與慣例為主，但仍然使用 MVVM；否則以 UIKit 為主。
+- 閱讀專案內檔案，**不需要**請求是否允許閱讀
 - **資訊不足時**：先列出「缺少的關鍵資訊」並詢問；同時提供一個「可回退的預設方案」與風險（避免討論停滯）。
 - `class`, `struct`, `function`, `variable / constant` 請補上敘述
 	- 請善用 `swift doc` 關鍵字去標註。 (Note, Important, Parameter...)

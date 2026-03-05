@@ -30,8 +30,8 @@ struct LevelDetailView: View {
             .buttonStyle(.borderedProminent)
 
             Button("Go to Settings") {
-                appState.selectedTab = .settings
                 router.popToRoot()
+                appState.selectedTab = .settings
             }
             .buttonStyle(.bordered)
         }
@@ -39,11 +39,11 @@ struct LevelDetailView: View {
         .background(Color.backgroundPrimary)
         .navigationTitle("JLPT \(levelId)")
         .navigationBarTitleDisplayMode(.inline)
+        .toolbarBackground(.visible, for: .navigationBar)
+        .toolbarBackground(Color.pureWhite, for: .navigationBar)
     }
 }
 
 #Preview {
     LevelDetailView(levelId: "N5")
-        .environmentObject(AppRouter())
-        .environmentObject(AppState())
 }
