@@ -14,11 +14,10 @@ struct NihongoApp: App {
     @StateObject
     private var router: AppRouter
 
-    /// 建立 App 並注入全域狀態到 Router。
+    /// 建立 App 並初始化全域狀態與 Router。
     init() {
-        let appState = AppState()
-        _appState = StateObject(wrappedValue: appState)
-        _router = StateObject(wrappedValue: AppRouter(appState: appState))
+        _appState = StateObject(wrappedValue: AppState())
+        _router = StateObject(wrappedValue: AppRouter())
     }
 
     var body: some Scene {
@@ -35,6 +34,8 @@ struct NihongoApp: App {
 }
 
 final class AppDelegate: NSObject, UIApplicationDelegate {
+    var orientationLock: UIInterfaceOrientationMask = .portrait
+
     /// App 啟動點（對應 didFinishLaunchingWithOptions）。
     ///
     /// - Parameters:
@@ -47,5 +48,12 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
     )
         -> Bool {
         true
+    }
+
+    func application(
+        _ application: UIApplication,
+        supportedInterfaceOrientationsFor window: UIWindow?
+    ) -> UIInterfaceOrientationMask {
+        orientationLock
     }
 }

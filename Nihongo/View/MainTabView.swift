@@ -6,10 +6,6 @@ struct MainTabView: View {
     @EnvironmentObject
     private var router: AppRouter
 
-    /// 全域 App 狀態，用於分頁切換。
-    @EnvironmentObject
-    private var appState: AppState
-
     /// 建立主要分頁結構。
     init() {
         setupTabBarAppearance()
@@ -17,29 +13,29 @@ struct MainTabView: View {
 
     /// 主要內容視圖。
     var body: some View {
-        TabView(selection: $appState.selectedTab) {
+        TabView(selection: $router.selectedTab) {
             tabNavigationStack(tab: .learn) {
-                ChooseLevelView()
+                LearnView()
             }
             .tabItem {
                 tabLabel(
                     title: "Learn",
                     unselectName: "book",
                     selectName: "book.fill",
-                    isSelected: appState.selectedTab == .learn
+                    isSelected: router.selectedTab == .learn
                 )
             }
             .tag(AppTab.learn)
 
             tabNavigationStack(tab: .quizzes) {
-                SettingsPlaceholderView()
+                QuizView()
             }
             .tabItem {
                 tabLabel(
                     title: "Quizzes",
                     unselectName: "questionmark.circle",
                     selectName: "questionmark.circle.fill",
-                    isSelected: appState.selectedTab == .quizzes
+                    isSelected: router.selectedTab == .quizzes
                 )
             }
             .tag(AppTab.quizzes)
@@ -52,7 +48,7 @@ struct MainTabView: View {
                     title: "Settings",
                     unselectName: "gearshape",
                     selectName: "gearshape.fill",
-                    isSelected: appState.selectedTab == .settings
+                    isSelected: router.selectedTab == .settings
                 )
             }
             .tag(AppTab.settings)
@@ -73,9 +69,11 @@ struct MainTabView: View {
             content()
                 .navigationDestination(for: Route.self) { route in
                     switch route {
-                    case .levelDetail(let levelId):
-                        LevelDetailView(levelId: levelId)
-//                        ScrollHideNavBarView()
+                    case .vocabulary(let level):
+                        VocabularyView(viewModel: .init(
+                            level: level,
+                            repository: JLPTVocabularyRepository.shared,
+                            favoritesStore: UserDefaultsFavoritesStore.shared))
                     }
                 }
         }

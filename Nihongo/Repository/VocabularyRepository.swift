@@ -1,17 +1,22 @@
 import FMFoundation
 import Foundation
-import os
+
+protocol VocabularyRepository {
+    var vocabulary: [JLPTAPI.Vocabulary] { get }
+
+    func fetch() async throws -> [JLPTAPI.Vocabulary]
+}
 
 /// 管理 JLPT 全單字清單的下載與本地快取。
 /// - Note: 此類別目前為單例設計，使用前請留意共享狀態。
-final class VocabularyRepository {
+final class JLPTVocabularyRepository: VocabularyRepository {
     /// 全域共用的 Repository 實例。
     /// - Important: 請避免在測試中直接使用，以免共享狀態造成干擾。
-    static let shared = VocabularyRepository()
+    static let shared = JLPTVocabularyRepository()
 
     /// Log 用途的 logger。
     /// - Note: 只用於輸出可觀測訊息，避免落入敏感資訊。
-    private nonisolated let logger: Logger
+    private let logService: LogService
 
     /// 目前載入在記憶體中的單字清單。
     /// - Important: 只有在 `fetch()` 成功後才會更新。
@@ -19,8 +24,8 @@ final class VocabularyRepository {
 
     /// 建立 Repository 實例。
     /// - Note: 僅允許單例使用。
-    private init() {
-        self.logger = Logger(Self.self)
+    private init(logService: LogService = LoggerService.shared) {
+        self.logService = logService
     }
 
     /// 取得全單字清單，優先讀取本地 JSON，無檔案時才下載。
@@ -28,24 +33,29 @@ final class VocabularyRepository {
     /// - Important: 成功下載後會寫入本地快取。
     /// - Returns: 全單字清單。
     func fetch() async throws -> [JLPTAPI.Vocabulary] {
+        guard vocabulary.isEmpty else {
+            logService.info("已經載入過單字清單。數量：\(self.vocabulary.count)")
+            return vocabulary
+        }
+
         do {
-            logger.debug("從本地快取載入單字清單。")
+            logService.debug("從本地快取載入單字清單。")
             let vocabulary = try await loadFromLocal()
             self.vocabulary = vocabulary
-            logger.info("已從快取載入單字清單。數量：\(vocabulary.count)")
+            logService.info("已從快取載入單字清單。數量：\(vocabulary.count)")
             return vocabulary
         } catch {
             // 本地無檔案或解碼失敗時，改走下載。
-            logger.notice("快取不存在或解碼失敗。原因：\(error.localizedDescription)")
+            logService.notice("快取不存在或解碼失敗。原因：\(error.localizedDescription)")
         }
 
-        logger.info("從 API 下載單字清單。")
+        logService.info("從 API 下載單字清單。")
         let vocabulary = try await JLPTAPI.AllVocabularyRequest().send()
         self.vocabulary = vocabulary
 
         saveToLocal(vocabulary)
 
-        logger.info("已從 API 下載單字清單。數量：\(vocabulary.count)")
+        logService.info("已從 API 下載單字清單。數量：\(vocabulary.count)")
         return vocabulary
     }
 
@@ -66,7 +76,7 @@ final class VocabularyRepository {
     /// - Parameter vocabulary: 要快取的單字清單。
     /// - Note: 寫入失敗會記錄 Log，但不會阻擋主流程。
     private func saveToLocal(_ vocabulary: [JLPTAPI.Vocabulary]) {
-        Task.detached { [weak self] in
+        Task { [weak self] in
             guard let self else {
                 return
             }
@@ -76,9 +86,9 @@ final class VocabularyRepository {
                 let data = try JSONEncoder().encode(vocabulary)
                 try data.write(to: url, options: [.atomic])
 
-                logger.info("已寫入單字清單到本地快取。數量：\(vocabulary.count)")
+                logService.info("已寫入單字清單到本地快取。數量：\(vocabulary.count)")
             } catch {
-                logger.error("寫入單字清單快取失敗。原因：\(error.localizedDescription)")
+                logService.error("寫入單字清單快取失敗。原因：\(error.localizedDescription)")
             }
         }
     }

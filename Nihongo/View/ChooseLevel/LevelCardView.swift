@@ -1,23 +1,23 @@
 import SwiftUI
 
-/// 單一 JLPT 等級卡片的顯示模型。
-struct LevelCardModel: Identifiable {
-    /// 唯一識別值。
-    let id: String
-    /// 卡片主標題。
-    let title: String
-    /// 卡片副標題。
-    let subtitle: String
-    /// 右側徽章文字。
-    let badgeText: String
-    /// 主要行動按鈕文字。
-    let actionTitle: String
-}
-
 /// 單一卡片視圖。
 struct LevelCardView: View {
+    /// 單一 JLPT 等級卡片的顯示模型。
+    struct StateItem: Identifiable {
+        /// 唯一識別值。
+        let id: JLPTLevel
+        /// 卡片主標題。
+        let title: String
+        /// 卡片副標題。
+        let subtitle: String
+        /// 右側徽章文字。
+        let badgeText: String
+        /// 主要行動按鈕文字。
+        var actionTitle: String
+    }
+
     /// 卡片資料模型。
-    let model: LevelCardModel
+    let model: LevelCardView.StateItem
     /// 是否為目前選中狀態。
     let isSelected: Bool
     /// 卡片圓角。
@@ -82,11 +82,15 @@ struct LevelCardView: View {
                 }
 
                 badgeView
-                    .padding(.trailing, -4)
-                    .padding(.bottom, 12)
+                    .padding(.trailing, -20)
+                    .padding(.bottom, -20)
             }
         }
-        .buttonStyle(LevelCardPressStyle(cornerRadius: cornerRadius, isSelected: isSelected))
+        .buttonStyle(CardButtonPressStyle(cornerRadius: cornerRadius))
+        .overlay(
+            RoundedRectangle(cornerRadius: cornerRadius)
+                .stroke(isSelected ? Color.accentBluePrimary : Color.borderPrimary, lineWidth: 1)
+        )
         .accessibilityElement(children: .combine)
     }
 
@@ -108,52 +112,23 @@ struct LevelCardView: View {
     }
 }
 
-/// 卡片按壓時的視覺回饋樣式。
-private struct LevelCardPressStyle: ButtonStyle {
-    /// 卡片圓角。
-    let cornerRadius: CGFloat
-    /// 是否為目前選中狀態。
-    let isSelected: Bool
-
-    func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .compositingGroup()
-            .scaleEffect(configuration.isPressed ? 0.98 : 1.0)
-            .padding(16)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .background(Color.pureWhite)
-            .overlay(
-                RoundedRectangle(cornerRadius: cornerRadius)
-                    .fill(Color.accentBluePrimary.opacity(configuration.isPressed ? 0.12 : 0.0))
-            )
-            .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
-            .overlay(
-                RoundedRectangle(cornerRadius: cornerRadius)
-                    .stroke(isSelected ? Color.accentBluePrimary : Color.borderPrimary, lineWidth: 1)
-            )
-            .shadow(
-                color: Color.shadowPrimary.opacity(configuration.isPressed ? 0.0 : 1.0),
-                radius: 8,
-                x: 0,
-                y: 4
-            )
-            .contentShape(RoundedRectangle(cornerRadius: cornerRadius))
-            .animation(.easeOut(duration: 0.12), value: configuration.isPressed)
-    }
-}
-
 #Preview {
-    LevelCardView(
-        model: LevelCardModel(
-            id: "N5",
-            title: "N5 - Beginner",
-            subtitle: "Basic expressions and sentences",
-            badgeText: "N5",
-            actionTitle: "Start Quiz"
-        ),
-        isSelected: true,
-        onSelect: { },
-        onConfirm: { }
-    )
-    .fixedSize()
+    ZStack {
+        Color.white
+            .ignoresSafeArea()
+
+        LevelCardView(
+            model: LevelCardView.StateItem(
+                id: .n5,
+                title: "\(JLPTLevel.n5.displayName) - Beginner",
+                subtitle: "Basic expressions and sentences",
+                badgeText: JLPTLevel.n5.displayName,
+                actionTitle: "Start Quiz"
+            ),
+            isSelected: true,
+            onSelect: { },
+            onConfirm: { }
+        )
+        .fixedSize()
+    }
 }

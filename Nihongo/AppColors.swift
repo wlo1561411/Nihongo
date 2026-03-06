@@ -62,6 +62,10 @@ extension Color {
         dark: .init(hex: "DCFCE7")
     )
 
+    static let accentYellowPrimary = Color.dynamic(
+        light: .init(hex: "FACC15"),
+        dark: .init(hex: "FACC15")
+    )
 
     static let pureWhite = Color(uiColor: .init(hex: "FFFFFF"))
 }

@@ -7,28 +7,9 @@ struct OnboardingView: View {
     @EnvironmentObject
     private var appState: AppState
 
-    /// 底部列顯示的功能項目。
-    /// - Important: 清單請保持精簡，避免在小螢幕上擁擠。
-    private let featureItems: [FeatureItem] = [
-        FeatureItem(
-            title: "KANJI",
-            systemImageName: "book.closed",
-            primaryTint: .accentPinkPrimary,
-            secondaryTint: .accentPinkSecondary
-        ),
-        FeatureItem(
-            title: "AUDIO",
-            systemImageName: "waveform",
-            primaryTint: .accentBluePrimary,
-            secondaryTint: .accentBlueSecondary
-        ),
-        FeatureItem(
-            title: "TESTS",
-            systemImageName: "checkmark.seal",
-            primaryTint: .accentGreenPrimary,
-            secondaryTint: .accentGreenSecondary
-        )
-    ]
+    /// 提供 onboarding 的狀態與。
+    @State
+    private var viewModel = OnboardingViewModel()
 
     /// 隨 Dynamic Type 調整主視覺圖片尺寸。
     /// - Note: 用於在無障礙字體大小下維持視覺平衡。
@@ -76,7 +57,7 @@ struct OnboardingView: View {
                 .font(.system(size: 28, weight: .bold, design: .rounded))
                 .foregroundStyle(Color.accentBluePrimary)
 
-            Text("All of N1 to N5, in Japanese!")
+            Text("All of \(JLPTLevel.highest.displayName) to \(JLPTLevel.lowest.displayName), in Japanese!")
                 .font(.system(size: 15, weight: .regular, design: .rounded))
                 .foregroundStyle(Color.textSecondary)
                 .multilineTextAlignment(.center)
@@ -105,35 +86,37 @@ struct OnboardingView: View {
     /// 顯示功能卡片的列。
     private var featureRow: some View {
         HStack(spacing: 16) {
-            ForEach(featureItems) { item in
+            ForEach(viewModel.featureItems) { item in
                 FeatureCardView(item: item)
             }
         }
     }
 }
 
-/// 功能卡片的小型模型。
-/// - Note: 保持為 value type 以利 SwiftUI 更新效率。
-private struct FeatureItem: Identifiable {
-    /// 供 SwiftUI diff 使用的穩定識別碼。
-    let id = UUID()
-
-    /// 功能標題文字。
-    let title: String
-
-    /// 圖示的 SF Symbol 名稱。
-    let systemImageName: String
-
-    /// 卡片主色與次色。
-    let primaryTint: Color
-    let secondaryTint: Color
-}
-
 /// 用於底部列的精簡功能卡片。
 /// - Important: 請使用短標題以避免截斷。
-private struct FeatureCardView: View {
+struct FeatureCardView: View {
+    /// 功能卡片的小型模型。
+    /// - Note: 保持為 value type 以利 SwiftUI 更新效率。
+    struct StateItem: Identifiable {
+        /// 功能標題文字。
+        let title: String
+
+        /// 供 SwiftUI diff 使用的穩定識別碼。
+        var id: String {
+            title
+        }
+
+        /// 圖示的 SF Symbol 名稱。
+        let systemImageName: String
+
+        /// 卡片主色與次色。
+        let primaryTint: Color
+        let secondaryTint: Color
+    }
+
     /// 驅動卡片內容的模型。
-    let item: FeatureItem
+    let item: StateItem
 
     /// 建立單一卡片內容。
     var body: some View {
