@@ -2,25 +2,19 @@ import FMFoundation
 import Foundation
 
 protocol VocabularyRepository {
-    var vocabulary: [JLPTAPI.Vocabulary] { get }
-
-    func fetch() async throws -> [JLPTAPI.Vocabulary]
+    func fetch(level: JLPTLevel) async throws -> [Vocabulary]
 }
 
 /// 管理 JLPT 全單字清單的下載與本地快取。
-/// - Note: 此類別目前為單例設計，使用前請留意共享狀態。
-final class JLPTVocabularyRepository: VocabularyRepository {
-    /// 全域共用的 Repository 實例。
-    /// - Important: 請避免在測試中直接使用，以免共享狀態造成干擾。
+actor JLPTVocabularyRepository: VocabularyRepository {
     static let shared = JLPTVocabularyRepository()
 
     /// Log 用途的 logger。
-    /// - Note: 只用於輸出可觀測訊息，避免落入敏感資訊。
     private let logService: LogService
 
     /// 目前載入在記憶體中的單字清單。
     /// - Important: 只有在 `fetch()` 成功後才會更新。
-    private(set) var vocabulary: [JLPTAPI.Vocabulary] = []
+    private(set) var vocabulary: [Vocabulary] = []
 
     /// 建立 Repository 實例。
     /// - Note: 僅允許單例使用。
@@ -32,10 +26,10 @@ final class JLPTVocabularyRepository: VocabularyRepository {
     ///
     /// - Important: 成功下載後會寫入本地快取。
     /// - Returns: 全單字清單。
-    func fetch() async throws -> [JLPTAPI.Vocabulary] {
+    func fetch(level: JLPTLevel) async throws -> [Vocabulary] {
         guard vocabulary.isEmpty else {
             logService.info("已經載入過單字清單。數量：\(self.vocabulary.count)")
-            return vocabulary
+            return vocabulary.filter { $0.level == level.rawValue }
         }
 
         do {
@@ -43,7 +37,7 @@ final class JLPTVocabularyRepository: VocabularyRepository {
             let vocabulary = try await loadFromLocal()
             self.vocabulary = vocabulary
             logService.info("已從快取載入單字清單。數量：\(vocabulary.count)")
-            return vocabulary
+            return vocabulary.filter { $0.level == level.rawValue }
         } catch {
             // 本地無檔案或解碼失敗時，改走下載。
             logService.notice("快取不存在或解碼失敗。原因：\(error.localizedDescription)")
@@ -56,18 +50,17 @@ final class JLPTVocabularyRepository: VocabularyRepository {
         saveToLocal(vocabulary)
 
         logService.info("已從 API 下載單字清單。數量：\(vocabulary.count)")
-        return vocabulary
+        return vocabulary.filter { $0.level == level.rawValue }
     }
 
     /// 讀取本地快取的 JSON 檔。
     ///
     /// - Returns: 本地快取的單字清單。
     /// - Note: 會直接讀取檔案並解碼為模型。
-    @concurrent
-    private func loadFromLocal() async throws -> [JLPTAPI.Vocabulary] {
+    private func loadFromLocal() async throws -> [Vocabulary] {
         let url = try localFileURL()
         let data = try Data(contentsOf: url)
-        let vocabulary = try JSONDecoder().decode([JLPTAPI.Vocabulary].self, from: data)
+        let vocabulary = try JSONDecoder().decode([Vocabulary].self, from: data)
         return vocabulary
     }
 
@@ -75,7 +68,7 @@ final class JLPTVocabularyRepository: VocabularyRepository {
     ///
     /// - Parameter vocabulary: 要快取的單字清單。
     /// - Note: 寫入失敗會記錄 Log，但不會阻擋主流程。
-    private func saveToLocal(_ vocabulary: [JLPTAPI.Vocabulary]) {
+    private func saveToLocal(_ vocabulary: [Vocabulary]) {
         Task { [weak self] in
             guard let self else {
                 return

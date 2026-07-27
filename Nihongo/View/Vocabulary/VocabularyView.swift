@@ -61,7 +61,7 @@ struct VocabularyView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbarBackground(.visible, for: .navigationBar)
         .toolbarBackground(Color.pureWhite, for: .navigationBar)
-        .task {
+        .task { @concurrent in
             await viewModel.loadVocabulary()
         }
         .task(id: viewModel.searchText) {
@@ -153,7 +153,7 @@ private struct EmptyStateView: View {
             level: .n5,
             repository: nil,
             favoritesStore: nil,
-            vocabularyItems: []
+            vocabularyItems: mock
         ))
     }
 }

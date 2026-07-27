@@ -14,7 +14,10 @@
 ## 工作原則
 - 預設架構：UIKit + MVVM + Combine。
 - 若檔案為 SwiftUI（`import SwiftUI` + `View` 結構），改用 SwiftUI + MVVM 慣例。
-- 優先最小改動；必要時再重構，並說明影響範圍與回歸風險。
+- 如果是修復問題：
+    - 優先最小改動；必要時再重構，並說明影響範圍與回歸風險。
+- 如果是新建功能或重構：
+    - 優先思考架構延展性，閱讀性，可維護性。
 - Domain/Data/Presentation 分層清楚；介面 protocol 化；以 initializer injection 做 DI。
 - 禁止在主執行緒做 I/O 或重計算；禁止 View/ViewController 塞商業邏輯。
 
@@ -28,10 +31,15 @@
   3) Risks and acceptance checks
 
 ## 文件與註解
-- 對公開 API 與核心邏輯補上精簡 doc（可用 Note/Important/Parameter）。
+- 參數盡量口語化, 專有名詞請使用英文。
+- 對公開 API 與核心邏輯補上精簡 doc（可用 Note/Important/Parameter/SeeAlso...）。
+- 參數也需要補上註解。
+- 函式內部實作註解原則
+    - 讀 code 不容易一眼看懂的決策點
 - UseCase / Repository 加入安全可觀測 log（不可含敏感資訊）。
 
 ## 執行邏輯
+- 不了解指令請再次詢問，不要過度推測。
 - 請先提出預計執行的方案
 	1. Summary
 	2. Scope

@@ -94,13 +94,12 @@ final class VocabularyViewModel: ObservableObject {
         }
 
         do {
-            let vocabulary = try await vocabularyRepository.fetch()
-            let levelVocabulary = vocabulary.filter { $0.level == level.rawValue }
+            let vocabulary = try await vocabularyRepository.fetch(level: level)
             let favorites = favoritesStore.loadFavorites()
 
             favoriteKeys = favorites
 
-            let items = levelVocabulary.map { item in
+            let items = vocabulary.map { item in
                 let favoriteKey = FavoriteKey.make(word: item.word, furigana: item.furigana, level: level)
                 return VocabularyCardView.StateItem(
                     kanji: item.word,
@@ -182,7 +181,6 @@ final class VocabularyViewModel: ObservableObject {
     ///   - items: 目標清單。
     ///   - query: 目前搜尋文字。
     /// - Returns: 經過搜尋條件篩選後的清單。
-    @concurrent
     private func filter(items: [VocabularyCardView.StateItem], query: String) async -> [VocabularyCardView.StateItem] {
         let trimmed = query.trimmingCharacters(in: .whitespacesAndNewlines)
         guard trimmed.isEmpty == false else {

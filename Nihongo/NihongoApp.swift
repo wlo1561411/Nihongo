@@ -36,12 +36,6 @@ struct NihongoApp: App {
 final class AppDelegate: NSObject, UIApplicationDelegate {
     var orientationLock: UIInterfaceOrientationMask = .portrait
 
-    /// App 啟動點（對應 didFinishLaunchingWithOptions）。
-    ///
-    /// - Parameters:
-    ///   - application: 目前的 UIApplication。
-    ///   - launchOptions: 啟動選項，可能為 nil。
-    /// - Returns: 是否成功完成啟動流程。
     func application(
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil

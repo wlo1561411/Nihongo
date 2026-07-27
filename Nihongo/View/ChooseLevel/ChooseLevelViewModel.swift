@@ -54,13 +54,15 @@ final class ChooseLevelViewModel: ObservableObject {
     }
 
     /// 預設等級卡片清單。
-    static let defaultLevels: [LevelCardView.StateItem] = JLPTLevel.recommendedOrder.map { level in
-        LevelCardView.StateItem(
-            id: level,
-            title: "\(level.displayName) - \(level.titleText)",
-            subtitle: level.subtitleText,
-            badgeText: level.displayName,
-            actionTitle: "Start Learning"
-        )
-    }
+    static let defaultLevels: [LevelCardView.StateItem] = JLPTLevel
+        .recommendedOrder
+        .map { level in
+            LevelCardView.StateItem(
+                id: level,
+                title: "\(level.displayName) - \(level.titleText)",
+                subtitle: level.subtitleText,
+                badgeText: level.displayName,
+                actionTitle: "Start Learning"
+            )
+        }
 }

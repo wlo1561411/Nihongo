@@ -12,17 +12,16 @@ protocol FavoritesStore {
 }
 
 /// 使用 `UserDefaults` 儲存收藏狀態。
-final class UserDefaultsFavoritesStore: FavoritesStore {
+final class UserDefaultsFavoritesStore: FavoritesStore, Sendable {
     static let shared = UserDefaultsFavoritesStore()
 
     /// `UserDefaults` 實例。
-    private let userDefaults: UserDefaults
+    private nonisolated(unsafe) let userDefaults: UserDefaults
 
     /// 收藏儲存的 Key。
     private let storageKey: String
 
     /// Log 用途的 logger。
-    /// - Note: 只用於輸出可觀測訊息，避免落入敏感資訊。
     private let logService: LogService
 
     /// 建立 `UserDefaults` 收藏儲存器。

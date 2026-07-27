@@ -120,7 +120,7 @@ private extension VocabularyViewModelTests {
         furigana: String,
         romaji: String,
         level: Int
-    ) throws -> JLPTAPI.Vocabulary {
+    ) throws -> Vocabulary {
         let json = """
         {
           "word": "\(word)",
@@ -131,22 +131,22 @@ private extension VocabularyViewModelTests {
         }
         """
         let data = Data(json.utf8)
-        return try JSONDecoder().decode(JLPTAPI.Vocabulary.self, from: data)
+        return try JSONDecoder().decode(Vocabulary.self, from: data)
     }
 }
 
 private final class MockVocabularyRepository: VocabularyRepository {
-    let vocabulary: [JLPTAPI.Vocabulary] = []
-    private let result: Result<[JLPTAPI.Vocabulary], Error>
+    let vocabulary: [Vocabulary] = []
+    private let result: Result<[Vocabulary], Error>
     private(set) var fetchCallCount = 0
 
-    init(result: Result<[JLPTAPI.Vocabulary], Error>) {
+    init(result: Result<[Vocabulary], Error>) {
         self.result = result
     }
 
-    func fetch() async throws -> [JLPTAPI.Vocabulary] {
+    func fetch(level: JLPTLevel) async throws -> [Vocabulary] {
         fetchCallCount += 1
-        return try result.get()
+        return try result.get().filter { $0.level == level.rawValue }
     }
 }
 
