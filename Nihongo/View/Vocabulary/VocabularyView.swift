@@ -35,7 +35,7 @@ struct VocabularyView: View {
                         .padding(.top, 48)
                 case .finish:
                     LazyVGrid(columns: gridColumns, spacing: 16) {
-                        ForEach(viewModel.filteredItems) { item in
+                        ForEach(viewModel.currentItems) { item in
                             VocabularyCardView(
                                 item: item,
                                 onSelect: { },
@@ -127,25 +127,25 @@ private struct EmptyStateView: View {
     NavigationStack {
         let mock = [
             VocabularyCardView.StateItem(
+                level: .n5,
                 kanji: "食べる",
                 kana: "たべる",
                 romaji: "taberu",
-                isFavorite: false,
-                favoriteKey: FavoriteKey.make(word: "食べる", furigana: "たべる", level: .n5)
+                isFavorite: false
             ),
             VocabularyCardView.StateItem(
+                level: .n5,
                 kanji: "水",
                 kana: "みず",
                 romaji: "mizu",
-                isFavorite: true,
-                favoriteKey: FavoriteKey.make(word: "水", furigana: "みず", level: .n5)
+                isFavorite: true
             ),
             VocabularyCardView.StateItem(
+                level: .n5,
                 kanji: "大きい",
                 kana: "おおきい",
                 romaji: "ookii",
-                isFavorite: false,
-                favoriteKey: FavoriteKey.make(word: "大きい", furigana: "おおきい", level: .n5)
+                isFavorite: false
             ),
         ]
 

@@ -35,12 +35,11 @@ final class VocabularyViewModel: ObservableObject {
     var searchText: String
 
     /// 畫面使用的單字清單。
-    @Published
     private(set) var vocabularyItems: [VocabularyCardView.StateItem]
 
     /// 依照搜尋文字篩選後的清單。
     @Published
-    private(set) var filteredItems: [VocabularyCardView.StateItem] = []
+    private(set) var currentItems: [VocabularyCardView.StateItem] = []
 
     /// Vocabulary 頁面的呈現狀態。
     @Published
@@ -67,7 +66,7 @@ final class VocabularyViewModel: ObservableObject {
         self.voiceService = voiceService
         self.searchText = ""
         self.vocabularyItems = vocabularyItems
-        self.filteredItems = vocabularyItems
+        self.currentItems = vocabularyItems
         self.viewState = vocabularyItems.isEmpty ? .empty : .finish
     }
 
@@ -75,7 +74,7 @@ final class VocabularyViewModel: ObservableObject {
     /// - Important: 僅首次呼叫會實際載入。
     func loadVocabulary() async {
         guard vocabularyItems.isEmpty else {
-            updateViewState(for: filteredItems)
+            updateViewState(for: currentItems)
             return
         }
 
@@ -83,13 +82,13 @@ final class VocabularyViewModel: ObservableObject {
 
         defer {
             if viewState == .loading {
-                updateViewState(for: filteredItems)
+                updateViewState(for: currentItems)
             }
         }
 
         guard let vocabularyRepository, let favoritesStore else {
             vocabularyItems = []
-            filteredItems = []
+            currentItems = []
             return
         }
 
@@ -100,23 +99,25 @@ final class VocabularyViewModel: ObservableObject {
             favoriteKeys = favorites
 
             let items = vocabulary.map { item in
-                let favoriteKey = FavoriteKey.make(word: item.word, furigana: item.furigana, level: level)
-                return VocabularyCardView.StateItem(
+                var item = VocabularyCardView.StateItem(
+                    level: level,
                     kanji: item.word,
                     kana: item.furigana,
-                    romaji: item.romaji,
-                    isFavorite: favorites.contains(favoriteKey),
-                    favoriteKey: favoriteKey
+                    romaji: item.romaji
                 )
+
+                item.isFavorite = favorites.contains(item.id)
+
+                return item
             }
 
             vocabularyItems = items
-            filteredItems = items
-            updateViewState(for: items)
+            currentItems = sortByFavoritePriority(items)
+            updateViewState(for: currentItems)
         } catch {
             logService.error("載入單字清單失敗。原因：\(error.localizedDescription)")
             vocabularyItems = []
-            filteredItems = []
+            currentItems = []
             updateViewState(for: [])
         }
     }
@@ -124,10 +125,10 @@ final class VocabularyViewModel: ObservableObject {
     /// 依照搜尋條件更新篩選清單（含 300ms debounce）。
     /// - Important: 提供 `.task(id:)` 使用，會在取消時停止更新。
     func updateFilteredItems() async {
-        let currentQuery = searchText
-        let currentItems = vocabularyItems
+        let searchText = searchText
+        let vocabularyItems = vocabularyItems
 
-        guard !currentItems.isEmpty else {
+        guard !vocabularyItems.isEmpty else {
             return
         }
 
@@ -141,14 +142,15 @@ final class VocabularyViewModel: ObservableObject {
             return
         }
 
-        filteredItems = await filter(items: currentItems, query: currentQuery)
-        updateViewState(for: filteredItems)
+        let items = await filter(items: vocabularyItems, query: searchText)
+        currentItems = sortByFavoritePriority(items)
+        updateViewState(for: items)
     }
 
     /// 切換指定單字的收藏狀態。
     /// - Parameter item: 目標單字。
     func toggleFavorite(for item: VocabularyCardView.StateItem) async {
-        guard let index = vocabularyItems.firstIndex(where: { $0.favoriteKey == item.favoriteKey }) else {
+        guard let index = vocabularyItems.firstIndex(where: { $0.id == item.id }) else {
             return
         }
 
@@ -157,13 +159,14 @@ final class VocabularyViewModel: ObservableObject {
         let isFavorite = vocabularyItems[index].isFavorite
 
         if isFavorite {
-            favoriteKeys.insert(item.favoriteKey)
+            favoriteKeys.insert(item.id)
         } else {
-            favoriteKeys.remove(item.favoriteKey)
+            favoriteKeys.remove(item.id)
         }
 
-        filteredItems = await filter(items: vocabularyItems, query: searchText)
-        updateViewState(for: filteredItems)
+        let items = await filter(items: vocabularyItems, query: searchText)
+        currentItems = sortByFavoritePriority(items)
+        updateViewState(for: items)
     }
 
     /// 保存收藏狀態
@@ -192,6 +195,21 @@ final class VocabularyViewModel: ObservableObject {
                 || item.kana.localizedCaseInsensitiveContains(trimmed)
                 || item.romaji.localizedCaseInsensitiveContains(trimmed)
         }
+    }
+
+    /// 將收藏項目排在前面，並保留同群組內的原始順序。
+    /// - Parameter items: 目標清單。
+    /// - Returns: 收藏優先排序後的清單。
+    private func sortByFavoritePriority(_ items: [VocabularyCardView.StateItem]) -> [VocabularyCardView.StateItem] {
+        items.enumerated()
+            .sorted { lhs, rhs in
+                if lhs.element.isFavorite != rhs.element.isFavorite {
+                    return lhs.element.isFavorite
+                }
+
+                return lhs.offset < rhs.offset
+            }
+            .map(\.element)
     }
 
     /// 依照目前列表內容更新畫面狀態。

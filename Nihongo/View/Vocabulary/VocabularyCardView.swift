@@ -4,6 +4,8 @@ import SwiftUI
 struct VocabularyCardView: View {
     /// 單字資料模型。
     struct StateItem: Identifiable, Hashable {
+        /// 單字等級
+        let level: JLPTLevel
         /// 日文漢字。
         let kanji: String
         /// 讀音。
@@ -11,13 +13,11 @@ struct VocabularyCardView: View {
         /// 英文拼音。
         let romaji: String
         /// 是否收藏。
-        var isFavorite: Bool
-        /// 收藏識別 Key。
-        let favoriteKey: String
-
+        var isFavorite: Bool = false
+        
         /// 唯一識別。
         var id: String {
-            favoriteKey
+            "\(kanji)|\(romaji)|\(level.rawValue)"
         }
     }
 
@@ -77,7 +77,7 @@ struct VocabularyCardView: View {
                         .scaledToFit()
                         .frame(width: 16, height: 16)
                         .foregroundStyle(item.isFavorite ? Color.accentYellowPrimary : Color.textThirdly)
-                        .animation(.easeInOut(duration: 0.18), value: item.isFavorite)
+                        .animation(item.isFavorite ? .easeInOut(duration: 0.18) : nil, value: item.isFavorite)
                 }
                 .buttonStyle(FavoriteTapAnimationStyle())
                 .accessibilityLabel(item.isFavorite ? "Unfavorite" : "Favorite")
@@ -123,11 +123,11 @@ private struct FavoriteTapAnimationStyle: ButtonStyle {
 
 #Preview {
     VocabularyCardView(item: VocabularyCardView.StateItem(
+        level: .n1,
         kanji: "先生",
         kana: "せんせい",
         romaji: "sensei",
-        isFavorite: false,
-        favoriteKey: FavoriteKey.make(word: "先生", furigana: "せんせい", level: .n5),
+        isFavorite: false
     ), onSelect: { }, onToggleFavorite: { }, onToggleSpeaker: { })
         .padding()
         .background(Color.backgroundPrimary)
