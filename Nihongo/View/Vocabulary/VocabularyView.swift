@@ -9,6 +9,9 @@ struct VocabularyView: View {
     @Environment(\.dismiss)
     private var dismiss
 
+    @FocusState
+    private var isFocused: Bool
+
     /// 單字卡片的欄位配置。
     private let gridColumns: [GridItem] = [
         GridItem(.flexible(), spacing: 16, alignment: .top),
@@ -55,6 +58,7 @@ struct VocabularyView: View {
                     }
                 }
             }
+            .scrollDismissesKeyboard(.immediately)
             .scrollIndicators(.never)
         }
         .padding(.horizontal, 20)
@@ -84,6 +88,11 @@ struct VocabularyView: View {
         .onDisappear {
             viewModel.saveFavorite()
         }
+        .simultaneousGesture(
+            TapGesture().onEnded {
+                isFocused = false
+            }
+        )
     }
 
     /// 搜尋列視圖。
@@ -103,6 +112,7 @@ struct VocabularyView: View {
             .foregroundStyle(Color.textPrimary)
             .textInputAutocapitalization(.never)
             .autocorrectionDisabled()
+            .focused($isFocused)
         }
         .padding(.horizontal, 14)
         .padding(.vertical, 12)

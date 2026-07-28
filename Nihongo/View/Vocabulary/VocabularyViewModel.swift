@@ -81,7 +81,6 @@ final class VocabularyViewModel: ObservableObject {
     /// - Important: 僅首次呼叫會實際載入。
     func loadVocabulary() async {
         guard vocabularyItems.isEmpty else {
-            currentItems = []
             return
         }
 
