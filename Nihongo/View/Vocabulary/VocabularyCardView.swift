@@ -3,7 +3,9 @@ import SwiftUI
 /// 單字卡片 UI。
 struct VocabularyCardView: View {
     /// 單字資料模型。
-    struct StateItem: Identifiable, Hashable {
+    struct StateItem: Identifiable, Hashable, Sendable {
+        /// diff 使用的穩定識別。
+        let id: String
         /// 單字等級
         let level: JLPTLevel
         /// 日文漢字。
@@ -14,10 +16,21 @@ struct VocabularyCardView: View {
         let romaji: String
         /// 是否收藏。
         var isFavorite: Bool = false
-        
-        /// 唯一識別。
-        var id: String {
-            "\(kanji)|\(romaji)|\(level.rawValue)"
+
+        /// 建立單字卡片狀態。
+        init(
+            level: JLPTLevel,
+            kanji: String,
+            kana: String,
+            romaji: String,
+            isFavorite: Bool = false
+        ) {
+            self.id = "\(kanji)|\(romaji)|\(level.rawValue)"
+            self.level = level
+            self.kanji = kanji
+            self.kana = kana
+            self.romaji = romaji
+            self.isFavorite = isFavorite
         }
     }
 
@@ -42,16 +55,7 @@ struct VocabularyCardView: View {
         Button(action: onSelect) {
             label
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color.pureWhite)
-        .clipShape(.rect(cornerRadius: cornerRadius))
-        .overlay(
-            RoundedRectangle(cornerRadius: cornerRadius)
-                .stroke(Color.borderPrimary, lineWidth: 1)
-        )
-        .shadow(color: Color.shadowPrimary, radius: 8, x: 0, y: 4)
         .buttonStyle(CardButtonPressStyle(cornerRadius: cornerRadius))
-        .accessibilityElement(children: .combine)
     }
 
     var label: some View {
@@ -79,8 +83,7 @@ struct VocabularyCardView: View {
                         .foregroundStyle(item.isFavorite ? Color.accentYellowPrimary : Color.textThirdly)
                         .animation(item.isFavorite ? .easeInOut(duration: 0.18) : nil, value: item.isFavorite)
                 }
-                .buttonStyle(FavoriteTapAnimationStyle())
-                .accessibilityLabel(item.isFavorite ? "Unfavorite" : "Favorite")
+                .buttonStyle(IconButtonPressStyle())
             }
 
             HStack {
@@ -100,24 +103,6 @@ struct VocabularyCardView: View {
                 }
             }
         }
-    }
-}
-
-/// Favorite 按鈕點擊動畫樣式。
-private struct FavoriteTapAnimationStyle: ButtonStyle {
-    /// 按下時縮放比例。
-    private let pressedScale: CGFloat = 0.9
-    /// 按下時透明度。
-    private let pressedOpacity = 0.65
-
-    /// 建立按鈕樣式。
-    /// - Parameter configuration: 按鈕配置狀態。
-    /// - Returns: 套用縮放與漸變動畫後的按鈕視圖。
-    func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .scaleEffect(configuration.isPressed ? pressedScale : 1)
-            .opacity(configuration.isPressed ? pressedOpacity : 1)
-            .animation(.easeOut(duration: 0.16), value: configuration.isPressed)
     }
 }
 

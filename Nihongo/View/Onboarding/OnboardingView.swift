@@ -43,7 +43,6 @@ struct OnboardingView: View {
             .scaledToFit()
             .frame(width: heroSize, height: heroSize)
             .shadow(color: Color.shadowPrimary, radius: 18, x: 0, y: 10)
-            .accessibilityHidden(true)
     }
 
     /// 主標與副標區塊。
@@ -62,7 +61,6 @@ struct OnboardingView: View {
                 .foregroundStyle(Color.textSecondary)
                 .multilineTextAlignment(.center)
         }
-        .accessibilityElement(children: .combine)
     }
 
     /// 主要 CTA 按鈕。
@@ -80,7 +78,6 @@ struct OnboardingView: View {
         }
         .buttonStyle(.plain)
         .shadow(color: Color.shadowPrimary, radius: 12, x: 0, y: 6)
-        .accessibilityHint("Start your learning journey")
     }
 
     /// 顯示功能卡片的列。
@@ -140,7 +137,6 @@ struct FeatureCardView: View {
         .background(Color.pureWhite)
         .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
         .shadow(color: Color.shadowPrimary, radius: 10, x: 0, y: 6)
-        .accessibilityElement(children: .combine)
         .accessibilityLabel(item.title)
     }
 }

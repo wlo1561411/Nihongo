@@ -6,11 +6,6 @@ struct MainTabView: View {
     @EnvironmentObject
     private var router: AppRouter
 
-    /// 建立主要分頁結構。
-    init() {
-        setupTabBarAppearance()
-    }
-
     /// 主要內容視圖。
     var body: some View {
         TabView(selection: $router.selectedTab) {
@@ -72,36 +67,11 @@ struct MainTabView: View {
                     case .vocabulary(let level):
                         VocabularyView(viewModel: .init(
                             level: level,
-                            repository: JLPTVocabularyRepository.shared,
+                            store: JLPTVocabularyStore.shared,
                             favoritesStore: UserDefaultsFavoritesStore.shared))
                     }
                 }
         }
-    }
-
-    private func setupTabBarAppearance() {
-        let appearance = UITabBarAppearance()
-        appearance.configureWithOpaqueBackground()
-
-        let normalAttributed: [NSAttributedString.Key: Any] = [
-            .foregroundColor: UIColor(Color.textSecondary),
-            .font: UIFont.systemFont(ofSize: 10, weight: .semibold)
-        ]
-        let selectedAttributed: [NSAttributedString.Key: Any] = [
-            .foregroundColor: UIColor(Color.accentBluePrimary),
-            .font: UIFont.systemFont(ofSize: 10, weight: .bold)
-        ]
-
-        appearance.stackedLayoutAppearance.normal.titleTextAttributes = normalAttributed
-        appearance.inlineLayoutAppearance.normal.titleTextAttributes = normalAttributed
-        appearance.compactInlineLayoutAppearance.normal.titleTextAttributes = normalAttributed
-
-        appearance.stackedLayoutAppearance.selected.titleTextAttributes = selectedAttributed
-        appearance.inlineLayoutAppearance.selected.titleTextAttributes = selectedAttributed
-        appearance.compactInlineLayoutAppearance.selected.titleTextAttributes = selectedAttributed
-
-        UITabBar.appearance().standardAppearance = appearance
-        UITabBar.appearance().scrollEdgeAppearance = appearance
     }
 
     private func tabLabel(title: String, unselectName: String, selectName: String, isSelected: Bool) -> some View {

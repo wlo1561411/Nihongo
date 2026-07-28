@@ -6,15 +6,15 @@ final class VocabularyViewModelTests: XCTestCase {
     func test_loadVocabulary_filtersByLevel_andAppliesFavorites() async throws {
         let n5Word = try makeVocabulary(word: "先生", meaning: "Teacher", furigana: "せんせい", romaji: "sensei", level: 5)
         let n4Word = try makeVocabulary(word: "会議", meaning: "Meeting", furigana: "かいぎ", romaji: "kaigi", level: 4)
-        let favoriteKey = FavoriteKey.make(word: "先生", furigana: "せんせい", level: .n5)
+        let favoriteKey = makeStateItem(kanji: "先生", kana: "せんせい", romaji: "sensei").id
 
-        let repository = MockVocabularyRepository(result: .success([n5Word, n4Word]))
-        let store = MockFavoritesStore(initialFavorites: [favoriteKey])
-        let viewModel = VocabularyViewModel(level: .n5, repository: repository, favoritesStore: store)
+        let vocabularyStore = MockVocabularyStore(result: .success([n5Word, n4Word]))
+        let favoritesStore = MockFavoritesStore(initialFavorites: [favoriteKey])
+        let viewModel = VocabularyViewModel(level: .n5, store: vocabularyStore, favoritesStore: favoritesStore)
 
         await viewModel.loadVocabulary()
 
-        XCTAssertEqual(repository.fetchCallCount, 1)
+        XCTAssertEqual(vocabularyStore.fetchCallCount, 1)
         XCTAssertEqual(viewModel.vocabularyItems.count, 1)
         XCTAssertEqual(viewModel.vocabularyItems.first?.kanji, "先生")
         XCTAssertEqual(viewModel.vocabularyItems.first?.isFavorite, true)
@@ -25,11 +25,11 @@ final class VocabularyViewModelTests: XCTestCase {
     func test_loadVocabulary_placesFavoritesFirst() async throws {
         let normalWord = try makeVocabulary(word: "学校", meaning: "School", furigana: "がっこう", romaji: "gakkou", level: 5)
         let favoriteWord = try makeVocabulary(word: "先生", meaning: "Teacher", furigana: "せんせい", romaji: "sensei", level: 5)
-        let favoriteKey = FavoriteKey.make(word: "先生", furigana: "せんせい", level: .n5)
+        let favoriteKey = makeStateItem(kanji: "先生", kana: "せんせい", romaji: "sensei").id
 
-        let repository = MockVocabularyRepository(result: .success([normalWord, favoriteWord]))
-        let store = MockFavoritesStore(initialFavorites: [favoriteKey])
-        let viewModel = VocabularyViewModel(level: .n5, repository: repository, favoritesStore: store)
+        let vocabularyStore = MockVocabularyStore(result: .success([normalWord, favoriteWord]))
+        let favoritesStore = MockFavoritesStore(initialFavorites: [favoriteKey])
+        let viewModel = VocabularyViewModel(level: .n5, store: vocabularyStore, favoritesStore: favoritesStore)
 
         await viewModel.loadVocabulary()
 
@@ -38,47 +38,29 @@ final class VocabularyViewModelTests: XCTestCase {
     }
 
     func test_loadVocabulary_whenInitialItemsExist_shouldNotFetchAgain() async {
-        let repository = MockVocabularyRepository(result: .success([]))
-        let store = MockFavoritesStore(initialFavorites: [])
-        let initialItem = VocabularyCardView.StateItem(
-            kanji: "学校",
-            kana: "がっこう",
-            romaji: "School",
-            isFavorite: false,
-            favoriteKey: FavoriteKey.make(word: "学校", furigana: "がっこう", level: .n5)
-        )
+        let vocabularyStore = MockVocabularyStore(result: .success([]))
+        let favoritesStore = MockFavoritesStore(initialFavorites: [])
+        let initialItem = makeStateItem(kanji: "学校", kana: "がっこう", romaji: "School")
         let viewModel = VocabularyViewModel(
             level: .n5,
-            repository: repository,
-            favoritesStore: store,
+            store: vocabularyStore,
+            favoritesStore: favoritesStore,
             vocabularyItems: [initialItem]
         )
 
         await viewModel.loadVocabulary()
 
-        XCTAssertEqual(repository.fetchCallCount, 0)
+        XCTAssertEqual(vocabularyStore.fetchCallCount, 0)
         XCTAssertEqual(viewModel.vocabularyItems, [initialItem])
         XCTAssertEqual(viewModel.viewState, .finish)
     }
 
     func test_updateFilteredItems_filtersByTrimmedCaseInsensitiveQuery() async {
-        let item1 = VocabularyCardView.StateItem(
-            kanji: "先生",
-            kana: "せんせい",
-            romaji: "Teacher",
-            isFavorite: false,
-            favoriteKey: FavoriteKey.make(word: "先生", furigana: "せんせい", level: .n5)
-        )
-        let item2 = VocabularyCardView.StateItem(
-            kanji: "会議",
-            kana: "かいぎ",
-            romaji: "Meeting",
-            isFavorite: false,
-            favoriteKey: FavoriteKey.make(word: "会議", furigana: "かいぎ", level: .n5)
-        )
+        let item1 = makeStateItem(kanji: "先生", kana: "せんせい", romaji: "Teacher")
+        let item2 = makeStateItem(kanji: "会議", kana: "かいぎ", romaji: "Meeting")
         let viewModel = VocabularyViewModel(
             level: .n5,
-            repository: nil,
+            store: nil,
             favoritesStore: nil,
             vocabularyItems: [item1, item2]
         )
@@ -97,23 +79,16 @@ final class VocabularyViewModelTests: XCTestCase {
     }
 
     func test_updateFilteredItems_placesFavoritesFirstWithinResults() async {
-        let normalItem = VocabularyCardView.StateItem(
-            kanji: "先生",
-            kana: "せんせい",
-            romaji: "Teacher",
-            isFavorite: false,
-            favoriteKey: FavoriteKey.make(word: "先生", furigana: "せんせい", level: .n5)
-        )
-        let favoriteItem = VocabularyCardView.StateItem(
+        let normalItem = makeStateItem(kanji: "先生", kana: "せんせい", romaji: "Teacher")
+        let favoriteItem = makeStateItem(
             kanji: "先生達",
             kana: "せんせいたち",
             romaji: "Teachers",
-            isFavorite: true,
-            favoriteKey: FavoriteKey.make(word: "先生達", furigana: "せんせいたち", level: .n5)
+            isFavorite: true
         )
         let viewModel = VocabularyViewModel(
             level: .n5,
-            repository: nil,
+            store: nil,
             favoritesStore: nil,
             vocabularyItems: [normalItem, favoriteItem]
         )
@@ -127,16 +102,10 @@ final class VocabularyViewModelTests: XCTestCase {
 
     func test_toggleFavorite_andSaveFavorite_updatesStore() async {
         let store = MockFavoritesStore(initialFavorites: [])
-        let item = VocabularyCardView.StateItem(
-            kanji: "先生",
-            kana: "せんせい",
-            romaji: "Teacher",
-            isFavorite: false,
-            favoriteKey: FavoriteKey.make(word: "先生", furigana: "せんせい", level: .n5)
-        )
+        let item = makeStateItem(kanji: "先生", kana: "せんせい", romaji: "Teacher")
         let viewModel = VocabularyViewModel(
             level: .n5,
-            repository: nil,
+            store: nil,
             favoritesStore: store,
             vocabularyItems: [item]
         )
@@ -145,7 +114,7 @@ final class VocabularyViewModelTests: XCTestCase {
         viewModel.saveFavorite()
 
         XCTAssertEqual(viewModel.vocabularyItems.first?.isFavorite, true)
-        XCTAssertEqual(store.savedFavorites, [item.favoriteKey])
+        XCTAssertEqual(store.savedFavorites, [item.id])
 
         if let toggledItem = viewModel.vocabularyItems.first {
             await viewModel.toggleFavorite(for: toggledItem)
@@ -158,23 +127,11 @@ final class VocabularyViewModelTests: XCTestCase {
 
     func test_toggleFavorite_placesToggledFavoriteFirstInFilteredItems() async {
         let store = MockFavoritesStore(initialFavorites: [])
-        let item1 = VocabularyCardView.StateItem(
-            kanji: "学校",
-            kana: "がっこう",
-            romaji: "School",
-            isFavorite: false,
-            favoriteKey: FavoriteKey.make(word: "学校", furigana: "がっこう", level: .n5)
-        )
-        let item2 = VocabularyCardView.StateItem(
-            kanji: "先生",
-            kana: "せんせい",
-            romaji: "Teacher",
-            isFavorite: false,
-            favoriteKey: FavoriteKey.make(word: "先生", furigana: "せんせい", level: .n5)
-        )
+        let item1 = makeStateItem(kanji: "学校", kana: "がっこう", romaji: "School")
+        let item2 = makeStateItem(kanji: "先生", kana: "せんせい", romaji: "Teacher")
         let viewModel = VocabularyViewModel(
             level: .n5,
-            repository: nil,
+            store: nil,
             favoritesStore: store,
             vocabularyItems: [item1, item2]
         )
@@ -206,9 +163,25 @@ private extension VocabularyViewModelTests {
         let data = Data(json.utf8)
         return try JSONDecoder().decode(Vocabulary.self, from: data)
     }
+
+    func makeStateItem(
+        level: JLPTLevel = .n5,
+        kanji: String,
+        kana: String,
+        romaji: String,
+        isFavorite: Bool = false
+    ) -> VocabularyCardView.StateItem {
+        VocabularyCardView.StateItem(
+            level: level,
+            kanji: kanji,
+            kana: kana,
+            romaji: romaji,
+            isFavorite: isFavorite
+        )
+    }
 }
 
-private final class MockVocabularyRepository: VocabularyRepository {
+private final class MockVocabularyStore: VocabularyStore {
     let vocabulary: [Vocabulary] = []
     private let result: Result<[Vocabulary], Error>
     private(set) var fetchCallCount = 0

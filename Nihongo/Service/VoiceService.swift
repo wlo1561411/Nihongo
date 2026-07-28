@@ -22,10 +22,11 @@ enum VoiceRate {
     }
 }
 
+@MainActor
 struct JapaneseVoiceService: VoiceService, Sendable {
     static let shared = JapaneseVoiceService()
 
-    private nonisolated(unsafe) let synthesizer = AVSpeechSynthesizer()
+    private let synthesizer = AVSpeechSynthesizer()
 
     private init() {
         try? AVAudioSession.sharedInstance().setCategory(.playback, options: [.mixWithOthers])
@@ -42,7 +43,7 @@ struct JapaneseVoiceService: VoiceService, Sendable {
         let utterance = AVSpeechUtterance(string: text)
         utterance.voice = AVSpeechSynthesisVoice(language: "ja-JP")
         utterance.rate = rate.value
-
+        
         synthesizer.speak(utterance)
     }
 }

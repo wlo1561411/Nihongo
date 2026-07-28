@@ -1,13 +1,13 @@
 import FMFoundation
 import Foundation
 
-protocol VocabularyRepository {
+protocol VocabularyStore {
     func fetch(level: JLPTLevel) async throws -> [Vocabulary]
 }
 
 /// 管理 JLPT 全單字清單的下載與本地快取。
-actor JLPTVocabularyRepository: VocabularyRepository {
-    static let shared = JLPTVocabularyRepository()
+actor JLPTVocabularyStore: VocabularyStore {
+    static let shared = JLPTVocabularyStore()
 
     /// Log 用途的 logger。
     private let logService: LogService
@@ -16,7 +16,7 @@ actor JLPTVocabularyRepository: VocabularyRepository {
     /// - Important: 只有在 `fetch()` 成功後才會更新。
     private(set) var vocabulary: [Vocabulary] = []
 
-    /// 建立 Repository 實例。
+    /// 建立 Store 實例。
     /// - Note: 僅允許單例使用。
     private init(logService: LogService = LoggerService.shared) {
         self.logService = logService

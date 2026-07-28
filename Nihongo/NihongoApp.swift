@@ -18,6 +18,9 @@ struct NihongoApp: App {
     init() {
         _appState = StateObject(wrappedValue: AppState())
         _router = StateObject(wrappedValue: AppRouter())
+
+        setupNavigationBarAppearance()
+        setupTabBarAppearance()
     }
 
     var body: some Scene {
@@ -30,6 +33,46 @@ struct NihongoApp: App {
         }
         .environmentObject(appState)
         .environmentObject(router)
+    }
+
+    private func setupNavigationBarAppearance() {
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = UIColor(Color.pureWhite)
+        appearance.shadowColor = .clear
+        appearance.shadowImage = .init()
+        appearance.titleTextAttributes = [
+            .foregroundColor: UIColor(Color.textPrimary),
+        ]
+
+        UINavigationBar.appearance().standardAppearance = appearance
+        UINavigationBar.appearance().scrollEdgeAppearance = appearance
+        UINavigationBar.appearance().compactAppearance = appearance
+    }
+
+    private func setupTabBarAppearance() {
+        let appearance = UITabBarAppearance()
+        appearance.configureWithOpaqueBackground()
+
+        let normalAttributed: [NSAttributedString.Key: Any] = [
+            .foregroundColor: UIColor(Color.textSecondary),
+            .font: UIFont.systemFont(ofSize: 10, weight: .semibold),
+        ]
+        let selectedAttributed: [NSAttributedString.Key: Any] = [
+            .foregroundColor: UIColor(Color.accentBluePrimary),
+            .font: UIFont.systemFont(ofSize: 10, weight: .bold),
+        ]
+
+        appearance.stackedLayoutAppearance.normal.titleTextAttributes = normalAttributed
+        appearance.inlineLayoutAppearance.normal.titleTextAttributes = normalAttributed
+        appearance.compactInlineLayoutAppearance.normal.titleTextAttributes = normalAttributed
+
+        appearance.stackedLayoutAppearance.selected.titleTextAttributes = selectedAttributed
+        appearance.inlineLayoutAppearance.selected.titleTextAttributes = selectedAttributed
+        appearance.compactInlineLayoutAppearance.selected.titleTextAttributes = selectedAttributed
+
+        UITabBar.appearance().standardAppearance = appearance
+        UITabBar.appearance().scrollEdgeAppearance = appearance
     }
 }
 

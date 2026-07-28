@@ -86,12 +86,13 @@ struct LevelCardView: View {
                     .padding(.bottom, -20)
             }
         }
-        .buttonStyle(CardButtonPressStyle(cornerRadius: cornerRadius))
-        .overlay(
-            RoundedRectangle(cornerRadius: cornerRadius)
-                .stroke(isSelected ? Color.accentBluePrimary : Color.borderPrimary, lineWidth: 1)
+        .buttonStyle(
+            CardButtonPressStyle(
+                cornerRadius: cornerRadius,
+                borderColor: isSelected ? Color.accentBluePrimary : Color.borderPrimary,
+                borderWidth: 1
+            )
         )
-        .accessibilityElement(children: .combine)
     }
 
     /// 右側徽章視圖。

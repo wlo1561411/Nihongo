@@ -1,15 +1,18 @@
 import SwiftUI
 
-/// 顯示 JLPT 等級對應的單字清單頁面（Mock）。
+/// 顯示 JLPT 等級對應的單字清單頁面。
 struct VocabularyView: View {
     /// 單字清單畫面的狀態與事件管理者。
     @StateObject
     private var viewModel: VocabularyViewModel
 
+    @Environment(\.dismiss)
+    private var dismiss
+
     /// 單字卡片的欄位配置。
     private let gridColumns: [GridItem] = [
         GridItem(.flexible(), spacing: 16, alignment: .top),
-        GridItem(.flexible(), spacing: 16, alignment: .top)
+        GridItem(.flexible(), spacing: 16, alignment: .top),
     ]
 
     /// 建立單字清單畫面。
@@ -59,8 +62,19 @@ struct VocabularyView: View {
         .background(Color.backgroundPrimary)
         .navigationTitle("\(viewModel.level.displayName) Vocabulary")
         .navigationBarTitleDisplayMode(.inline)
-        .toolbarBackground(.visible, for: .navigationBar)
-        .toolbarBackground(Color.pureWhite, for: .navigationBar)
+        .navigationBarBackButtonHidden()
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                Button {
+                    dismiss()
+                } label: {
+                    Image(systemName: "chevron.left")
+                        .foregroundStyle(Color.accentBluePrimary)
+                        .frame(width: 20, height: 20)
+                }
+                .accessibilityLabel("Back")
+            }
+        }
         .task { @concurrent in
             await viewModel.loadVocabulary()
         }
@@ -79,11 +93,16 @@ struct VocabularyView: View {
                 .font(.system(size: 14, weight: .semibold))
                 .foregroundStyle(Color.textThirdly)
 
-            TextField("Search vocabulary...", text: $viewModel.searchText)
-                .font(.system(size: 14, weight: .semibold))
-                .foregroundStyle(Color.textPrimary)
-                .textInputAutocapitalization(.never)
-                .autocorrectionDisabled()
+            TextField(
+                "",
+                text: $viewModel.searchText,
+                prompt: Text("Search vocabulary...")
+                    .foregroundStyle(Color.textThirdly)
+            )
+            .font(.system(size: 14, weight: .semibold))
+            .foregroundStyle(Color.textPrimary)
+            .textInputAutocapitalization(.never)
+            .autocorrectionDisabled()
         }
         .padding(.horizontal, 14)
         .padding(.vertical, 12)
@@ -151,7 +170,7 @@ private struct EmptyStateView: View {
 
         VocabularyView(viewModel: .init(
             level: .n5,
-            repository: nil,
+            store: nil,
             favoritesStore: nil,
             vocabularyItems: mock
         ))
