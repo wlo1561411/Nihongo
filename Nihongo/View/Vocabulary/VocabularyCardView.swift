@@ -14,6 +14,8 @@ struct VocabularyCardView: View {
         let kana: String
         /// 英文拼音。
         let romaji: String
+        /// 翻譯意思。
+        let meaning: String
         /// 是否收藏。
         var isFavorite: Bool = false
 
@@ -23,6 +25,7 @@ struct VocabularyCardView: View {
             kanji: String,
             kana: String,
             romaji: String,
+            meaning: String,
             isFavorite: Bool = false
         ) {
             self.id = "\(kanji)|\(romaji)|\(level.rawValue)"
@@ -30,6 +33,7 @@ struct VocabularyCardView: View {
             self.kanji = kanji
             self.kana = kana
             self.romaji = romaji
+            self.meaning = meaning
             self.isFavorite = isFavorite
         }
     }
@@ -71,6 +75,13 @@ struct VocabularyCardView: View {
                     Text(item.kanji)
                         .font(.system(size: 22, weight: .bold))
                         .foregroundStyle(Color.textPrimary)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+
+                    Text(item.meaning)
+                        .italic()
+                        .font(.system(size: 16, weight: .semibold))
+                        .foregroundStyle(Color.textSecondary)
+                        .lineLimit(2)
                 }
 
                 Spacer(minLength: 8)
@@ -112,6 +123,7 @@ struct VocabularyCardView: View {
         kanji: "先生",
         kana: "せんせい",
         romaji: "sensei",
+        meaning: "老師",
         isFavorite: false
     ), onSelect: { }, onToggleFavorite: { }, onToggleSpeaker: { })
         .padding()

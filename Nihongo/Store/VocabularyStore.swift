@@ -13,11 +13,9 @@ actor JLPTVocabularyStore: VocabularyStore {
     private let logService: LogService
 
     /// 目前載入在記憶體中的單字清單。
-    /// - Important: 只有在 `fetch()` 成功後才會更新。
     private(set) var vocabulary: [Vocabulary] = []
 
     /// 建立 Store 實例。
-    /// - Note: 僅允許單例使用。
     private init(logService: LogService = LoggerService.shared) {
         self.logService = logService
     }
@@ -60,7 +58,7 @@ actor JLPTVocabularyStore: VocabularyStore {
     private func loadFromLocal() async throws -> [Vocabulary] {
         let url = try localFileURL()
         let data = try Data(contentsOf: url)
-        let vocabulary = try JSONDecoder().decode([Vocabulary].self, from: data)
+        let vocabulary = try JSONDecoder().decode([APIVocabulary].self, from: data)
         return vocabulary
     }
 
@@ -68,7 +66,7 @@ actor JLPTVocabularyStore: VocabularyStore {
     ///
     /// - Parameter vocabulary: 要快取的單字清單。
     /// - Note: 寫入失敗會記錄 Log，但不會阻擋主流程。
-    private func saveToLocal(_ vocabulary: [Vocabulary]) {
+    private func saveToLocal(_ vocabulary: [APIVocabulary]) {
         Task { [weak self] in
             guard let self else {
                 return
@@ -100,5 +98,44 @@ actor JLPTVocabularyStore: VocabularyStore {
         let directoryURL = baseURL.appending(path: "Nihongo", directoryHint: .isDirectory)
         try fileManager.createDirectory(at: directoryURL, withIntermediateDirectories: true)
         return directoryURL.appending(path: "all_vocabulary.json")
+    }
+}
+
+actor LocalJLPTVocabularyStore: VocabularyStore {
+    static let shared = LocalJLPTVocabularyStore()
+
+    /// Log 用途的 logger。
+    private let logService: LogService
+
+    /// 目前載入在記憶體中的單字清單。
+    private(set) var vocabulary: [JLPTLevel: [Vocabulary]] = [:]
+
+    /// 建立 Store 實例。
+    private init(logService: LogService = LoggerService.shared) {
+        self.logService = logService
+    }
+
+    func fetch(level: JLPTLevel) async throws -> [Vocabulary] {
+        guard self.vocabulary[level] == nil else {
+            logService.debug("載入 \(level) 快取成功, 數量 \(vocabulary.count)")
+            return self.vocabulary[level] ?? []
+        }
+
+        guard let url = Bundle.main.url(forResource: "n\(level.rawValue)", withExtension: "json")
+        else {
+            logService.error("載入 \(level) 失敗")
+            return []
+        }
+
+        let jsonData = try Data(contentsOf: url)
+        let vocabulary = try JSONDecoder().decode([LocalVocabulary].self, from: jsonData)
+
+        logService.debug("載入 \(level) 成功, 數量 \(vocabulary.count)")
+
+        if self.vocabulary[level] == nil {
+            self.vocabulary[level] = vocabulary
+        }
+
+        return vocabulary
     }
 }

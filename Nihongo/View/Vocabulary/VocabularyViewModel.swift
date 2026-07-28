@@ -30,9 +30,6 @@ final class VocabularyViewModel: ObservableObject {
     /// 語音播放服務
     private let voiceService: VoiceService
 
-    /// 資料轉換與排序邏輯
-    private let processor = Processor()
-
     /// 搜尋文字。
     @Published
     var searchText: String
@@ -95,12 +92,12 @@ final class VocabularyViewModel: ObservableObject {
         do {
             let vocabulary = try await vocabularyStore.fetch(level: level)
             let favorites = favoritesStore.loadFavorites()
-            let items = processor.makeItems(vocabulary: vocabulary, level: level, favorites: favorites)
+            let items = makeItems(vocabulary: vocabulary, level: level, favorites: favorites)
 
             favoriteKeys = favorites
             vocabularyItems = items
 
-            let sorted = await processor.filteredAndSortedItems(from: items, query: "")
+            let sorted = await filteredAndSortedItems(from: items, query: "")
             currentItems = sorted
         } catch {
             logService.error("載入單字清單失敗。原因：\(error.localizedDescription)")
@@ -129,7 +126,7 @@ final class VocabularyViewModel: ObservableObject {
             return
         }
 
-        let items = await processor.filteredAndSortedItems(from: vocabularyItems, query: searchText)
+        let items = await filteredAndSortedItems(from: vocabularyItems, query: searchText)
 
         guard Task.isCancelled == false else {
             return
@@ -157,7 +154,7 @@ final class VocabularyViewModel: ObservableObject {
 
         let vocabularyItems = vocabularyItems
         let searchText = searchText
-        let items = await processor.filteredAndSortedItems(from: vocabularyItems, query: searchText)
+        let items = await filteredAndSortedItems(from: vocabularyItems, query: searchText)
 
         currentItems = items
     }
@@ -173,15 +170,16 @@ final class VocabularyViewModel: ObservableObject {
     }
 }
 
-/// Vocabulary 清單的純資料轉換與排序邏輯。
-private struct Processor {
+// MARK: - Data
+
+extension VocabularyViewModel {
     /// 將 API model 轉成畫面 model，並套用收藏狀態。
     /// - Parameters:
     ///   - vocabulary: API 回傳的單字清單。
     ///   - level: 目前選取的 JLPT 等級。
     ///   - favorites: 已收藏的單字 key 集合。
     /// - Returns: 套用收藏狀態後的畫面 model。
-    func makeItems(
+    private func makeItems(
         vocabulary: [Vocabulary],
         level: JLPTLevel,
         favorites: Set<String>
@@ -191,7 +189,8 @@ private struct Processor {
                 level: level,
                 kanji: item.word,
                 kana: item.furigana,
-                romaji: item.romaji
+                romaji: item.romaji,
+                meaning: item.meaning(by: .zh)
             )
 
             item.isFavorite = favorites.contains(item.id)
@@ -206,11 +205,11 @@ private struct Processor {
     ///   - query: 目前搜尋文字。
     /// - Returns: 篩選與排序後的清單。
     @concurrent
-    func filteredAndSortedItems(
+    private func filteredAndSortedItems(
         from items: [VocabularyCardView.StateItem],
         query: String
     ) async -> [VocabularyCardView.StateItem] {
-        sortByFavorite(filter(items: items, query: query))
+        await sortByFavorite(filter(items: items, query: query))
     }
 
     /// 依照搜尋條件回傳篩選結果。

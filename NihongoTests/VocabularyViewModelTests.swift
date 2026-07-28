@@ -151,17 +151,13 @@ private extension VocabularyViewModelTests {
         romaji: String,
         level: Int
     ) throws -> Vocabulary {
-        let json = """
-        {
-          "word": "\(word)",
-          "meaning": "\(meaning)",
-          "furigana": "\(furigana)",
-          "romaji": "\(romaji)",
-          "level": \(level)
-        }
-        """
-        let data = Data(json.utf8)
-        return try JSONDecoder().decode(Vocabulary.self, from: data)
+        MockVocabulary(
+            word: word,
+            meaning: meaning,
+            furigana: furigana,
+            romaji: romaji,
+            level: level
+        )
     }
 
     func makeStateItem(
@@ -176,8 +172,26 @@ private extension VocabularyViewModelTests {
             kanji: kanji,
             kana: kana,
             romaji: romaji,
+            meaning: romaji,
             isFavorite: isFavorite
         )
+    }
+}
+
+private struct MockVocabulary: Vocabulary {
+    let word: String
+    let meaning: String
+    let furigana: String
+    let romaji: String
+    let level: Int
+    let partOfSpeech: [String] = []
+
+    func meaning(by language: Language) -> String {
+        meaning
+    }
+
+    func example(by language: Language) -> String {
+        ""
     }
 }
 

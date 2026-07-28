@@ -160,6 +160,7 @@ private struct EmptyStateView: View {
                 kanji: "食べる",
                 kana: "たべる",
                 romaji: "taberu",
+                meaning: "吃",
                 isFavorite: false
             ),
             VocabularyCardView.StateItem(
@@ -167,6 +168,7 @@ private struct EmptyStateView: View {
                 kanji: "水",
                 kana: "みず",
                 romaji: "mizu",
+                meaning: "水",
                 isFavorite: true
             ),
             VocabularyCardView.StateItem(
@@ -174,6 +176,7 @@ private struct EmptyStateView: View {
                 kanji: "大きい",
                 kana: "おおきい",
                 romaji: "ookii",
+                meaning: "很大",
                 isFavorite: false
             ),
         ]

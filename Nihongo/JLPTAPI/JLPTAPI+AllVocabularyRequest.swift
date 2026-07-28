@@ -3,7 +3,7 @@ import Foundation
 
 extension JLPTAPI {
     struct AllVocabularyRequest: JLPTAPI.Request {
-        typealias Response = [Vocabulary]
+        typealias Response = [APIVocabulary]
 
         let path = "/api/words/all"
         let method: APIHttpMethod = .GET

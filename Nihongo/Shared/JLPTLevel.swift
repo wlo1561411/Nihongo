@@ -13,7 +13,7 @@ enum JLPTLevel: Int, CaseIterable, Identifiable, Sendable {
     /// N5（入門等級）。
     case n5 = 5
 
-    /// SwiftUI diff 使用的穩定識別。
+    /// diff 使用的穩定識別。
     var id: Int { rawValue }
 
     /// 顯示用字串，例如 `N5`。

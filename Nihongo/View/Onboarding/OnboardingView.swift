@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// 顯示 onboarding 主視覺版面的 SwiftUI 畫面。
+/// 顯示 onboarding 主視覺版面的畫面。
 /// - Note: 此畫面僅負責呈現 UI，不包含任何 business logic。
 struct OnboardingView: View {
     /// 由上層注入的全域狀態，用於完成 onboarding 後切換到主畫面。
@@ -94,12 +94,11 @@ struct OnboardingView: View {
 /// - Important: 請使用短標題以避免截斷。
 struct FeatureCardView: View {
     /// 功能卡片的小型模型。
-    /// - Note: 保持為 value type 以利 SwiftUI 更新效率。
     struct StateItem: Identifiable {
         /// 功能標題文字。
         let title: String
 
-        /// 供 SwiftUI diff 使用的穩定識別碼。
+        /// 供 diff 使用的穩定識別碼。
         var id: String {
             title
         }

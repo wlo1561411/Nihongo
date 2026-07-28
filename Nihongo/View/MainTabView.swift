@@ -67,7 +67,7 @@ struct MainTabView: View {
                     case .vocabulary(let level):
                         VocabularyView(viewModel: .init(
                             level: level,
-                            store: JLPTVocabularyStore.shared,
+                            store: LocalJLPTVocabularyStore.shared,
                             favoritesStore: UserDefaultsFavoritesStore.shared))
                     }
                 }
@@ -125,4 +125,5 @@ private struct SettingsPlaceholderView: View {
 
 #Preview {
     MainTabView()
+        .environmentObject(AppRouter())
 }
