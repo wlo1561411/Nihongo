@@ -32,7 +32,9 @@
 
 ## 文件與註解
 - 參數盡量口語化, 專有名詞請使用英文。
-- 對公開 API 與核心邏輯補上精簡 doc（可用 Note/Important/Parameter/SeeAlso...）。
+- 對公開 API 與核心邏輯補上精簡 doc。
+    - 可用 Note/Important/SeeAlso...。
+    - Parameter 不需要。
 - 參數也需要補上註解。
 - 函式內部實作註解原則
     - 讀 code 不容易一眼看懂的決策點
