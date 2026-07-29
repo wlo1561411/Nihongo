@@ -23,6 +23,7 @@
 /* Begin PBXFileReference section */
 		B6F351D02F56C9730078789D /* Nihongo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Nihongo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6F351DD2F56C9740078789D /* NihongoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NihongoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE8A40CD3019AA98004E7679 /* Nihongo.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = Nihongo.xctestplan; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -60,6 +61,7 @@
 		B6F351C72F56C9730078789D = {
 			isa = PBXGroup;
 			children = (
+				CE8A40CD3019AA98004E7679 /* Nihongo.xctestplan */,
 				B6F351D22F56C9730078789D /* Nihongo */,
 				B6F351E02F56C9740078789D /* NihongoTests */,
 				B6F351D12F56C9730078789D /* Products */,

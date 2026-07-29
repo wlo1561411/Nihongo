@@ -27,8 +27,13 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "YES"
-      shouldAutocreateTestPlan = "YES">
+      shouldUseLaunchSchemeArgsEnv = "YES">
+      <TestPlans>
+         <TestPlanReference
+            reference = "container:Nihongo.xctestplan"
+            default = "YES">
+         </TestPlanReference>
+      </TestPlans>
       <Testables>
          <TestableReference
             skipped = "NO"
@@ -38,17 +43,6 @@
                BlueprintIdentifier = "B6F351DC2F56C9740078789D"
                BuildableName = "NihongoTests.xctest"
                BlueprintName = "NihongoTests"
-               ReferencedContainer = "container:Nihongo.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO"
-            parallelizable = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "B6F351E62F56C9740078789D"
-               BuildableName = "NihongoUITests.xctest"
-               BlueprintName = "NihongoUITests"
                ReferencedContainer = "container:Nihongo.xcodeproj">
             </BuildableReference>
          </TestableReference>
