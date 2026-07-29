@@ -7,6 +7,11 @@ extension Color {
         dark: .init(hex: "F6F6F8")
     )
 
+    static let backgroundSecondary = Color.dynamic(
+        light: .init(hex: "F8FAFC"),
+        dark: .init(hex: "F8FAFC")
+    )
+
     static let textPrimary = Color.dynamic(
         light: .init(hex: "0F172A"),
         dark: .init(hex: "0F172A")
@@ -62,9 +67,54 @@ extension Color {
         dark: .init(hex: "DCFCE7")
     )
 
+    static let accentTealPrimary = Color.dynamic(
+        light: .init(hex: "0D9488"),
+        dark: .init(hex: "0D9488")
+    )
+
+    static let accentTealSecondary = Color.dynamic(
+        light: .init(hex: "CCFBF1"),
+        dark: .init(hex: "CCFBF1")
+    )
+
+    static let accentPurplePrimary = Color.dynamic(
+        light: .init(hex: "A855F7"),
+        dark: .init(hex: "A855F7")
+    )
+
+    static let accentPurpleSecondary = Color.dynamic(
+        light: .init(hex: "F3E8FF"),
+        dark: .init(hex: "F3E8FF")
+    )
+
+    static let accentOrangePrimary = Color.dynamic(
+        light: .init(hex: "F97316"),
+        dark: .init(hex: "F97316")
+    )
+
+    static let accentOrangeSecondary = Color.dynamic(
+        light: .init(hex: "FFEDD5"),
+        dark: .init(hex: "FFEDD5")
+    )
+
+    static let accentRedPrimary = Color.dynamic(
+        light: .init(hex: "EF4444"),
+        dark: .init(hex: "EF4444")
+    )
+
+    static let accentRedSecondary = Color.dynamic(
+        light: .init(hex: "FEE2E2"),
+        dark: .init(hex: "FEE2E2")
+    )
+
     static let accentYellowPrimary = Color.dynamic(
         light: .init(hex: "FACC15"),
         dark: .init(hex: "FACC15")
+    )
+
+    static let accentYellowSecondary = Color.dynamic(
+        light: .init(hex: "FEF9C3"),
+        dark: .init(hex: "FEF9C3")
     )
 
     static let pureWhite = Color(uiColor: .init(hex: "FFFFFF"))
@@ -72,9 +122,6 @@ extension Color {
 
 extension Color {
     /// 建立依照色彩模式切換的動態色。
-    /// - Parameters:
-    ///   - light: 淺色模式使用的顏色。
-    ///   - dark: 深色模式使用的顏色。
     static func dynamic(light: UIColor, dark: UIColor) -> Color {
         Color(uiColor: .dynamic(light: light, dark: dark))
     }
@@ -82,9 +129,6 @@ extension Color {
 
 extension UIColor {
     /// 建立依照色彩模式切換的動態色。
-    /// - Parameters:
-    ///   - light: 淺色模式使用的顏色。
-    ///   - dark: 深色模式使用的顏色。
     static func dynamic(light: UIColor, dark: UIColor) -> UIColor {
         UIColor { traits in
             switch traits.userInterfaceStyle {

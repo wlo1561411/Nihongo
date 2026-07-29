@@ -8,7 +8,7 @@ struct QuizView: View {
         ChooseLevelView(viewModel: .init(
             title: "Quiz",
             subTitle: "Select a JLPT level.",
-            levels: ChooseLevelViewModel.defaultLevels.map {
+            cardStates: ChooseLevelViewModel.defaultLevelCardStates.map {
                 var new = $0
                 new.actionTitle = "Start Quizzing"
                 return new

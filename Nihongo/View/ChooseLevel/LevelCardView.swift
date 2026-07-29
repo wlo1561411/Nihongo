@@ -3,7 +3,7 @@ import SwiftUI
 /// 單一卡片視圖。
 struct LevelCardView: View {
     /// 單一 JLPT 等級卡片的顯示模型。
-    struct StateItem: Identifiable {
+    struct CardState: Identifiable {
         /// 唯一識別值。
         let id: JLPTLevel
         /// 卡片主標題。
@@ -17,7 +17,7 @@ struct LevelCardView: View {
     }
 
     /// 卡片資料模型。
-    let model: LevelCardView.StateItem
+    let cardState: LevelCardView.CardState
     /// 是否為目前選中狀態。
     let isSelected: Bool
     /// 卡片圓角。
@@ -46,18 +46,18 @@ struct LevelCardView: View {
                                 .background(Color.accentBlueSecondary, in: Capsule())
                         }
 
-                        Text(model.title)
+                        Text(cardState.title)
                             .font(.system(size: 17, weight: .semibold))
                             .foregroundStyle(Color.textPrimary)
 
-                        Text(model.subtitle)
+                        Text(cardState.subtitle)
                             .font(.system(size: 13, weight: .regular))
                             .foregroundStyle(Color.textSecondary)
 
                         Spacer(minLength: 12)
 
                         Button(action: onConfirm) {
-                            Text(model.actionTitle)
+                            Text(cardState.actionTitle)
                                 .font(.system(size: 13, weight: .semibold))
                                 .foregroundStyle(isSelected ? Color.pureWhite : Color.textSecondary)
                                 .padding(.horizontal, 14)
@@ -101,7 +101,7 @@ struct LevelCardView: View {
             Circle()
                 .fill(isSelected ? Color.accentBlueSecondary.opacity(0.4) : Color.backgroundPrimary.opacity(0.4))
 
-            Text(model.badgeText)
+            Text(cardState.badgeText)
                 .font(.system(size: 30, weight: .black))
                 .foregroundStyle(
                     isSelected
@@ -119,7 +119,7 @@ struct LevelCardView: View {
             .ignoresSafeArea()
 
         LevelCardView(
-            model: LevelCardView.StateItem(
+            cardState: LevelCardView.CardState(
                 id: .n5,
                 title: "\(JLPTLevel.n5.displayName) - Beginner",
                 subtitle: "Basic expressions and sentences",

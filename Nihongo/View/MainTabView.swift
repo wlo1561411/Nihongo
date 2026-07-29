@@ -1,5 +1,15 @@
 import SwiftUI
 
+/// 主要分頁識別。
+enum AppTab {
+    /// 學習頁。
+    case learn
+    /// 測驗頁。
+    case quizzes
+    /// 設定頁。
+    case settings
+}
+
 /// App 主要分頁架構。
 struct MainTabView: View {
     /// Router，用於全域導覽。
@@ -51,10 +61,6 @@ struct MainTabView: View {
     }
 
     /// 建立指定分頁的 NavigationStack，並綁定對應路由。
-    /// - Parameters:
-    ///   - tab: 目標分頁。
-    ///   - content: 分頁內容。
-    /// - Returns: 包含導覽堆疊的分頁內容。
     private func tabNavigationStack(
         tab: AppTab,
         @ViewBuilder content: () -> some View
@@ -64,11 +70,10 @@ struct MainTabView: View {
             content()
                 .navigationDestination(for: Route.self) { route in
                     switch route {
-                    case .vocabulary(let level):
-                        VocabularyView(viewModel: .init(
-                            level: level,
-                            store: LocalJLPTVocabularyStore.shared,
-                            favoritesStore: UserDefaultsFavoritesStore.shared))
+                    case let .vocabulary(viewModel):
+                        VocabulariesView(viewModel: viewModel)
+                    case let .vocabularyDetail(viewModel):
+                        VocabularyDetailView(viewModel: viewModel)
                     }
                 }
         }
@@ -89,16 +94,6 @@ struct MainTabView: View {
             // ignore TabView.tint for liquid glass
             .withTintColor(.init(color), renderingMode: .alwaysOriginal) ?? UIImage()
     }
-}
-
-/// 主要分頁識別。
-enum AppTab: Hashable {
-    /// 學習頁。
-    case learn
-    /// 測驗頁。
-    case quizzes
-    /// 設定頁。
-    case settings
 }
 
 /// 設定頁暫時佔位畫面。

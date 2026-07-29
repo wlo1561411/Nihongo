@@ -2,18 +2,18 @@ import FMFoundation
 import Foundation
 
 protocol VocabularyStore {
-    func fetch(level: JLPTLevel) async throws -> [Vocabulary]
+    func fetch(level: JLPTLevel) async throws -> [any Vocabulary]
 }
 
 /// 管理 JLPT 全單字清單的下載與本地快取。
-actor JLPTVocabularyStore: VocabularyStore {
-    static let shared = JLPTVocabularyStore()
+actor JLPTAPIVocabularyStore: VocabularyStore {
+    static let shared = JLPTAPIVocabularyStore()
 
     /// Log 用途的 logger。
     private let logService: LogService
 
     /// 目前載入在記憶體中的單字清單。
-    private(set) var vocabulary: [Vocabulary] = []
+    private(set) var vocabulary: [any Vocabulary] = []
 
     /// 建立 Store 實例。
     private init(logService: LogService = LoggerService.shared) {
@@ -24,7 +24,7 @@ actor JLPTVocabularyStore: VocabularyStore {
     ///
     /// - Important: 成功下載後會寫入本地快取。
     /// - Returns: 全單字清單。
-    func fetch(level: JLPTLevel) async throws -> [Vocabulary] {
+    func fetch(level: JLPTLevel) async throws -> [any Vocabulary] {
         guard vocabulary.isEmpty else {
             logService.info("已經載入過單字清單。數量：\(self.vocabulary.count)")
             return vocabulary.filter { $0.level == level.rawValue }
@@ -55,7 +55,7 @@ actor JLPTVocabularyStore: VocabularyStore {
     ///
     /// - Returns: 本地快取的單字清單。
     /// - Note: 會直接讀取檔案並解碼為模型。
-    private func loadFromLocal() async throws -> [Vocabulary] {
+    private func loadFromLocal() async throws -> [any Vocabulary] {
         let url = try localFileURL()
         let data = try Data(contentsOf: url)
         let vocabulary = try JSONDecoder().decode([APIVocabulary].self, from: data)
@@ -63,8 +63,6 @@ actor JLPTVocabularyStore: VocabularyStore {
     }
 
     /// 將單字清單寫入本地 JSON 檔。
-    ///
-    /// - Parameter vocabulary: 要快取的單字清單。
     /// - Note: 寫入失敗會記錄 Log，但不會阻擋主流程。
     private func saveToLocal(_ vocabulary: [APIVocabulary]) {
         Task { [weak self] in
@@ -101,21 +99,21 @@ actor JLPTVocabularyStore: VocabularyStore {
     }
 }
 
-actor LocalJLPTVocabularyStore: VocabularyStore {
-    static let shared = LocalJLPTVocabularyStore()
+actor JLPTLocalVocabularyStore: VocabularyStore {
+    static let shared = JLPTLocalVocabularyStore()
 
     /// Log 用途的 logger。
     private let logService: LogService
 
     /// 目前載入在記憶體中的單字清單。
-    private(set) var vocabulary: [JLPTLevel: [Vocabulary]] = [:]
+    private(set) var vocabulary: [JLPTLevel: [any Vocabulary]] = [:]
 
     /// 建立 Store 實例。
     private init(logService: LogService = LoggerService.shared) {
         self.logService = logService
     }
 
-    func fetch(level: JLPTLevel) async throws -> [Vocabulary] {
+    func fetch(level: JLPTLevel) async throws -> [any Vocabulary] {
         guard self.vocabulary[level] == nil else {
             logService.debug("載入 \(level) 快取成功, 數量 \(vocabulary.count)")
             return self.vocabulary[level] ?? []

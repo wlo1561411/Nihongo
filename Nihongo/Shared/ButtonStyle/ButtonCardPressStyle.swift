@@ -2,8 +2,11 @@ import SwiftUI
 
 /// 卡片按壓時的視覺回饋樣式。
 struct CardButtonPressStyle: ButtonStyle {
-    /// 卡片圓角。
-    let cornerRadius: CGFloat
+    @ScaledMetric
+    var cornerRadius: CGFloat = 18
+    @ScaledMetric
+    var padding: CGFloat = 16
+
     var borderColor: Color = .clear
     var borderWidth: CGFloat = 0
 
@@ -11,11 +14,9 @@ struct CardButtonPressStyle: ButtonStyle {
         let shape = RoundedRectangle(cornerRadius: cornerRadius)
 
         configuration.label
-            .padding(16)
+            .padding(padding)
+            .background(Color.pureWhite)
             .clipShape(shape)
-            .background {
-                shape.fill(Color.pureWhite)
-            }
             .overlay {
                 shape.fill(Color.accentBluePrimary.opacity(configuration.isPressed ? 0.12 : 0.0))
             }

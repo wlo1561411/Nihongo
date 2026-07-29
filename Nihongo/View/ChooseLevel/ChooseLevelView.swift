@@ -60,13 +60,13 @@ struct ChooseLevelView: View {
     private var scroll: some View {
         ScrollView {
             VStack(spacing: 16) {
-                ForEach(viewModel.levels) { level in
-                    let isSelected = level.id == viewModel.selectedLevelID
+                ForEach(viewModel.cardStates) { state in
+                    let isSelected = state.id == viewModel.selectedLevelID
                     LevelCardView(
-                        model: level,
+                        cardState: state,
                         isSelected: isSelected,
-                        onSelect: { viewModel.selectLevel(level) },
-                        onConfirm: { viewModel.confirmLevel(level) }
+                        onSelect: { viewModel.selectLevel(state) },
+                        onConfirm: { viewModel.confirmLevel(state) }
                     )
                 }
             }

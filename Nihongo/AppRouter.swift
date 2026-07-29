@@ -24,15 +24,11 @@ final class AppRouter: ObservableObject {
     }
 
     /// 取得指定分頁的導覽路徑。
-    /// - Parameter tab: 目標分頁。
-    /// - Returns: 目前的路由序列。
     func path(for tab: AppTab) -> [Route] {
         pathsByTab[tab, default: []]
     }
 
     /// 綁定指定分頁的導覽路徑，提供給 NavigationStack 使用。
-    /// - Parameter tab: 目標分頁。
-    /// - Returns: 對應分頁的路徑綁定。
     func binding(for tab: AppTab) -> Binding<[Route]> {
         Binding(
             get: { self.pathsByTab[tab, default: []] },
@@ -41,9 +37,6 @@ final class AppRouter: ObservableObject {
     }
 
     /// 將指定的路由加入特定分頁的導覽堆疊。
-    /// - Parameters:
-    ///   - route: 要前往的路由。
-    ///   - tab: 目標分頁,  nil 為當前 tab。
     func push(_ route: Route, in tab: AppTab? = nil) {
         let tab = tab ?? selectedTab
         var path = pathsByTab[tab, default: []]
@@ -53,7 +46,6 @@ final class AppRouter: ObservableObject {
     }
 
     /// 從指定分頁的導覽堆疊退回一層。
-    /// - Parameter tab: 目標分頁。
     func pop(in tab: AppTab) {
         guard var path = pathsByTab[tab], !path.isEmpty else {
             logService.debug("導頁堆疊為空，忽略返回, tab: \(tab.logDescription)")
@@ -66,7 +58,6 @@ final class AppRouter: ObservableObject {
     }
 
     /// 清空指定分頁的導覽堆疊，回到根視圖。
-    /// - Parameter tab: 目標分頁,  nil 為當前 tab。
     func popToRoot(in tab: AppTab? = nil) {
         let tab = tab ?? selectedTab
         guard let path = pathsByTab[tab], !path.isEmpty else {
@@ -77,9 +68,6 @@ final class AppRouter: ObservableObject {
     }
 
     /// 以指定路由序列覆蓋指定分頁的導覽堆疊。
-    /// - Parameters:
-    ///   - routes: 新的路由序列。
-    ///   - tab: 目標分頁,  nil 為當前 tab。
     func reset(to routes: [Route] = [], in tab: AppTab? = nil) {
         let tab = tab ?? selectedTab
         pathsByTab[tab] = routes
@@ -88,17 +76,44 @@ final class AppRouter: ObservableObject {
 }
 
 /// App 內的導航路由定義。
+@MainActor
 enum Route: Hashable {
     /// 依 JLPT 等級顯示詳細內容。
-    case vocabulary(level: JLPTLevel)
+    case vocabulary(viewModel: VocabulariesViewModel)
+    /// 顯示單一詞彙詳細內容。
+    case vocabularyDetail(viewModel: VocabularyDetailViewModel)
+
+    static func == (lhs: Route, rhs: Route) -> Bool {
+        switch (lhs, rhs) {
+        case let (.vocabulary(lhsViewModel), .vocabulary(rhsViewModel)):
+            lhsViewModel.level == rhsViewModel.level
+        case let (.vocabularyDetail(lhsViewModel), .vocabularyDetail(rhsViewModel)):
+            lhsViewModel.vocabulary.word == rhsViewModel.vocabulary.word
+        default:
+            false
+        }
+    }
+
+    func hash(into hasher: inout Hasher) {
+        switch self {
+        case .vocabulary(let viewModel):
+            hasher.combine("vocabulary")
+            hasher.combine(viewModel.level)
+        case .vocabularyDetail(let viewModel):
+            hasher.combine("vocabularyDetail")
+            hasher.combine(viewModel.vocabulary.word)
+        }
+    }
 }
 
 extension Route {
     /// 提供給 log 使用的精簡描述字串。
     var logDescription: String {
         switch self {
-        case .vocabulary(let level):
-            "vocabulary(\(level.displayName))"
+        case .vocabulary(let viewModel):
+            "vocabulary(\(viewModel.level.displayName))"
+        case .vocabularyDetail(viewModel: let viewModel):
+            "vocabularyDetail(\(viewModel.vocabulary.word))"
         }
     }
 }

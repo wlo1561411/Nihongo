@@ -9,7 +9,7 @@ struct LearnView: View {
             title: "Choose Your Level",
             subTitle: "Select a JLPT level.",
             onSelectLevel: { level in
-                router.push(.vocabulary(level: level))
+                router.push(.vocabulary(viewModel: .init(level: level)))
             }))
     }
 }

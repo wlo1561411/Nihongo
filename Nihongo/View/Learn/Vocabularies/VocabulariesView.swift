@@ -1,10 +1,12 @@
 import SwiftUI
 
 /// 顯示 JLPT 等級對應的單字清單頁面。
-struct VocabularyView: View {
-    /// 單字清單畫面的狀態與事件管理者。
+struct VocabulariesView: View {
     @StateObject
-    private var viewModel: VocabularyViewModel
+    private var viewModel: VocabulariesViewModel
+
+    @EnvironmentObject
+    private var router: AppRouter
 
     @Environment(\.dismiss)
     private var dismiss
@@ -12,19 +14,10 @@ struct VocabularyView: View {
     @FocusState
     private var isFocused: Bool
 
-    /// 單字卡片的欄位配置。
-    private let gridColumns: [GridItem] = [
-        GridItem(.flexible(), spacing: 16, alignment: .top),
-        GridItem(.flexible(), spacing: 16, alignment: .top),
-    ]
-
-    /// 建立單字清單畫面。
-    /// - Parameter level: 目前選取的 JLPT 等級。
-    init(viewModel: VocabularyViewModel) {
+    init(viewModel: VocabulariesViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
     }
 
-    /// 主要內容視圖。
     var body: some View {
         VStack(spacing: 16) {
             searchBar
@@ -40,29 +33,30 @@ struct VocabularyView: View {
                         .frame(maxWidth: .infinity)
                         .padding(.top, 48)
                 case .finish:
-                    LazyVGrid(columns: gridColumns, spacing: 16) {
-                        ForEach(viewModel.currentItems) { item in
-                            VocabularyCardView(
-                                item: item,
-                                onSelect: { },
-                                onToggleFavorite: {
-                                    Task {
-                                        await viewModel.toggleFavorite(for: item)
-                                    }
-                                },
-                                onToggleSpeaker: {
-                                    viewModel.playVoice(for: item)
-                                }
-                            )
+                    VocabularyCardsView(
+                        cardStates: viewModel.currentCardStates,
+                        spacing: 16,
+                        hasSpeaker: true,
+                        onSelect: {
+                            if let viewModel = viewModel.makeDetailViewModel(for: $0) {
+                                router.push(.vocabularyDetail(viewModel: viewModel))
+                            }
+                        },
+                        onToggleFavorite: { item in
+                            Task {
+                                await viewModel.toggleFavorite(for: item)
+                            }
+                        },
+                        onToggleSpeaker: {
+                            viewModel.playVoice(for: $0)
                         }
-                    }
+                    )
                 }
             }
             .scrollDismissesKeyboard(.immediately)
             .scrollIndicators(.never)
         }
         .padding(.horizontal, 20)
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .background(Color.backgroundPrimary)
         .navigationTitle("\(viewModel.level.displayName) Vocabulary")
         .navigationBarTitleDisplayMode(.inline)
@@ -76,17 +70,13 @@ struct VocabularyView: View {
                         .foregroundStyle(Color.accentBluePrimary)
                         .frame(width: 20, height: 20)
                 }
-                .accessibilityLabel("Back")
             }
         }
         .task { @concurrent in
             await viewModel.loadVocabulary()
         }
         .task(id: viewModel.searchText) {
-            await viewModel.updateFilteredItems()
-        }
-        .onDisappear {
-            viewModel.saveFavorite()
+            await viewModel.updateSearchItems()
         }
         .simultaneousGesture(
             TapGesture().onEnded {
@@ -155,37 +145,37 @@ private struct EmptyStateView: View {
 #Preview {
     NavigationStack {
         let mock = [
-            VocabularyCardView.StateItem(
+            VocabularyCardsView.CardState(
                 level: .n5,
-                kanji: "食べる",
-                kana: "たべる",
+                word: "食べる",
+                furigana: "たべる",
                 romaji: "taberu",
                 meaning: "吃",
                 isFavorite: false
             ),
-            VocabularyCardView.StateItem(
+            VocabularyCardsView.CardState(
                 level: .n5,
-                kanji: "水",
-                kana: "みず",
+                word: "水",
+                furigana: "みず",
                 romaji: "mizu",
                 meaning: "水",
                 isFavorite: true
             ),
-            VocabularyCardView.StateItem(
+            VocabularyCardsView.CardState(
                 level: .n5,
-                kanji: "大きい",
-                kana: "おおきい",
+                word: "大きい",
+                furigana: "おおきい",
                 romaji: "ookii",
                 meaning: "很大",
                 isFavorite: false
             ),
         ]
 
-        VocabularyView(viewModel: .init(
+        VocabulariesView(viewModel: .init(
             level: .n5,
-            store: nil,
+            vocabularyStore: nil,
             favoritesStore: nil,
-            vocabularyItems: mock
+            vocabularyCardStates: mock
         ))
     }
 }

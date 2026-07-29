@@ -1,20 +1,123 @@
 import FMFoundation
+import SwiftUI
 
-enum Language: String {
-    case ja
-    case zh
-    case en
+/// JLPT vocabulary 的詞性分類。
+enum PartOfSpeech: String, CaseIterable, Codable, Equatable {
+    /// 名詞。
+    case n = "Noun"
+    /// 動詞。
+    case v = "Verb"
+    /// い形容詞。
+    case adjI = "i-Adjective"
+    /// な形容詞。
+    case adjNa = "na-Adjective"
+    /// 副詞。
+    case adv = "Adverb"
+    /// 助動詞。
+    case auxV = "Auxiliary Verb"
+    /// 接續詞。
+    case conj = "Conjunction"
+    /// 助數詞。
+    case ctr = "Counter"
+    /// 慣用表現。
+    case expr = "Expression"
+    /// 感嘆詞。
+    case int = "Interjection"
+    /// 數詞。
+    case num = "Numeral"
+    /// 其他詞性。
+    case oth = "Other"
+    /// 助詞。
+    case prt = "Particle"
+    /// 接頭詞。
+    case pref = "Prefix"
+    /// 連體詞。
+    case pren = "Prenominal"
+    /// 代名詞。
+    case pron = "Pronoun"
+    /// 接尾詞。
+    case suf = "Suffix"
+
+    var abbreviation: String {
+        "\(self)"
+    }
+
+    var primaryColor: Color {
+        switch self {
+        case .n:
+            .accentBluePrimary
+        case .v:
+            .accentGreenPrimary
+        case .adjI,
+             .adjNa:
+            .accentRedPrimary
+        case .adv:
+            .accentPinkPrimary
+        case .num:
+            .accentOrangePrimary
+        case .auxV,
+             .conj,
+             .ctr,
+             .expr,
+             .int:
+            .accentPurplePrimary
+        case .oth:
+            .accentTealPrimary
+        case .prt,
+             .pref,
+             .pren,
+             .pron,
+             .suf:
+            .accentYellowPrimary
+        }
+    }
+
+    var secondaryColor: Color {
+        switch self {
+        case .n:
+            .accentBlueSecondary
+        case .v:
+            .accentGreenSecondary
+        case .adjI,
+             .adjNa:
+            .accentRedSecondary
+        case .adv:
+            .accentPinkSecondary
+        case .num:
+            .accentOrangeSecondary
+        case .auxV,
+             .conj,
+             .ctr,
+             .expr,
+             .int:
+            .accentPurpleSecondary
+        case .oth:
+            .accentTealSecondary
+        case .prt,
+             .pref,
+             .pren,
+             .pron,
+             .suf:
+            .accentYellowSecondary
+        }
+    }
 }
 
-protocol Vocabulary: Sendable {
+protocol Vocabulary: Sendable, Equatable, Identifiable {
     var word: String { get }
     var furigana: String { get }
     var romaji: String { get }
     var level: Int { get }
-    var partOfSpeech: [String] { get }
+    var partOfSpeech: [PartOfSpeech] { get }
 
     func meaning(by language: Language) -> String
     func example(by language: Language) -> String
+}
+
+extension Vocabulary {
+    var id: String {
+        word
+    }
 }
 
 struct APIVocabulary: AutoCodable, Vocabulary {
@@ -29,7 +132,7 @@ struct APIVocabulary: AutoCodable, Vocabulary {
     @DefaultCodable(0)
     var level: Int
 
-    var partOfSpeech: [String] {
+    var partOfSpeech: [PartOfSpeech] {
         []
     }
 
@@ -39,6 +142,16 @@ struct APIVocabulary: AutoCodable, Vocabulary {
 
     func example(by language: Language) -> String {
         ""
+    }
+
+    init() { }
+
+    init(word: String, meaning: String, furigana: String, romaji: String, level: Int) {
+        self.word = word
+        self.meaning = meaning
+        self.furigana = furigana
+        self.romaji = romaji
+        self.level = level
     }
 }
 
@@ -56,7 +169,7 @@ struct LocalVocabulary: AutoCodable, Vocabulary {
     @DefaultCodable(0)
     var level: Int
     @DefaultCodable([], path: "part_of_speech")
-    var partOfSpeech: [String]
+    var partOfSpeech: [PartOfSpeech]
     @DefaultCodable(.init())
     var example: Example
 
@@ -84,7 +197,7 @@ struct LocalVocabulary: AutoCodable, Vocabulary {
 }
 
 extension LocalVocabulary {
-    struct Example: AutoCodable {
+    struct Example: AutoCodable, Equatable {
         @DefaultCodable("")
         var ja: String
         @DefaultCodable("")
