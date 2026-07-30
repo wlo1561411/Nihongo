@@ -23,38 +23,7 @@ struct VocabulariesView: View {
             searchBar
                 .padding(.top, 16)
 
-            ScrollView {
-                switch viewModel.viewState {
-                case .empty:
-                    EmptyStateView()
-                        .padding(.top, 48)
-                case .loading:
-                    ProgressView()
-                        .frame(maxWidth: .infinity)
-                        .padding(.top, 48)
-                case .finish:
-                    VocabularyCardsView(
-                        cardStates: viewModel.currentCardStates,
-                        spacing: 16,
-                        hasSpeaker: true,
-                        onSelect: {
-                            if let viewModel = viewModel.makeDetailViewModel(for: $0) {
-                                router.push(.vocabularyDetail(viewModel: viewModel))
-                            }
-                        },
-                        onToggleFavorite: { item in
-                            Task {
-                                await viewModel.toggleFavorite(for: item)
-                            }
-                        },
-                        onToggleSpeaker: {
-                            viewModel.playVoice(for: $0)
-                        }
-                    )
-                }
-            }
-            .scrollDismissesKeyboard(.immediately)
-            .scrollIndicators(.never)
+            scroll
         }
         .padding(.horizontal, 20)
         .background(Color.backgroundPrimary)
@@ -73,10 +42,10 @@ struct VocabulariesView: View {
             }
         }
         .task { @concurrent in
-            await viewModel.loadVocabulary()
+            await viewModel.load()
         }
         .task(id: viewModel.searchText) {
-            await viewModel.updateSearchItems()
+            await viewModel.searching()
         }
         .simultaneousGesture(
             TapGesture().onEnded {
@@ -114,6 +83,40 @@ struct VocabulariesView: View {
                 .stroke(Color.borderPrimary, lineWidth: 1)
         )
         .shadow(color: Color.shadowPrimary, radius: 8, x: 0, y: 4)
+    }
+
+    private var scroll: some View {
+        ScrollView {
+            switch viewModel.viewState {
+            case .empty:
+                EmptyStateView()
+                    .padding(.top, 48)
+            case .loading:
+                ProgressView()
+                    .frame(maxWidth: .infinity)
+                    .padding(.top, 48)
+            case .finish:
+                VocabularyCardsView(
+                    cardStates: viewModel.currentCardStates,
+                    spacing: 16,
+                    onSelect: {
+                        if let viewModel = viewModel.makeDetailViewModel(for: $0) {
+                            router.push(.vocabularyDetail(viewModel: viewModel))
+                        }
+                    },
+                    onToggleFavorite: { item in
+                        Task {
+                            await viewModel.toggleFavorite(for: item)
+                        }
+                    },
+                    onToggleSpeaker: {
+                        viewModel.playVoice(for: $0)
+                    }
+                )
+            }
+        }
+        .scrollDismissesKeyboard(.immediately)
+        .scrollIndicators(.never)
     }
 }
 

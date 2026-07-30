@@ -1,15 +1,5 @@
 import SwiftUI
 
-/// 主要分頁識別。
-enum AppTab {
-    /// 學習頁。
-    case learn
-    /// 測驗頁。
-    case quizzes
-    /// 設定頁。
-    case settings
-}
-
 /// App 主要分頁架構。
 struct MainTabView: View {
     /// Router，用於全域導覽。

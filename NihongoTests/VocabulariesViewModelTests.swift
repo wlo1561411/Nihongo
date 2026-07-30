@@ -4,8 +4,8 @@ import XCTest
 @MainActor
 final class VocabulariesViewModelTests: XCTestCase {
     func test_loadVocabulary_filtersByLevelAndAppliesFavorites() async {
-        let n5Word = makeVocabulary(word: "先生", meaning: "Teacher", furigana: "せんせい", romaji: "sensei", level: 5)
-        let n4Word = makeVocabulary(word: "会議", meaning: "Meeting", furigana: "かいぎ", romaji: "kaigi", level: 4)
+        let n5Word = makeVocabulary(word: "先生", meaning: "Teacher", furigana: "せんせい", romaji: "sensei", level: .n5)
+        let n4Word = makeVocabulary(word: "会議", meaning: "Meeting", furigana: "かいぎ", romaji: "kaigi", level: .n4)
         let favoriteKey = makeStateItem(word: "先生", furigana: "せんせい", romaji: "sensei").id
 
         let vocabularyStore = MockVocabularyStore(result: .success([n5Word, n4Word]))
@@ -16,7 +16,7 @@ final class VocabulariesViewModelTests: XCTestCase {
             favoritesStore: favoritesStore
         )
 
-        await viewModel.loadVocabulary()
+        await viewModel.load()
 
         XCTAssertEqual(vocabularyStore.fetchCallCount, 1)
         XCTAssertEqual(viewModel.vocabularies.map(\.word), ["先生"])
@@ -27,8 +27,8 @@ final class VocabulariesViewModelTests: XCTestCase {
     }
 
     func test_loadVocabulary_placesFavoritesFirstInCurrentItemsOnly() async {
-        let normalWord = makeVocabulary(word: "学校", meaning: "School", furigana: "がっこう", romaji: "gakkou", level: 5)
-        let favoriteWord = makeVocabulary(word: "先生", meaning: "Teacher", furigana: "せんせい", romaji: "sensei", level: 5)
+        let normalWord = makeVocabulary(word: "学校", meaning: "School", furigana: "がっこう", romaji: "gakkou", level: .n5)
+        let favoriteWord = makeVocabulary(word: "先生", meaning: "Teacher", furigana: "せんせい", romaji: "sensei", level: .n5)
         let favoriteKey = makeStateItem(word: "先生", furigana: "せんせい", romaji: "sensei").id
 
         let vocabularyStore = MockVocabularyStore(result: .success([normalWord, favoriteWord]))
@@ -39,7 +39,7 @@ final class VocabulariesViewModelTests: XCTestCase {
             favoritesStore: favoritesStore
         )
 
-        await viewModel.loadVocabulary()
+        await viewModel.load()
 
         XCTAssertEqual(viewModel.vocabularyCardStates.map(\.word), ["学校", "先生"])
         XCTAssertEqual(viewModel.currentCardStates.map(\.word), ["先生", "学校"])
@@ -56,7 +56,7 @@ final class VocabulariesViewModelTests: XCTestCase {
             vocabularyCardStates: [initialItem]
         )
 
-        await viewModel.loadVocabulary()
+        await viewModel.load()
 
         XCTAssertEqual(vocabularyStore.fetchCallCount, 0)
         XCTAssertEqual(viewModel.vocabularyCardStates.first?.isFavorite, false)
@@ -74,14 +74,14 @@ final class VocabulariesViewModelTests: XCTestCase {
         )
 
         viewModel.searchText = "  teacHER  "
-        await viewModel.updateSearchItems()
+        await viewModel.searching()
 
         XCTAssertEqual(viewModel.currentCardStates, [item1])
         XCTAssertEqual(viewModel.vocabularyCardStates, [item1, item2])
         XCTAssertEqual(viewModel.viewState, .finish)
 
         viewModel.searchText = "no-match"
-        await viewModel.updateSearchItems()
+        await viewModel.searching()
 
         XCTAssertEqual(viewModel.currentCardStates, [])
         XCTAssertEqual(viewModel.vocabularyCardStates, [item1, item2])
@@ -104,7 +104,7 @@ final class VocabulariesViewModelTests: XCTestCase {
         )
 
         viewModel.searchText = "Teacher"
-        await viewModel.updateSearchItems()
+        await viewModel.searching()
 
         XCTAssertEqual(viewModel.currentCardStates, [favoriteItem, normalItem])
         XCTAssertEqual(viewModel.viewState, .finish)
@@ -165,7 +165,7 @@ final class VocabulariesViewModelTests: XCTestCase {
         )
 
         await store.addFavorite(item2.id)
-        await viewModel.refreshFavoriteStates()
+        await viewModel.refreshFavorites()
 
         XCTAssertEqual(viewModel.vocabularyCardStates.map(\.word), ["学校", "先生"])
         XCTAssertEqual(viewModel.vocabularyCardStates.first(where: { $0.id == item2.id })?.isFavorite, true)
@@ -184,9 +184,9 @@ final class VocabulariesViewModelTests: XCTestCase {
         )
 
         viewModel.searchText = "Teacher"
-        await viewModel.updateSearchItems()
+        await viewModel.searching()
         await store.addFavorite(item1.id)
-        await viewModel.refreshFavoriteStates()
+        await viewModel.refreshFavorites()
 
         XCTAssertEqual(viewModel.vocabularyCardStates.count, 2)
         XCTAssertEqual(viewModel.vocabularyCardStates.first(where: { $0.id == item1.id })?.isFavorite, true)
@@ -205,12 +205,12 @@ final class VocabulariesViewModelTests: XCTestCase {
         )
 
         let searchTask = Task {
-            await viewModel.updateSearchItems()
+            await viewModel.searching()
         }
 
         try? await Task.sleep(for: .milliseconds(100))
         await store.addFavorite(item2.id)
-        await viewModel.refreshFavoriteStates()
+        await viewModel.refreshFavorites()
         await searchTask.value
 
         XCTAssertEqual(viewModel.vocabularyCardStates.first(where: { $0.id == item2.id })?.isFavorite, true)
@@ -219,7 +219,7 @@ final class VocabulariesViewModelTests: XCTestCase {
     }
 
     func test_makeDetailViewModelUsesOriginalVocabularySource() async {
-        let vocabulary = makeVocabulary(word: "先生", meaning: "Teacher", furigana: "せんせい", romaji: "sensei", level: 5)
+        let vocabulary = makeVocabulary(word: "先生", meaning: "Teacher", furigana: "せんせい", romaji: "sensei", level: .n5)
         let vocabularyStore = MockVocabularyStore(result: .success([vocabulary]))
         let viewModel = VocabulariesViewModel(
             level: .n5,
@@ -227,7 +227,7 @@ final class VocabulariesViewModelTests: XCTestCase {
             favoritesStore: nil
         )
 
-        await viewModel.loadVocabulary()
+        await viewModel.load()
 
         guard let item = viewModel.currentCardStates.first,
               let detailViewModel = viewModel.makeDetailViewModel(for: item)
@@ -235,7 +235,7 @@ final class VocabulariesViewModelTests: XCTestCase {
             return XCTFail("Expected detail view model.")
         }
 
-        XCTAssertEqual(detailViewModel.vocabulary.word, "先生")
+        XCTAssertEqual(detailViewModel.word, "先生")
         XCTAssertEqual(detailViewModel.isFavorite, false)
     }
 }
@@ -246,7 +246,7 @@ extension VocabulariesViewModelTests {
         meaning: String,
         furigana: String,
         romaji: String,
-        level: Int
+        level: JLPTLevel
     ) -> any Vocabulary {
         MockVocabulary(
             word: word,
@@ -280,7 +280,7 @@ private struct MockVocabulary: Vocabulary {
     let meaning: String
     let furigana: String
     let romaji: String
-    let level: Int
+    let level: JLPTLevel
     let partOfSpeech: [PartOfSpeech] = []
 
     func meaning(by language: Language) -> String {
@@ -302,7 +302,7 @@ private final class MockVocabularyStore: VocabularyStore {
 
     func fetch(level: JLPTLevel) async throws -> [any Vocabulary] {
         fetchCallCount += 1
-        return try result.get().filter { $0.level == level.rawValue }
+        return try result.get().filter { $0.level == level }
     }
 }
 

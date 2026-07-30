@@ -39,7 +39,14 @@ enum PartOfSpeech: String, CaseIterable, Codable, Equatable {
     case suf = "Suffix"
 
     var abbreviation: String {
-        "\(self)"
+        switch self {
+        case .adjI:
+            "adj-い"
+        case .adjNa:
+            "adj-な"
+        default:
+            "\(self)"
+        }
     }
 
     var primaryColor: Color {
@@ -107,7 +114,7 @@ protocol Vocabulary: Sendable, Equatable, Identifiable {
     var word: String { get }
     var furigana: String { get }
     var romaji: String { get }
-    var level: Int { get }
+    var level: JLPTLevel { get }
     var partOfSpeech: [PartOfSpeech] { get }
 
     func meaning(by language: Language) -> String
@@ -129,8 +136,8 @@ struct APIVocabulary: AutoCodable, Vocabulary {
     var furigana: String
     @DefaultCodable("")
     var romaji: String
-    @DefaultCodable(0)
-    var level: Int
+    @DefaultCodable(.n5)
+    var level: JLPTLevel
 
     var partOfSpeech: [PartOfSpeech] {
         []
@@ -146,7 +153,13 @@ struct APIVocabulary: AutoCodable, Vocabulary {
 
     init() { }
 
-    init(word: String, meaning: String, furigana: String, romaji: String, level: Int) {
+    init(
+        word: String,
+        meaning: String,
+        furigana: String,
+        romaji: String,
+        level: JLPTLevel
+    ) {
         self.word = word
         self.meaning = meaning
         self.furigana = furigana
@@ -166,8 +179,8 @@ struct LocalVocabulary: AutoCodable, Vocabulary {
     var furigana: String
     @DefaultCodable("")
     var romaji: String
-    @DefaultCodable(0)
-    var level: Int
+    @DefaultCodable(.n5)
+    var level: JLPTLevel
     @DefaultCodable([], path: "part_of_speech")
     var partOfSpeech: [PartOfSpeech]
     @DefaultCodable(.init())

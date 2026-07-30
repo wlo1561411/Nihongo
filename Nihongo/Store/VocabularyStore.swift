@@ -27,7 +27,7 @@ actor JLPTAPIVocabularyStore: VocabularyStore {
     func fetch(level: JLPTLevel) async throws -> [any Vocabulary] {
         guard vocabulary.isEmpty else {
             logService.info("已經載入過單字清單。數量：\(self.vocabulary.count)")
-            return vocabulary.filter { $0.level == level.rawValue }
+            return vocabulary.filter { $0.level == level }
         }
 
         do {
@@ -35,7 +35,7 @@ actor JLPTAPIVocabularyStore: VocabularyStore {
             let vocabulary = try await loadFromLocal()
             self.vocabulary = vocabulary
             logService.info("已從快取載入單字清單。數量：\(vocabulary.count)")
-            return vocabulary.filter { $0.level == level.rawValue }
+            return vocabulary.filter { $0.level == level }
         } catch {
             // 本地無檔案或解碼失敗時，改走下載。
             logService.notice("快取不存在或解碼失敗。原因：\(error.localizedDescription)")
@@ -48,7 +48,7 @@ actor JLPTAPIVocabularyStore: VocabularyStore {
         saveToLocal(vocabulary)
 
         logService.info("已從 API 下載單字清單。數量：\(vocabulary.count)")
-        return vocabulary.filter { $0.level == level.rawValue }
+        return vocabulary.filter { $0.level == level }
     }
 
     /// 讀取本地快取的 JSON 檔。

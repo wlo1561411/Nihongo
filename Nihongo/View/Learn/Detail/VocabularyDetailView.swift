@@ -4,125 +4,75 @@ struct VocabularyDetailView: View {
     @State
     private var viewModel: VocabularyDetailViewModel
 
+    private let contentId = "content"
+
     init(viewModel: VocabularyDetailViewModel) {
         self.viewModel = viewModel
     }
 
     var body: some View {
-        VStack {
-            card
-            otherCards
+        ScrollViewReader { proxy in
+            ScrollView {
+                VStack {
+                    card
+
+                    upcomingCards(onTapped: {
+                        withAnimation {
+                            proxy.scrollTo(contentId, anchor: .top)
+                        }
+                    })
+                    .padding(.top, 12)
+                }
+                .padding(16)
+                .id(contentId)
+            }
         }
-        .navigationTitle("\(viewModel.vocabulary.word)")
+        .navigationTitle("\(viewModel.word)")
         .navigationBarTitleDisplayMode(.inline)
-        .padding(16)
         .background(Color.backgroundPrimary)
+        .task { @concurrent in
+            await viewModel.load()
+        }
     }
 
-    var card: some View {
+    private var card: some View {
         VStack(alignment: .leading) {
-            let vocabulary = viewModel.vocabulary
-
             HStack(alignment: .top) {
-                VStack(alignment: .leading, spacing: 8) {
-                    if vocabulary.furigana.isEmpty == false {
-                        Text(vocabulary.furigana)
-                            .font(.system(size: 16, weight: .semibold))
-                            .foregroundStyle(Color.accentBluePrimary)
-                    }
-
-                    Text(vocabulary.word)
-                        .font(.system(size: 36, weight: .bold))
-                        .foregroundStyle(Color.textPrimary)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-
-                    Text(vocabulary.meaning(by: .zh))
-                        .font(.system(size: 20, weight: .semibold))
-                        .foregroundStyle(Color.textSecondary)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .lineLimit(2)
-                }
+                VocabularyWordsView(
+                    title: viewModel.word,
+                    titleSize: 36,
+                    subTitle: viewModel.furigana,
+                    subTitleSize: 16,
+                    meaning: viewModel.meaning,
+                    meaningSize: 20
+                )
 
                 Spacer(minLength: 8)
 
-                Button(
-                    action: {
-                        Task {
-                            await viewModel.toggleFavorite()
-                        }
-                    },
-                    label: {
-                        Image(systemName: viewModel.isFavorite ? "star.fill" : "star")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 24, height: 24)
-                            .foregroundStyle(viewModel.isFavorite ? Color.accentYellowPrimary : Color.textThirdly)
-                            .animation(viewModel.isFavorite ? .easeInOut(duration: 0.18) : nil, value: viewModel.isFavorite)
+                FavoriteButton(
+                    size: 24,
+                    isFavorite: viewModel.isFavorite
+                ) { _ in
+                    Task {
+                        await viewModel.toggleFavorite()
                     }
-                )
-                .buttonStyle(IconButtonPressStyle())
+                }
             }
 
             Spacer().frame(height: 24)
 
-            HStack(alignment: .top, spacing: 8) {
-                Image(systemName: "text.bubble")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 17, height: 17)
-                    .foregroundStyle(Color.accentBluePrimary)
-
-                VStack(spacing: 4) {
-                    Text(vocabulary.example(by: .ja))
-                        .font(.system(size: 18, weight: .semibold))
-                        .foregroundStyle(Color.textPrimary)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-
-                    Text(vocabulary.example(by: .zh))
-                        .font(.system(size: 16, weight: .regular))
-                        .foregroundStyle(Color.textSecondary)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .lineLimit(2)
-                }
-            }
-            .padding(16)
-            .background(
-                Color.backgroundSecondary,
-                in: RoundedRectangle(cornerRadius: 16)
-            )
+            exampleButton
 
             Spacer().frame(height: 24)
 
             HStack {
-                ScrollView(.horizontal, showsIndicators: false) {
-                    LazyHStack(spacing: 8) {
-                        ForEach(vocabulary.partOfSpeech, id: \.abbreviation) { partOfSpeech in
-                            Text(partOfSpeech.abbreviation)
-                                .font(.system(size: 16, weight: .bold))
-                                .foregroundStyle(partOfSpeech.primaryColor)
-                                .padding(.vertical, 4)
-                                .padding(.horizontal, 12)
-                                .background(partOfSpeech.secondaryColor)
-                                .clipShape(RoundedRectangle(cornerRadius: 8))
-                        }
-                    }
-                }
-                .scrollIndicators(.never)
+                partOfSpeech
 
                 Spacer(minLength: 8)
 
-                Button(
-                    action: {
-                        viewModel.playVoice(for: vocabulary)
-                    },
-                    label: {
-                        Image(systemName: "speaker.wave.2.fill")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 16, height: 16)
-                            .foregroundStyle(Color.accentBluePrimary)
-                    }
-                )
+                SpeakerButton {
+                    viewModel.playWordVoice()
+                }
             }
         }
         .padding(24)
@@ -137,50 +87,179 @@ struct VocabularyDetailView: View {
         .fixedSize(horizontal: false, vertical: true)
     }
 
-    var otherCards: some View {
-        ScrollView {
-            EmptyView()
+    private var exampleButton: some View {
+        Button(
+            action: {
+                viewModel.playExampleVoice()
+            },
+            label: {
+                HStack(alignment: .top, spacing: 8) {
+                    Image(systemName: "text.bubble")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 17, height: 17)
+                        .foregroundStyle(Color.accentBluePrimary)
+
+                    VStack(spacing: 4) {
+                        Text(viewModel.example)
+                            .font(.system(size: 18, weight: .semibold))
+                            .foregroundStyle(Color.textPrimary)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+
+                        Text(viewModel.translatedExample)
+                            .font(.system(size: 16, weight: .regular))
+                            .foregroundStyle(Color.textSecondary)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .lineLimit(2)
+                    }
+                }
+                .padding(16)
+                .background(
+                    Color.backgroundSecondary,
+                    in: RoundedRectangle(cornerRadius: 16)
+                )
+            }
+        )
+        .buttonStyle(
+            IconButtonPressStyle(
+                pressedScale: 0.9,
+                pressedOpacity: 1
+            )
+        )
+    }
+
+    private var partOfSpeech: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            LazyHStack(spacing: 8) {
+                ForEach(viewModel.partOfSpeech, id: \.abbreviation) { partOfSpeech in
+                    Text(partOfSpeech.abbreviation)
+                        .font(.system(size: 16, weight: .bold))
+                        .foregroundStyle(partOfSpeech.primaryColor)
+                        .padding(.vertical, 4)
+                        .padding(.horizontal, 12)
+                        .background(partOfSpeech.secondaryColor)
+                        .clipShape(RoundedRectangle(cornerRadius: 8))
+                }
+            }
+        }
+        .scrollIndicators(.never)
+    }
+
+    private func upcomingCards(onTapped: @escaping () -> Void) -> some View {
+        VStack(alignment: .leading, spacing: 16) {
+            Text("Upcoming")
+                .font(.system(size: 20, weight: .bold))
+                .foregroundStyle(Color.textThirdly)
+
+            VocabularyCardsView(
+                cardStates: viewModel.upcomingVocabularyCardStates,
+                spacing: 12,
+                onSelect: { item in
+                    Task {
+                        await viewModel.reload(for: item)
+                        onTapped()
+                    }
+                },
+                onToggleFavorite: { item in
+                    Task {
+                        await viewModel.toggleFavorite(for: item)
+                    }
+                }
+            )
         }
     }
 }
 
 #Preview {
     let json = """
-      {
-        "word": "毎朝",
-        "furigana": "まいあさ",
-        "romaji": "maiasa",
-        "level": 5,
-        "meaning_en": "every morning",
-        "meaning_zh": "每天早上",
-        "part_of_speech": [
-          "Noun",
-          "Adverb",
-          "Counter",
-          "Expression",
-          "Interjection",
-          "Numeral",
-          "Prenominal"
-        ],
-        "example": {
-          "ja": "私は毎朝六時に起きます。",
-          "zh": "我每天早上六點起床。",
-          "en": "I wake up at six o'clock every morning."
-        }
-      }
+    [
+    {
+    "word": "毎朝",
+    "furigana": "まいあさ",
+    "romaji": "maiasa",
+    "level": 5,
+    "meaning_en": "every morning",
+    "meaning_zh": "每天早上",
+    "part_of_speech": [
+      "Noun",
+      "Adverb"
+    ],
+    "example": {
+      "ja": "私は毎朝六時に起きます。",
+      "zh": "我每天早上六點起床。",
+      "en": "I wake up at six o'clock every morning."
+    }
+    },
+    {
+    "word": "問題",
+    "furigana": "もんだい",
+    "romaji": "mondai",
+    "level": 5,
+    "meaning_en": "problem",
+    "meaning_zh": "問題",
+    "part_of_speech": [
+      "Noun"
+    ],
+    "example": {
+      "ja": "あなたはどのようにしてその問題を解いたのですか。",
+      "zh": "你是如何解決這個問題的？",
+      "en": "How did you solve that problem?"
+    }
+    },
+    {
+    "word": "お茶",
+    "furigana": "おちゃ",
+    "romaji": "ocha",
+    "level": 5,
+    "meaning_en": "green tea",
+    "meaning_zh": "茶",
+    "part_of_speech": [
+      "Noun"
+    ],
+    "example": {
+      "ja": "ご都合のよいときにお茶を飲みにお寄りになりませんか。",
+      "zh": "方便的時候，要不要順路來喝杯綠茶？",
+      "en": "Why not stop by for a cup of tea at your convenience?"
+    }
+    },
+    {
+    "word": "黒",
+    "furigana": "くろ",
+    "romaji": "kuro",
+    "level": 5,
+    "meaning_en": "black",
+    "meaning_zh": "黑色的",
+    "part_of_speech": [
+      "Noun",
+      "Particle"
+    ],
+    "example": {
+      "ja": "２匹犬を飼っているが、１匹は白でもう１匹は黒だ。",
+      "zh": "我有兩隻狗，一隻是白的，另一隻是黑的。",
+      "en": "I have two dogs, one is white and the other is black."
+    }
+    }
+    ]
     """
 
     guard let data = json.data(using: .utf8),
-          let mock = try? JSONDecoder().decode(LocalVocabulary.self, from: data)
+          let mocks = try? JSONDecoder().decode([LocalVocabulary].self, from: data),
+          let first = mocks.first
     else {
         return Text("fail")
     }
 
     return NavigationStack {
         VocabularyDetailView(viewModel: .init(
-            vocabulary: mock,
+            word: first.word,
+            furigana: first.furigana,
+            romaji: first.romaji,
+            meaning: first.meaning_zh,
+            example: first.example(by: .ja),
+            translatedExample: first.example(by: .zh),
+            partOfSpeech: first.partOfSpeech,
             isFavorite: false,
-            favoritesStore: nil
+            upcomingVocabularies: mocks
         ))
     }
 }

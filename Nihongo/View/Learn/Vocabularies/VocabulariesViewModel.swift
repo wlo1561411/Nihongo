@@ -73,9 +73,9 @@ final class VocabulariesViewModel: ObservableObject {
 
     /// 載入指定等級的單字清單。
     /// - Important: 僅首次呼叫會實際載入。
-    func loadVocabulary() async {
+    func load() async {
         guard vocabularyCardStates.isEmpty else {
-            await refreshFavoriteStates()
+            await refreshFavorites()
             return
         }
 
@@ -86,9 +86,11 @@ final class VocabulariesViewModel: ObservableObject {
             self.vocabularies = vocabularies
 
             let favorites = await favoritesStore?.loadFavorites() ?? []
-            let items = makeItems(vocabulary: vocabularies, favorites: favorites)
 
-            vocabularyCardStates = items
+            vocabularyCardStates = vocabularies
+                .map {
+                    .init(vocabulary: $0, favorites: favorites)
+                }
 
             applyCurrentSearchAndSort()
         } catch {
@@ -101,7 +103,7 @@ final class VocabulariesViewModel: ObservableObject {
     }
 
     /// 從收藏儲存器重新套用收藏狀態，並以完整單字清單重新推導目前列表。
-    func refreshFavoriteStates() async {
+    func refreshFavorites() async {
         guard vocabularyCardStates.isEmpty == false else {
             return
         }
@@ -131,7 +133,7 @@ final class VocabulariesViewModel: ObservableObject {
 extension VocabulariesViewModel {
     /// 依照搜尋條件更新篩選清單（含 300ms debounce）。
     /// - Important: 提供 `.task(id:)` 使用，會在取消時停止更新。
-    func updateSearchItems() async {
+    func searching() async {
         do {
             try await Task.sleep(for: .milliseconds(300))
         } catch {
@@ -168,33 +170,13 @@ extension VocabulariesViewModel {
 
     /// 播放語音
     func playVoice(for item: VocabularyCardsView.CardState) {
-        voiceService.play(for: item.furigana.isEmpty ? item.word : item.furigana, rate: .normal)
+        voiceService.play(for: item.furigana.isEmpty ? item.word : item.furigana, mode: .word)
     }
 }
 
 // MARK: - Data
 
 extension VocabulariesViewModel {
-    /// 將 API model 轉成畫面 model，並套用收藏狀態。
-    private func makeItems(
-        vocabulary: [any Vocabulary],
-        favorites: Set<String>
-    ) -> [VocabularyCardsView.CardState] {
-        vocabulary.map { item in
-            var item = VocabularyCardsView.CardState(
-                level: level,
-                word: item.word,
-                furigana: item.furigana,
-                romaji: item.romaji,
-                meaning: item.meaning(by: .zh)
-            )
-
-            item.isFavorite = favorites.contains(item.id)
-
-            return item
-        }
-    }
-
     /// 依照搜尋條件回傳篩選結果。
     private func filter(
         items: [VocabularyCardsView.CardState],
@@ -237,8 +219,15 @@ extension VocabulariesViewModel {
         }
 
         return .init(
-            vocabulary: vocabulary,
-            isFavorite: item.isFavorite
+            word: vocabulary.word,
+            furigana: vocabulary.furigana,
+            romaji: vocabulary.romaji,
+            meaning: vocabulary.meaning(by: .zh),
+            example: vocabulary.example(by: .ja),
+            translatedExample: vocabulary.example(by: .zh),
+            partOfSpeech: vocabulary.partOfSpeech,
+            isFavorite: item.isFavorite,
+            upcomingVocabularies: vocabularies
         )
     }
 }

@@ -1,7 +1,7 @@
 import Foundation
 
 /// JLPT 等級定義，提供一致的顯示與資料對接格式。
-enum JLPTLevel: Int, CaseIterable, Identifiable, Sendable {
+enum JLPTLevel: Int, CaseIterable, Sendable, Codable {
     /// N1（最高等級）。
     case n1 = 1
     /// N2。
@@ -12,9 +12,6 @@ enum JLPTLevel: Int, CaseIterable, Identifiable, Sendable {
     case n4 = 4
     /// N5（入門等級）。
     case n5 = 5
-
-    /// diff 使用的穩定識別。
-    var id: Int { rawValue }
 
     /// 顯示用字串，例如 `N5`。
     var displayName: String { "N\(rawValue)" }

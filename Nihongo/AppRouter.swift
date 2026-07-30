@@ -42,19 +42,19 @@ final class AppRouter: ObservableObject {
         var path = pathsByTab[tab, default: []]
         path.append(route)
         pathsByTab[tab] = path
-        logService.info("導頁前往: \(route.logDescription), tab: \(tab.logDescription)")
+        logService.info("導頁前往: \(route.debugDescription), tab: \(tab.debugDescription)")
     }
 
     /// 從指定分頁的導覽堆疊退回一層。
     func pop(in tab: AppTab) {
         guard var path = pathsByTab[tab], !path.isEmpty else {
-            logService.debug("導頁堆疊為空，忽略返回, tab: \(tab.logDescription)")
+            logService.debug("導頁堆疊為空，忽略返回, tab: \(tab.debugDescription)")
             return
         }
 
         let removed = path.removeLast()
         pathsByTab[tab] = path
-        logService.info("返回頁面: \(removed.logDescription), tab: \(tab.logDescription)")
+        logService.info("返回頁面: \(removed.debugDescription), tab: \(tab.debugDescription)")
     }
 
     /// 清空指定分頁的導覽堆疊，回到根視圖。
@@ -64,14 +64,30 @@ final class AppRouter: ObservableObject {
             return
         }
         pathsByTab[tab] = []
-        logService.info("返回根頁, tab: \(tab.logDescription)")
+        logService.info("返回根頁, tab: \(tab.debugDescription)")
     }
 
     /// 以指定路由序列覆蓋指定分頁的導覽堆疊。
     func reset(to routes: [Route] = [], in tab: AppTab? = nil) {
         let tab = tab ?? selectedTab
         pathsByTab[tab] = routes
-        logService.info("重設路由數量: \(routes.count), tab: \(tab.logDescription)")
+        logService.info("重設路由數量: \(routes.count), tab: \(tab.debugDescription)")
+    }
+}
+
+/// 主要分頁識別。
+enum AppTab: String {
+    /// 學習頁。
+    case learn
+    /// 測驗頁。
+    case quizzes
+    /// 設定頁。
+    case settings
+}
+
+extension AppTab: CustomDebugStringConvertible {
+    var debugDescription: String {
+        rawValue
     }
 }
 
@@ -88,7 +104,7 @@ enum Route: Hashable {
         case let (.vocabulary(lhsViewModel), .vocabulary(rhsViewModel)):
             lhsViewModel.level == rhsViewModel.level
         case let (.vocabularyDetail(lhsViewModel), .vocabularyDetail(rhsViewModel)):
-            lhsViewModel.vocabulary.word == rhsViewModel.vocabulary.word
+            lhsViewModel.word == rhsViewModel.word
         default:
             false
         }
@@ -96,31 +112,23 @@ enum Route: Hashable {
 
     func hash(into hasher: inout Hasher) {
         switch self {
-        case .vocabulary(let viewModel):
+        case let .vocabulary(viewModel):
             hasher.combine("vocabulary")
             hasher.combine(viewModel.level)
-        case .vocabularyDetail(let viewModel):
+        case let .vocabularyDetail(viewModel):
             hasher.combine("vocabularyDetail")
-            hasher.combine(viewModel.vocabulary.word)
+            hasher.combine(viewModel.word)
         }
     }
 }
 
-extension Route {
-    /// 提供給 log 使用的精簡描述字串。
-    var logDescription: String {
+extension Route: CustomDebugStringConvertible {
+    var debugDescription: String {
         switch self {
-        case .vocabulary(let viewModel):
+        case let .vocabulary(viewModel):
             "vocabulary(\(viewModel.level.displayName))"
-        case .vocabularyDetail(viewModel: let viewModel):
-            "vocabularyDetail(\(viewModel.vocabulary.word))"
+        case let .vocabularyDetail(viewModel: viewModel):
+            "vocabularyDetail(\(viewModel.word))"
         }
-    }
-}
-
-extension AppTab {
-    /// 提供給 log 使用的精簡描述字串。
-    var logDescription: String {
-        "\(self)"
     }
 }

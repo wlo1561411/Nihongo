@@ -2,9 +2,9 @@ import SwiftUI
 
 struct IconButtonPressStyle: ButtonStyle {
     /// 按下時縮放比例。
-    private let pressedScale: CGFloat = 0.9
+    var pressedScale: CGFloat = 0.9
     /// 按下時透明度。
-    private let pressedOpacity = 0.65
+    var pressedOpacity = 0.65
 
     /// 建立按鈕樣式。
     func makeBody(configuration: Configuration) -> some View {
