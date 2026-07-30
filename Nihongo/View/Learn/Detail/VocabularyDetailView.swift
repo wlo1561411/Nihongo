@@ -76,7 +76,7 @@ struct VocabularyDetailView: View {
             }
         }
         .padding(24)
-        .background(Color.pureWhite)
+        .background(Color.surfacePrimary)
         .clipShape(RoundedRectangle(cornerRadius: 24))
         .shadow(
             color: Color.shadowPrimary,

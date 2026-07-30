@@ -87,7 +87,7 @@ final class LoggerService: LogService, @unchecked Sendable {
         level: OSLogType,
         _ message: String
     ) {
-        let resolvedCategory = category ?? defaultCategory
+        let resolvedCategory = category ?? "App"
         let logger = logger(for: resolvedCategory)
         logger.log(level: level, "\(message, privacy: .public)")
     }
@@ -104,6 +104,4 @@ final class LoggerService: LogService, @unchecked Sendable {
         loggersByCategory[category] = logger
         return logger
     }
-
-    private let defaultCategory = "App"
 }

@@ -68,7 +68,7 @@ struct OnboardingView: View {
         } label: {
             Text("Start Learning")
                 .font(.system(size: 17, weight: .bold, design: .rounded))
-                .foregroundStyle(Color.pureWhite)
+                .foregroundStyle(Color.surfacePrimary)
                 .padding(.vertical, 16)
                 .frame(maxWidth: .infinity)
                 .background(Color.accentBluePrimary)

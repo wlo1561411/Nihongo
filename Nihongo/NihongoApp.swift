@@ -38,10 +38,11 @@ struct NihongoApp: App {
     private func setupNavigationBarAppearance() {
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = UIColor(Color.pureWhite)
+        appearance.backgroundColor = UIColor(Color.surfacePrimary)
         appearance.shadowColor = .clear
         appearance.shadowImage = .init()
         appearance.titleTextAttributes = [
+            .font: UIFont.systemFont(ofSize: 20, weight: .semibold),
             .foregroundColor: UIColor(Color.textPrimary),
         ]
 

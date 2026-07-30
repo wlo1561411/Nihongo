@@ -24,7 +24,6 @@ struct ChooseLevelView: View {
                 scroll
             }
         }
-        .toolbarBackground(.hidden, for: .navigationBar)
     }
 
     /// 頁首標題區塊。
@@ -42,10 +41,9 @@ struct ChooseLevelView: View {
         .padding(.top, 10)
         .padding(.bottom, 16)
         .frame(maxWidth: .infinity)
-        .clipShape(.rect(bottomLeadingRadius: 30, bottomTrailingRadius: 30))
         .background(
-            RoundedRectangle(cornerRadius: 30, style: .continuous)
-                .fill(Color.pureWhite)
+            Color.surfacePrimary
+                .clipShape(.rect(bottomLeadingRadius: 30, bottomTrailingRadius: 30))
                 .ignoresSafeArea(edges: .top)
         )
         .shadow(

@@ -27,7 +27,7 @@ struct VocabulariesView: View {
         }
         .padding(.horizontal, 20)
         .background(Color.backgroundPrimary)
-        .navigationTitle("\(viewModel.level.displayName) Vocabulary")
+        .navigationTitle("\(viewModel.level.displayName)")
         .modifier(BackButtonModifier())
         .task { @concurrent in
             await viewModel.load()
@@ -55,8 +55,10 @@ struct VocabulariesView: View {
                 prompt: Text("Search vocabulary...")
                     .foregroundStyle(Color.textThirdly)
             )
+            .frame(height: 20)
             .font(.system(size: 14, weight: .semibold))
             .foregroundStyle(Color.textPrimary)
+            .tint(Color.accentBluePrimary)
             .textInputAutocapitalization(.never)
             .autocorrectionDisabled()
             .focused($isFocused)
@@ -64,7 +66,7 @@ struct VocabulariesView: View {
         .padding(.horizontal, 14)
         .padding(.vertical, 12)
         .frame(maxWidth: .infinity)
-        .background(Color.pureWhite)
+        .background(Color.surfacePrimary)
         .clipShape(.rect(cornerRadius: 16))
         .overlay(
             RoundedRectangle(cornerRadius: 16)

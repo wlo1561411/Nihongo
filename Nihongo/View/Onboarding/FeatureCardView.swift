@@ -39,7 +39,7 @@ struct FeatureCardView: View {
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 12)
-        .background(Color.pureWhite)
+        .background(Color.surfacePrimary)
         .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
         .shadow(color: Color.shadowPrimary, radius: 10, x: 0, y: 6)
     }

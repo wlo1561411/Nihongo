@@ -15,7 +15,7 @@ struct CardButtonPressStyle: ButtonStyle {
 
         configuration.label
             .padding(padding)
-            .background(Color.pureWhite)
+            .background(Color.surfacePrimary)
             .clipShape(shape)
             .overlay {
                 shape.fill(Color.accentBluePrimary.opacity(configuration.isPressed ? 0.12 : 0.0))

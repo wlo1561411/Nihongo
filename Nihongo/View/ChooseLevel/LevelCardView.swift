@@ -59,7 +59,7 @@ struct LevelCardView: View {
                         Button(action: onConfirm) {
                             Text(cardState.actionTitle)
                                 .font(.system(size: 13, weight: .semibold))
-                                .foregroundStyle(isSelected ? Color.pureWhite : Color.textSecondary)
+                                .foregroundStyle(isSelected ? Color.surfacePrimary : Color.textSecondary)
                                 .padding(.horizontal, 14)
                                 .padding(.vertical, 8)
                                 .background(
