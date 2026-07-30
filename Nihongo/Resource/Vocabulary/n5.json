@@ -27,7 +27,7 @@
       "Noun"
     ],
     "example": {
-      "ja": "あなたはどのようにしてその問題を解いたのですか。",
+      "ja": "あなたはどのようにしてその問題を解いたのですか？",
       "zh": "你是如何解決這個問題的？",
       "en": "How did you solve that problem?"
     }
@@ -43,7 +43,7 @@
       "Noun"
     ],
     "example": {
-      "ja": "ご都合のよいときにお茶を飲みにお寄りになりませんか。",
+      "ja": "ご都合のよいときにお茶を飲みにお寄りになりませんか？",
       "zh": "方便的時候，要不要順路來喝杯綠茶？",
       "en": "Why not stop by for a cup of tea at your convenience?"
     }
@@ -108,7 +108,7 @@
       "Noun"
     ],
     "example": {
-      "ja": "ペンか鉛筆を持っていますか。",
+      "ja": "ペンか鉛筆を持っていますか？",
       "zh": "你有筆或鉛筆嗎？",
       "en": "Do you have a pen or pencil?"
     }
@@ -188,7 +188,7 @@
       "Noun"
     ],
     "example": {
-      "ja": "このフィルムを現像してもらえますか。",
+      "ja": "このフィルムを現像してもらえますか？",
       "zh": "可以幫我沖洗這卷底片嗎？",
       "en": "Could you develop this film?"
     }
@@ -220,7 +220,7 @@
       "Verb"
     ],
     "example": {
-      "ja": "シャッターを押してくれますか。",
+      "ja": "シャッターを押してくれますか？",
       "zh": "可以幫我按下快門嗎？",
       "en": "Will you press the shutter?"
     }
@@ -300,7 +300,7 @@
       "Noun"
     ],
     "example": {
-      "ja": "ポケットに何を持っていますか。",
+      "ja": "ポケットに何を持っていますか？",
       "zh": "你口袋裡有什麼？",
       "en": "What do you have in your pocket?"
     }
@@ -460,7 +460,7 @@
       "Verb"
     ],
     "example": {
-      "ja": "どうかドアを閉めてくれませんか。",
+      "ja": "どうかドアを閉めてくれませんか？",
       "zh": "你能把門關上嗎？",
       "en": "Could you please close the door?"
     }
@@ -721,7 +721,7 @@
       "Noun"
     ],
     "example": {
-      "ja": "４月５日か６日に会っていただけませんか。",
+      "ja": "４月５日か６日に会っていただけませんか？",
       "zh": "你能在 4 月 5 日或 6 日來見我嗎？",
       "en": "Could you meet me on April 5th or 6th?"
     }
@@ -914,7 +914,7 @@
       "Verb"
     ],
     "example": {
-      "ja": "この薬を飲まなければ行けませんか。",
+      "ja": "この薬を飲まなければ行けませんか？",
       "zh": "我一定得吃這個藥嗎？",
       "en": "Can I go without taking this medicine?"
     }
@@ -931,7 +931,7 @@
       "Verb"
     ],
     "example": {
-      "ja": "あなたはいつピアノの練習をしますか。",
+      "ja": "あなたはいつピアノの練習をしますか？",
       "zh": "你什麼時候練鋼琴？",
       "en": "When do you practice the piano?"
     }
@@ -947,7 +947,7 @@
       "Pronoun"
     ],
     "example": {
-      "ja": "今のアナウンスは何だったのですか。",
+      "ja": "今のアナウンスは何だったのですか？",
       "zh": "剛才的公告是什麼？",
       "en": "What was the announcement just now?"
     }
@@ -1012,7 +1012,7 @@
       "Verb"
     ],
     "example": {
-      "ja": "ここで靴を脱がなければなりませんか。",
+      "ja": "ここで靴を脱がなければなりませんか？",
       "zh": "我必須在這裡脫鞋嗎？",
       "en": "Do I have to take off my shoes here?"
     }
@@ -1140,7 +1140,7 @@
       "i-Adjective"
     ],
     "example": {
-      "ja": "あなたの新しい車は調子よく動いていますか。",
+      "ja": "あなたの新しい車は調子よく動いていますか？",
       "zh": "你的新車行駛順利嗎？",
       "en": "Is your new car running smoothly?"
     }
@@ -1445,7 +1445,7 @@
       "Noun"
     ],
     "example": {
-      "ja": "ところであなたはどんなスポーツが好きですか。",
+      "ja": "ところであなたはどんなスポーツが好きですか？",
       "zh": "順便問一下，你喜歡什麼運動？",
       "en": "By the way, what kind of sports do you like?"
     }
@@ -1461,7 +1461,7 @@
       "Pronoun"
     ],
     "example": {
-      "ja": "あの〜郵便局はどちらでしょうか。",
+      "ja": "あの〜郵便局はどちらでしょうか？",
       "zh": "不好意思，郵局在哪邊？",
       "en": "Umm, which post office is this?"
     }
@@ -1509,7 +1509,7 @@
       "Adverb"
     ],
     "example": {
-      "ja": "そのニュースはどうして漏れたのだろう。",
+      "ja": "そのニュースはどうして漏れたのだろう？",
       "zh": "訊息是怎麼洩露的？",
       "en": "How did the news leak?"
     }
@@ -1851,7 +1851,7 @@
       "Noun"
     ],
     "example": {
-      "ja": "あなたはきのう放課後まっすぐ帰宅しましたか。",
+      "ja": "あなたはきのう放課後まっすぐ帰宅しましたか？",
       "zh": "請沿著這條路一直走。",
       "en": "Did you go straight home after school yesterday?"
     }
@@ -1948,7 +1948,7 @@
       "Noun"
     ],
     "example": {
-      "ja": "この近くに病院はありますか。",
+      "ja": "この近くに病院はありますか？",
       "zh": "這附近有醫院嗎？",
       "en": "Is there a hospital near here?"
     }
@@ -2383,7 +2383,7 @@
       "Verb"
     ],
     "example": {
-      "ja": "その試合は何時に始まりますか。",
+      "ja": "その試合は何時に始まりますか？",
       "zh": "比賽幾點開始？",
       "en": "What time does the match start?"
     }
@@ -2464,7 +2464,7 @@
       "Verb"
     ],
     "example": {
-      "ja": "あなたの部屋を掃除しましたか。",
+      "ja": "あなたの部屋を掃除しましたか？",
       "zh": "你打掃房間了嗎？",
       "en": "Have you cleaned your room?"
     }
@@ -2577,7 +2577,7 @@
       "Noun"
     ],
     "example": {
-      "ja": "朝ごはんにはなにがよろしいですか。",
+      "ja": "朝ごはんにはなにがよろしいですか？",
       "zh": "您早餐想吃什麼？",
       "en": "What would you like for breakfast?"
     }
@@ -2784,7 +2784,7 @@
       "Adverb"
     ],
     "example": {
-      "ja": "あなたはなぜ働いているの。",
+      "ja": "あなたはなぜ働いているの？",
       "zh": "你為什麼在工作？",
       "en": "why are you working"
     }
@@ -2913,7 +2913,7 @@
       "Noun"
     ],
     "example": {
-      "ja": "いいレストランをご存知でしょうか。",
+      "ja": "いいレストランをご存知でしょうか？",
       "zh": "你知道有什麼好吃的餐館嗎？",
       "en": "Do you know any good restaurants?"
     }
@@ -3043,7 +3043,7 @@
       "Noun"
     ],
     "example": {
-      "ja": "あなたはどこでテレビを見ますか。",
+      "ja": "あなたはどこでテレビを見ますか？",
       "zh": "你在哪裡看電視？",
       "en": "Where do you watch TV?"
     }
@@ -3235,7 +3235,7 @@
       "Noun"
     ],
     "example": {
-      "ja": "昨日、東京は曇りでしたか。",
+      "ja": "昨日、東京は曇りでしたか？",
       "zh": "昨天東京多雲嗎？",
       "en": "Was it cloudy in Tokyo yesterday?"
     }
@@ -3252,7 +3252,7 @@
       "Particle"
     ],
     "example": {
-      "ja": "あなたは外国の本を持っていますか。",
+      "ja": "あなたは外国の本を持っていますか？",
       "zh": "有外文書籍嗎？",
       "en": "Do you have foreign books?"
     }
@@ -3396,7 +3396,7 @@
       "Noun"
     ],
     "example": {
-      "ja": "ペンか鉛筆を持っていますか。",
+      "ja": "ペンか鉛筆を持っていますか？",
       "zh": "你有鋼筆或鉛筆嗎？",
       "en": "Do you have a pen or pencil?"
     }
@@ -3428,7 +3428,7 @@
       "Verb"
     ],
     "example": {
-      "ja": "あなたは何座生まれですか。",
+      "ja": "あなたは何座生まれですか？",
       "zh": "您出生在什麼星座？",
       "en": "What zodiac sign are you born under?"
     }
@@ -3444,7 +3444,7 @@
       "Noun"
     ],
     "example": {
-      "ja": "その雑誌はどこで買えますか。",
+      "ja": "その雑誌はどこで買えますか？",
       "zh": "哪裡可以買到那本雜誌？",
       "en": "Where can I buy that magazine?"
     }
@@ -3590,7 +3590,7 @@
       "Noun"
     ],
     "example": {
-      "ja": "こんにちは、ロジャー。とっても元気よ。",
+      "ja": "こんにちは、ロジャー。とっても元気よ？",
       "zh": "你媽媽身體好嗎？",
       "en": "Hello Roger. I'm very well."
     }
@@ -3817,7 +3817,7 @@
       "Verb"
     ],
     "example": {
-      "ja": "この本をお借りしてもよろしいですか。",
+      "ja": "この本をお借りしてもよろしいですか？",
       "zh": "我可以借這本書嗎？",
       "en": "May I borrow this book?"
     }
@@ -3849,7 +3849,7 @@
       "Verb"
     ],
     "example": {
-      "ja": "コートを持ちましょうか。",
+      "ja": "コートを持ちましょうか？",
       "zh": "要我幫你拿外套嗎？",
       "en": "Shall I bring my coat?"
     }
@@ -3913,7 +3913,7 @@
       "i-Adjective"
     ],
     "example": {
-      "ja": "なぜ空が青いか知っているか。",
+      "ja": "なぜ空が青いか知っているか？",
       "zh": "你知道天空為什麼是藍色的嗎？",
       "en": "Do you know why the sky is blue?"
     }
@@ -3929,7 +3929,7 @@
       "Verb"
     ],
     "example": {
-      "ja": "あなたはどのくらいの間、神戸に住んでいますか。",
+      "ja": "あなたはどのくらいの間、神戸に住んでいますか？",
       "zh": "您在神戶住了多久？",
       "en": "How long have you lived in Kobe?"
     }
@@ -3994,7 +3994,7 @@
       "Noun"
     ],
     "example": {
-      "ja": "お手洗いはどこですか。",
+      "ja": "お手洗いはどこですか？",
       "zh": "洗手間在哪裡？",
       "en": "Where is the restroom."
     }
@@ -4187,7 +4187,7 @@
       "Verb"
     ],
     "example": {
-      "ja": "ミルトンの作品を読んだことがありますか。",
+      "ja": "ミルトンの作品を読んだことがありますか？",
       "zh": "你讀過彌爾頓的作品嗎？",
       "en": "Have you read Milton's works?"
     }
@@ -4867,7 +4867,7 @@
       "Noun"
     ],
     "example": {
-      "ja": "あなたの時計では何時ですか。",
+      "ja": "あなたの時計では何時ですか？",
       "zh": "這只手錶一天會慢五分鐘。",
       "en": "What time is it on your watch?"
     }
@@ -4900,7 +4900,7 @@
       "Noun"
     ],
     "example": {
-      "ja": "冷蔵庫の中にたくさんの食べ物が入っていますか。",
+      "ja": "冷蔵庫の中にたくさんの食べ物が入っていますか？",
       "zh": "冰箱裡的食物多嗎？",
       "en": "Is there a lot of food in the refrigerator?"
     }
@@ -4964,7 +4964,7 @@
       "Pronoun"
     ],
     "example": {
-      "ja": "あそこに立ってる女の人はだれですか。",
+      "ja": "あそこに立ってる女の人はだれですか？",
       "zh": "那個人是誰？",
       "en": "Who is the woman standing over there?"
     }
@@ -5029,7 +5029,7 @@
       "Pronoun"
     ],
     "example": {
-      "ja": "あの〜郵便局はどちらでしょうか。",
+      "ja": "あの〜郵便局はどちらでしょうか？",
       "zh": "不好意思，郵局在哪邊？",
       "en": "Umm, which post office is this?"
     }
@@ -5078,7 +5078,7 @@
       "Adverb"
     ],
     "example": {
-      "ja": "今週はどちらにいらしゃいましたか。",
+      "ja": "今週はどちらにいらしゃいましたか？",
       "zh": "這周你去了哪裡？",
       "en": "Where have you been this week?"
     }
@@ -5158,7 +5158,7 @@
       "Noun"
     ],
     "example": {
-      "ja": "この靴下の片方はどこだ。",
+      "ja": "この靴下の片方はどこだ？",
       "zh": "其中一隻襪子在哪裡？",
       "en": "Where is one of these socks?"
     }
@@ -5223,7 +5223,7 @@
       "Noun"
     ],
     "example": {
-      "ja": "あなたは上手にバスケットボールができますか。",
+      "ja": "あなたは上手にバスケットボールができますか？",
       "zh": "他很會說英語。",
       "en": "Can you play basketball well?"
     }
@@ -5288,7 +5288,7 @@
       "Numeral"
     ],
     "example": {
-      "ja": "ボーイさん、コーヒー３つください。",
+      "ja": "ボーイさん、コーヒー３つください？",
       "zh": "服務生，請給我三杯咖啡。",
       "en": "Boy, can I have three coffees please?"
     }
@@ -5384,7 +5384,7 @@
       "Noun"
     ],
     "example": {
-      "ja": "昼ご飯を食べに外に出ませんか。",
+      "ja": "昼ご飯を食べに外に出ませんか？",
       "zh": "你想出去吃午飯嗎？",
       "en": "Would you like to go out for lunch?"
     }
@@ -5416,7 +5416,7 @@
       "Numeral"
     ],
     "example": {
-      "ja": "２つの質問をしてもよいですか。",
+      "ja": "２つの質問をしてもよいですか？",
       "zh": "我可以問你兩個問題嗎？",
       "en": "May I ask you two questions?"
     }
@@ -5448,7 +5448,7 @@
       "Noun"
     ],
     "example": {
-      "ja": "どこへ行けばヨーロッパの地図が手に入りますか。",
+      "ja": "どこへ行けばヨーロッパの地図が手に入りますか？",
       "zh": "我在哪裡可以獲取歐洲地圖？",
       "en": "Where can I go to get a map of Europe?"
     }
@@ -5595,7 +5595,7 @@
       "Particle"
     ],
     "example": {
-      "ja": "あなたは緑と青を見分けることができますか。",
+      "ja": "あなたは緑と青を見分けることができますか？",
       "zh": "你能區分綠色和藍色嗎？",
       "en": "Can you tell the difference between green and blue?"
     }
@@ -5756,7 +5756,7 @@
       "Noun"
     ],
     "example": {
-      "ja": "この夏休みはどこかへ行くのですか。",
+      "ja": "この夏休みはどこかへ行くのですか？",
       "zh": "這個暑假你打算去哪兒？",
       "en": "Where are you going on this summer vacation?"
     }
@@ -5821,7 +5821,7 @@
       "Adverb"
     ],
     "example": {
-      "ja": "あなたは夜よく寝れませんか。",
+      "ja": "あなたは夜よく寝れませんか？",
       "zh": "你晚上睡不好嗎？",
       "en": "Do you have trouble sleeping well at night?"
     }
@@ -5869,7 +5869,7 @@
       "Pronoun"
     ],
     "example": {
-      "ja": "あなたはどこでテレビを見ますか。",
+      "ja": "あなたはどこでテレビを見ますか？",
       "zh": "你在哪裡看電視？",
       "en": "Where do you watch TV?"
     }
@@ -6000,7 +6000,7 @@
       "Noun"
     ],
     "example": {
-      "ja": "君はそのコンサートをテープにとったか。",
+      "ja": "君はそのコンサートをテープにとったか？",
       "zh": "你錄製了演唱會嗎？",
       "en": "Did you tape the concert?"
     }
@@ -6142,7 +6142,7 @@
       "Verb"
     ],
     "example": {
-      "ja": "ここにあなたの名前をかいてくれませんか。",
+      "ja": "ここにあなたの名前をかいてくれませんか？",
       "zh": "您能在這裡寫下您的名字嗎？",
       "en": "Could you please write your name here?"
     }
@@ -6192,7 +6192,7 @@
       "Noun"
     ],
     "example": {
-      "ja": "あなたはこのホテルのお客ですか。",
+      "ja": "あなたはこのホテルのお客ですか？",
       "zh": "我住在這家飯店。",
       "en": "Are you a guest at this hotel?"
     }
@@ -6240,7 +6240,7 @@
       "Noun"
     ],
     "example": {
-      "ja": "あなたは始発電車に間にあいましたか。",
+      "ja": "あなたは始発電車に間にあいましたか？",
       "zh": "你準時趕上第一班火車了嗎？",
       "en": "Were you on time for the first train?"
     }
@@ -6353,7 +6353,7 @@
       "Noun"
     ],
     "example": {
-      "ja": "今日は宿題が無い。",
+      "ja": "今日は宿題が無い？",
       "zh": "你做完作業了嗎？",
       "en": "I don't have homework today."
     }
@@ -6805,7 +6805,7 @@
       "Noun"
     ],
     "example": {
-      "ja": "このハンカチはいくらですか。",
+      "ja": "このハンカチはいくらですか？",
       "zh": "這條手帕多少錢？",
       "en": "How much does this handkerchief cost?"
     }
@@ -6821,7 +6821,7 @@
       "Pronoun"
     ],
     "example": {
-      "ja": "いつ旅行においでになりますか。",
+      "ja": "いつ旅行においでになりますか？",
       "zh": "你什麼時候去旅行？",
       "en": "When will you be traveling?"
     }
@@ -7420,7 +7420,7 @@
       "Noun"
     ],
     "example": {
-      "ja": "あなたは私のズボンをどうしたのですか。",
+      "ja": "あなたは私のズボンをどうしたのですか？",
       "zh": "你對我的褲子做了什麼？",
       "en": "What did you do with my pants?"
     }
@@ -7452,7 +7452,7 @@
       "Pronoun"
     ],
     "example": {
-      "ja": "そちらはセントラル自動車学校ではないんですか。",
+      "ja": "そちらはセントラル自動車学校ではないんですか？",
       "zh": "請問那邊不是中央駕訓班嗎？",
       "en": "Isn't that the Central Driving School?"
     }
@@ -7500,7 +7500,7 @@
       "Prenominal"
     ],
     "example": {
-      "ja": "あのおいしいワインをなぜ飲まないんだい。",
+      "ja": "あのおいしいワインをなぜ飲まないんだい？",
       "zh": "你為什麼不喝那美味的酒呢？",
       "en": "Why don't you drink that delicious wine?"
     }
@@ -7516,7 +7516,7 @@
       "Verb"
     ],
     "example": {
-      "ja": "あなたに頼んでもよろしいですか。",
+      "ja": "あなたに頼んでもよろしいですか？",
       "zh": "我拜託朋友幫忙。",
       "en": "May I ask you a favor?"
     }
@@ -7680,7 +7680,7 @@
       "Adverb"
     ],
     "example": {
-      "ja": "今のアナウンスは何だったのですか。",
+      "ja": "今のアナウンスは何だったのですか？",
       "zh": "剛才的公告是什麼？",
       "en": "What was the announcement just now?"
     }
@@ -7697,7 +7697,7 @@
       "Verb"
     ],
     "example": {
-      "ja": "いつ旅行においでになりますか。",
+      "ja": "いつ旅行においでになりますか？",
       "zh": "你什麼時候去旅行？",
       "en": "When will you be traveling?"
     }
@@ -7892,7 +7892,7 @@
       "Adverb"
     ],
     "example": {
-      "ja": "いいえ、おもちゃがいくつあるかじゃなくて、鍵がいくつあるかなのよ。",
+      "ja": "いいえ、おもちゃがいくつあるかじゃなくて、鍵がいくつあるかなのよ？",
       "zh": "你今年幾歲？",
       "en": "No, it's not about how many toys you have, it's about how many keys you have."
     }
@@ -7924,7 +7924,7 @@
       "Noun"
     ],
     "example": {
-      "ja": "ご飯とパンどちらがいいですか。",
+      "ja": "ご飯とパンどちらがいいですか？",
       "zh": "我每天早上吃白飯。",
       "en": "Which do you prefer, rice or bread?"
     }
@@ -8199,7 +8199,7 @@
       "Noun"
     ],
     "example": {
-      "ja": "どうやってそのお金を手に入れたんですか。",
+      "ja": "どうやってそのお金を手に入れたんですか？",
       "zh": "你是怎麼得到這筆錢的？",
       "en": "How did you get that money?"
     }
@@ -8363,7 +8363,7 @@
       "Noun"
     ],
     "example": {
-      "ja": "何か飲み物をいただけますか。",
+      "ja": "何か飲み物をいただけますか？",
       "zh": "我可以喝點什麼嗎？",
       "en": "Could I have something to drink?"
     }
@@ -8412,7 +8412,7 @@
       "Noun"
     ],
     "example": {
-      "ja": "あの交差点で何が起こったのか。",
+      "ja": "あの交差点で何が起こったのか？",
       "zh": "那個十字路口發生了什麼？",
       "en": "What happened at that intersection?"
     }
@@ -8444,7 +8444,7 @@
       "na-Adjective"
     ],
     "example": {
-      "ja": "彼女は今のところ大丈夫です。",
+      "ja": "彼女は今のところ大丈夫です？",
       "zh": "你沒事吧？",
       "en": "She's okay for now."
     }
@@ -8477,7 +8477,7 @@
       "Verb"
     ],
     "example": {
-      "ja": "学校ではどんな科目を勉強しますか。",
+      "ja": "学校ではどんな科目を勉強しますか？",
       "zh": "你在學校學習什麼科目？",
       "en": "What subjects do you study at school?"
     }
@@ -8509,7 +8509,7 @@
       "Noun"
     ],
     "example": {
-      "ja": "だれがこの封筒を破って開けたのか。",
+      "ja": "だれがこの封筒を破って開けたのか？",
       "zh": "誰撕開了這個信封？",
       "en": "Who tore open this envelope?"
     }
@@ -8605,7 +8605,7 @@
       "Noun"
     ],
     "example": {
-      "ja": "あなたには何人子供がいますか。",
+      "ja": "あなたには何人子供がいますか？",
       "zh": "你有幾個孩子？",
       "en": "How many children do you have?"
     }
@@ -8995,7 +8995,7 @@
       "Adverb"
     ],
     "example": {
-      "ja": "この番号にもう一度かけてみていただけますか。",
+      "ja": "この番号にもう一度かけてみていただけますか？",
       "zh": "您可以再嘗試撥打這個號碼嗎？",
       "en": "Could you please try calling this number again?"
     }
@@ -9626,7 +9626,7 @@
       "Noun"
     ],
     "example": {
-      "ja": "あなたは飛行機で旅行したことがありますか。",
+      "ja": "あなたは飛行機で旅行したことがありますか？",
       "zh": "你坐過飛機旅行嗎？",
       "en": "Have you ever traveled by plane?"
     }
@@ -9883,7 +9883,7 @@
       "Noun"
     ],
     "example": {
-      "ja": "食事は家庭で食べますか、外食ですか。",
+      "ja": "食事は家庭で食べますか、外食ですか？",
       "zh": "你在家吃飯還是在外面吃飯？",
       "en": "Do you eat at home or eat out?"
     }
@@ -9899,7 +9899,7 @@
       "Noun"
     ],
     "example": {
-      "ja": "パーティーでは誰がホストを勤めるのですか。",
+      "ja": "パーティーでは誰がホストを勤めるのですか？",
       "zh": "派對上誰要擔任主持人？",
       "en": "Who will host the party?"
     }
@@ -10156,7 +10156,7 @@
       "Verb"
     ],
     "example": {
-      "ja": "ジョンはステージで何を歌いましたか。",
+      "ja": "ジョンはステージで何を歌いましたか？",
       "zh": "約翰在舞台上唱了什麼？",
       "en": "What did John sing on stage?"
     }
@@ -10204,7 +10204,7 @@
       "Pronoun"
     ],
     "example": {
-      "ja": "万一それが起これば、君はどうしますか。",
+      "ja": "万一それが起これば、君はどうしますか？",
       "zh": "如果發生這種情況你會怎麼做？",
       "en": "What would you do if that happened?"
     }
@@ -10302,7 +10302,7 @@
       "Pronoun"
     ],
     "example": {
-      "ja": "そちらはセントラル自動車学校ではないんですか。",
+      "ja": "そちらはセントラル自動車学校ではないんですか？",
       "zh": "請問您那邊不是中央駕訓班嗎？",
       "en": "Isn't that the Central Driving School?"
     }
@@ -10415,7 +10415,7 @@
       "Noun"
     ],
     "example": {
-      "ja": "あの〜郵便局はどちらでしょうか。",
+      "ja": "あの〜郵便局はどちらでしょうか？",
       "zh": "不好意思，郵局在哪邊？",
       "en": "Umm, which post office is this?"
     }
@@ -10512,7 +10512,7 @@
       "Adverb"
     ],
     "example": {
-      "ja": "昨夜はよく眠れましたか。",
+      "ja": "昨夜はよく眠れましたか？",
       "zh": "昨晚你睡得好嗎？",
       "en": "Did you sleep well last night?"
     }
@@ -10528,7 +10528,7 @@
       "Noun"
     ],
     "example": {
-      "ja": "「居住外国人」とは、どういう意味ですか。",
+      "ja": "「居住外国人」とは、どういう意味ですか？",
       "zh": "「居住外國人」是什麼意思？",
       "en": "What does \"resident alien\" mean?"
     }
