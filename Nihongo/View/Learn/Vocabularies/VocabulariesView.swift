@@ -28,19 +28,7 @@ struct VocabulariesView: View {
         .padding(.horizontal, 20)
         .background(Color.backgroundPrimary)
         .navigationTitle("\(viewModel.level.displayName) Vocabulary")
-        .navigationBarTitleDisplayMode(.inline)
-        .navigationBarBackButtonHidden()
-        .toolbar {
-            ToolbarItem(placement: .topBarLeading) {
-                Button {
-                    dismiss()
-                } label: {
-                    Image(systemName: "chevron.left")
-                        .foregroundStyle(Color.accentBluePrimary)
-                        .frame(width: 20, height: 20)
-                }
-            }
-        }
+        .modifier(BackButtonModifier())
         .task { @concurrent in
             await viewModel.load()
         }

@@ -28,7 +28,7 @@ struct VocabularyDetailView: View {
             }
         }
         .navigationTitle("\(viewModel.word)")
-        .navigationBarTitleDisplayMode(.inline)
+        .modifier(BackButtonModifier())
         .background(Color.backgroundPrimary)
         .task { @concurrent in
             await viewModel.load()
