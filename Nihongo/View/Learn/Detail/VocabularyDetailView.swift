@@ -44,7 +44,9 @@ struct VocabularyDetailView: View {
                     subTitle: viewModel.furigana,
                     subTitleSize: 16,
                     meaning: viewModel.meaning,
-                    meaningSize: 20
+                    meaningSize: 20,
+                    reading: viewModel.romaji,
+                    readingSize: 18
                 )
 
                 Spacer(minLength: 8)

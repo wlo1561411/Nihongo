@@ -22,6 +22,9 @@ struct ChooseLevelView: View {
                     .zIndex(1)
 
                 scroll
+                    .safeAreaInset(edge: .bottom) {
+                        Spacer().frame(height: 30)
+                    }
             }
         }
     }
@@ -38,8 +41,7 @@ struct ChooseLevelView: View {
                 .foregroundStyle(Color.textSecondary)
                 .multilineTextAlignment(.center)
         }
-        .padding(.top, 10)
-        .padding(.bottom, 16)
+        .padding(.vertical, 10)
         .frame(maxWidth: .infinity)
         .background(
             Color.surfacePrimary

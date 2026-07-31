@@ -77,6 +77,8 @@ final class AppRouter: ObservableObject {
 
 /// 主要分頁識別。
 enum AppTab: String {
+    /// 音節表頁。
+    case syllabary
     /// 學習頁。
     case learn
     /// 測驗頁。

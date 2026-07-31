@@ -14,7 +14,9 @@ enum JLPTLevel: Int, CaseIterable, Sendable, Codable {
     case n5 = 5
 
     /// 顯示用字串，例如 `N5`。
-    var displayName: String { "N\(rawValue)" }
+    var displayName: String {
+        "N\(rawValue)"
+    }
 
     /// 等級標題文字（英文）。
     var titleText: String {

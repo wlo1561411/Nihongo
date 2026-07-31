@@ -9,6 +9,19 @@ struct MainTabView: View {
     /// 主要內容視圖。
     var body: some View {
         TabView(selection: $router.selectedTab) {
+            tabNavigationStack(tab: .syllabary) {
+                SyllabaryView()
+            }
+            .tabItem {
+                tabLabel(
+                    title: "Syllabary",
+                    unselectName: "square.grid.3x3",
+                    selectName: "square.grid.3x3.fill",
+                    isSelected: router.selectedTab == .syllabary
+                )
+            }
+            .tag(AppTab.syllabary)
+
             tabNavigationStack(tab: .learn) {
                 LearnView()
             }
@@ -36,7 +49,7 @@ struct MainTabView: View {
             .tag(AppTab.quizzes)
 
             tabNavigationStack(tab: .settings) {
-                SettingsPlaceholderView()
+                SettingsView()
             }
             .tabItem {
                 tabLabel(
@@ -83,28 +96,6 @@ struct MainTabView: View {
         return UIImage(systemName: name)?
             // ignore TabView.tint for liquid glass
             .withTintColor(.init(color), renderingMode: .alwaysOriginal) ?? UIImage()
-    }
-}
-
-/// 設定頁暫時佔位畫面。
-private struct SettingsPlaceholderView: View {
-    /// 主要內容視圖。
-    var body: some View {
-        VStack(spacing: 12) {
-            Image(systemName: "gearshape")
-                .font(.system(size: 36, weight: .semibold))
-                .foregroundStyle(Color.textSecondary)
-
-            Text("Settings")
-                .font(.system(size: 18, weight: .semibold))
-                .foregroundStyle(Color.textPrimary)
-
-            Text("Coming soon")
-                .font(.system(size: 13, weight: .regular))
-                .foregroundStyle(Color.textSecondary)
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color.backgroundPrimary)
     }
 }
 

@@ -8,6 +8,7 @@ protocol VoiceService {
 enum SpeechMode {
     case sentence
     case word
+    case syllable
 }
 
 @MainActor
@@ -38,7 +39,7 @@ struct JapaneseVoiceService: VoiceService {
                     synthesizer.speak($0)
                 }
 
-        case .word:
+        case .word, .syllable:
             synthesizer.speak(makeUtterance(for: text, mode: mode))
         }
     }
@@ -58,6 +59,11 @@ struct JapaneseVoiceService: VoiceService {
             utterance.rate = AVSpeechUtteranceDefaultSpeechRate * 0.65
             utterance.pitchMultiplier = 1.05
             utterance.postUtteranceDelay = 0.05
+
+        case .syllable:
+            utterance.rate = AVSpeechUtteranceDefaultSpeechRate * 0.38
+            utterance.pitchMultiplier = 1.12
+            utterance.postUtteranceDelay = 0.18
         }
 
         return utterance

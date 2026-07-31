@@ -7,6 +7,8 @@ struct VocabularyWordsView: View {
     let subTitleSize: CGFloat
     let meaning: String
     let meaningSize: CGFloat
+    var reading: String = ""
+    var readingSize: CGFloat = 0
 
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
@@ -26,6 +28,14 @@ struct VocabularyWordsView: View {
                 .foregroundStyle(Color.textSecondary)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .lineLimit(2)
+
+            if !reading.isEmpty {
+                Text(reading)
+                    .font(.system(size: readingSize, weight: .semibold))
+                    .foregroundStyle(Color.textSecondary)
+                    .padding(.top, 4)
+                    .lineLimit(1)
+            }
         }
     }
 }

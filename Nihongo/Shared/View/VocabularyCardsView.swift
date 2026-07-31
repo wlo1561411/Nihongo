@@ -53,34 +53,20 @@ struct VocabularyCardsView: View {
 
     let cardStates: [CardState]
     let spacing: CGFloat
-    let gridColumns: [GridItem]
 
     /// 點擊卡片行為。
     let onSelect: (CardState) -> Void
     /// 收藏切換行為。
     let onToggleFavorite: (CardState) -> Void
     /// 點擊喇叭行為。
-    let onToggleSpeaker: ((CardState) -> Void)?
+    var onToggleSpeaker: ((CardState) -> Void)? = nil
 
-    init(
-        cardStates: [CardState],
-        spacing: CGFloat,
-        onSelect: @escaping (CardState) -> Void,
-        onToggleFavorite: @escaping (CardState) -> Void,
-        onToggleSpeaker: ((CardState) -> Void)? = nil
-    ) {
-        self.cardStates = cardStates
-        self.spacing = spacing
-        self.onSelect = onSelect
-        self.onToggleFavorite = onToggleFavorite
-        self.onToggleSpeaker = onToggleSpeaker
-        self.gridColumns = [
+    var body: some View {
+        let gridColumns: [GridItem] = [
             .init(.flexible(), spacing: spacing, alignment: .top),
             .init(.flexible(), spacing: spacing, alignment: .top),
         ]
-    }
 
-    var body: some View {
         LazyVGrid(columns: gridColumns, spacing: spacing) {
             ForEach(cardStates) { state in
                 card(state: state)
@@ -94,31 +80,26 @@ struct VocabularyCardsView: View {
                 onSelect(state)
             },
             label: {
-                VStack(alignment: .leading, spacing: 10) {
-                    HStack(alignment: .top, spacing: 8) {
-                        VocabularyWordsView(
-                            title: state.word,
-                            titleSize: 22,
-                            subTitle: state.furigana,
-                            subTitleSize: 12,
-                            meaning: state.meaning,
-                            meaningSize: 16
-                        )
+                HStack(alignment: .top, spacing: 8) {
+                    VocabularyWordsView(
+                        title: state.word,
+                        titleSize: 22,
+                        subTitle: state.furigana,
+                        subTitleSize: 12,
+                        meaning: state.meaning,
+                        meaningSize: 16,
+                        reading: state.romaji,
+                        readingSize: 14
+                    )
 
+                    VStack(spacing: 8) {
                         FavoriteButton(isFavorite: state.isFavorite) { _ in
                             onToggleFavorite(state)
                         }
-                    }
 
-                    if let onToggleSpeaker {
-                        HStack(spacing: 8) {
-                            Text(state.romaji)
-                                .font(.system(size: 14, weight: .semibold))
-                                .foregroundStyle(Color.textSecondary)
-                                .lineLimit(1)
+                        Spacer()
 
-                            Spacer()
-
+                        if let onToggleSpeaker {
                             SpeakerButton {
                                 onToggleSpeaker(state)
                             }
