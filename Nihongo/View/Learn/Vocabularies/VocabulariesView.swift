@@ -25,7 +25,7 @@ struct VocabulariesView: View {
 
             scroll
         }
-        .padding(.horizontal, 20)
+        .padding(.horizontal, 16)
         .background(Color.backgroundPrimary)
         .navigationTitle("\(viewModel.level.displayName)")
         .modifier(BackButtonModifier())

@@ -26,6 +26,7 @@ struct VocabularyDetailView: View {
                 .padding(16)
                 .id(contentId)
             }
+            .scrollIndicators(.hidden)
         }
         .navigationTitle("\(viewModel.word)")
         .modifier(BackButtonModifier())

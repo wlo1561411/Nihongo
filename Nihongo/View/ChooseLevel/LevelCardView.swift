@@ -58,24 +58,16 @@ struct LevelCardView: View {
 
                         Button(action: onConfirm) {
                             Text(cardState.actionTitle)
-                                .font(.system(size: 13, weight: .semibold))
-                                .foregroundStyle(isSelected ? Color.surfacePrimary : Color.textSecondary)
                                 .padding(.horizontal, 14)
                                 .padding(.vertical, 8)
-                                .background(
-                                    isSelected
-                                        ? Color.accentBluePrimary
-                                        : Color.backgroundPrimary,
-                                    in: Capsule()
-                                )
-                                .overlay(
-                                    Capsule()
-                                        .stroke(
-                                            isSelected ? Color.accentBluePrimary : Color.clear,
-                                            lineWidth: 1
-                                        )
-                                )
                         }
+                        .buttonStyle(
+                            PrimaryButtonPressStyle(
+                                isSelected: isSelected,
+                                textFontSize: 13,
+                                borderWidth: 1
+                            )
+                        )
                     }
 
                     Spacer()

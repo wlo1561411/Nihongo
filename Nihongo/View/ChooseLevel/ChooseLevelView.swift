@@ -71,7 +71,7 @@ struct ChooseLevelView: View {
                 }
             }
             .padding(.vertical, 24)
-            .padding(.horizontal, 24)
+            .padding(.horizontal, 16)
         }
         .scrollIndicators(.never)
     }

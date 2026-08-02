@@ -1,18 +1,17 @@
 import SwiftUI
 
 struct SyllabaryView: View {
-    private let scrollCoordinateSpace = "scroll"
-
     @ScaledMetric
     private var maxHeaderOffset: CGFloat = 70
     @State
     private var scrollOffset: CGFloat = 0
-    @State
-    private var viewModel = SyllabaryViewModel()
 
     private var headerOffset: CGFloat {
         min(max(scrollOffset, -maxHeaderOffset), 0)
     }
+
+    @State
+    private var viewModel = SyllabaryViewModel()
 
     var body: some View {
         ZStack {
@@ -29,7 +28,7 @@ struct SyllabaryView: View {
                     .padding(.horizontal, 10)
                     .padding(.top, 20)
             }
-            .safeAreaPadding(.bottom, 30)
+            .safeAreaPadding(.bottom, 40)
         }
         .task(id: viewModel.selectedType) {
             await viewModel.load()
@@ -62,14 +61,14 @@ struct SyllabaryView: View {
                 .foregroundStyle(Color.textThirdly)
                 .frame(maxWidth: .infinity, alignment: .leading)
         }
-        .padding([.bottom, .horizontal], 24)
+        .padding([.bottom, .horizontal], 20)
         .padding(.top, 10)
         .frame(maxWidth: .infinity)
         .background(
             Color.surfacePrimary
                 .overlay {
                     Ellipse()
-                        .fill(Color.accentBlueSecondary.opacity(0.5))
+                        .fill(Color.accentBluePrimary.opacity(0.2))
                         .frame(width: 450, height: 400)
                         .offset(x: -120, y: -120)
                 }
@@ -85,23 +84,22 @@ struct SyllabaryView: View {
                     viewModel.selectedType = type
                 } label: {
                     Text(type.displayName)
-                        .font(.system(size: 16, weight: .semibold))
-                        .foregroundStyle(viewModel.selectedType == type ? .surfacePrimary : .textSecondary)
                         .padding(30)
                         .frame(height: 40)
-                        .background {
-                            if viewModel.selectedType == type {
-                                RoundedRectangle(cornerRadius: 22)
-                                    .fill(.accentBluePrimary)
-                            }
-                        }
                 }
+                .buttonStyle(
+                    PrimaryButtonPressStyle(
+                        isSelected: viewModel.selectedType == type,
+                        textFontSize: 16,
+                        unselectedBackgroundColor: .clear
+                    )
+                )
             }
-            .padding(5)
         }
+        .padding(5)
         .background(
-            RoundedRectangle(cornerRadius: 22)
-                .fill(Color.backgroundSecondary)
+            Capsule()
+                .fill(Color.accentBlueSecondary)
         )
     }
 
@@ -114,47 +112,39 @@ struct SyllabaryView: View {
     ]
 
     private var scroll: some View {
-        ScrollView {
-            scrollOffsetReader
-
-            LazyVGrid(columns: gridItem, spacing: 10) {
-                ForEach(viewModel.sections, id: \.title) { section in
-                    Section(
-                        content: {
-                            ForEach(section.syllables, id: \.id) { syllable in
-                                card(syllable: syllable)
-                            }
-                        },
-                        header: {
-                            if !section.title.isEmpty {
-                                Text(section.title)
-                                    .font(.system(size: 24, weight: .bold))
-                                    .foregroundStyle(Color.textSecondary)
-                                    .padding(.vertical, 10)
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                            }
-                        }
-                    )
+        ObservableScrollView(
+            onChange: {
+                scrollOffset = $0.y
+            },
+            content: {
+                LazyVGrid(columns: gridItem, spacing: 10) {
+                    sections
                 }
             }
-            .padding(.top, -1)
-        }
-        .coordinateSpace(name: scrollCoordinateSpace)
-        .onPreferenceChange(ScrollOffsetPreferenceKey.self) { offset in
-            scrollOffset = offset
-        }
+        )
         .scrollIndicators(.never)
     }
 
-    private var scrollOffsetReader: some View {
-        GeometryReader { proxy in
-            Color.clear
-                .preference(
-                    key: ScrollOffsetPreferenceKey.self,
-                    value: proxy.frame(in: .named(scrollCoordinateSpace)).minY
-                )
+    private var sections: some View {
+        ForEach(viewModel.sections, id: \.title) { section in
+            Section(
+                content: {
+                    ForEach(section.syllables, id: \.id) { syllable in
+                        card(syllable: syllable)
+                    }
+                },
+                header: {
+                    if !section.title.isEmpty {
+                        Text(section.title)
+                            .font(.system(size: 24, weight: .bold))
+                            .foregroundStyle(Color.textSecondary)
+                            .padding(.vertical, 10)
+                            .padding(.horizontal, 10)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                    }
+                }
+            )
         }
-        .frame(height: 1)
     }
 
     private func card(syllable: any Syllable) -> some View {
@@ -188,10 +178,4 @@ struct SyllabaryView: View {
 
 #Preview {
     SyllabaryView()
-}
-
-private struct ScrollOffsetPreferenceKey: PreferenceKey {
-    static let defaultValue: CGFloat = 0
-
-    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) { }
 }
